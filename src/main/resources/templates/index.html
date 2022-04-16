@@ -1,0 +1,248 @@
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="Norbert Simon with Bootstrap">
+    <meta name="generator" content="Hugo 0.88.1">
+    <title>Addams estates</title>    
+    <link rel="icon" type="image/png" sizes="16x16" th:href="${faviconImage.fileUrl}">
+    
+
+    <!-- Bootstrap core CSS -->
+<link href="../assets/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <style>
+      .bd-placeholder-img {
+        font-size: 1.125rem;
+        text-anchor: middle;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        user-select: none;
+      }
+
+      @media (min-width: 768px) {
+        .bd-placeholder-img-lg {
+          font-size: 3.5rem;
+        }
+      }
+    </style>
+
+    
+  </head>
+  <body>
+    
+<header>
+
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+  
+
+
+  <div class="navbar container-fluid navbar-dark bg-dark shadow-sm" >
+    <div class="container">
+      <a href="#" class="navbar-brand d-flex align-items-center">       
+        <img src ="Images/logoIcon.png" width="30" height="30" style="border-radius: 50%;"  >
+        <strong style="padding-left: 10px;">Addams Estates</strong>        
+      </a>
+      <a class="float-end">
+        <button type="button" class="btn btn-primary btn-sm " style="border:10px; padding:5px;">Sign up </button>        
+        <button type="button" class="btn btn-primary btn-sm " style="border:10px; padding:5px;">Sign in </button>
+      </a>        
+      
+    </div>    
+  </div>
+
+  
+</header>
+
+<main>
+
+  <section class="py-5 text-center container">
+    <div class="row py-lg-5">
+        <h1>Welcome to Addams Estates</h1>
+        <img th:src=${headerImage.fileUrl}  alt="">
+        <h4>We manage the scariest properties in town</h4>
+    </div>
+  </section>
+  <!--****************************************************Navbar section***********************************************-->
+<div style="align-items: center;">
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark navbar-fixed-top text-center" >
+    <div class="container text-center" >      
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+          <li class="nav-item">
+            <a class="nav-link active" aria-current="page" href="#">Home</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link active" href="#MeetTheTeam">Our Team</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link active" href="#Services">Services</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link active" href="#Services">Events</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link active" href="#Services">About Us</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link active" href="#Services">Contact us</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link active" href="#Services">Properties for Sale</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link active" href="#Services">Properties to Rent</a>
+          </li>
+
+        </ul>       
+        
+    </div>
+  </nav>
+<br/>
+
+  <!--************************************************End of Navbar section********************************************-->
+
+  
+
+  
+<!--*****************************************start of Company intro section************************************************-->
+    <a id="MeetTheTeam"></a>
+    <div class="album py-5 bg-light"> 
+    <div class="container">
+
+      <div class="media" style="display: flex;">
+        <img class="mr-3" th:src=${logoImage.fileUrl} width="60" height="60" alt="Generic placeholder image" style="border: 10px;">
+        <div class="media-body">
+          <h5 class="mt-0" style="padding-left: 10px;">Welcome to Addams Estate Agents and Letting Agents </h5>
+            <p style="padding-left: 10px;" th:text = ${companyIntro.contents}>
+                <!-- Company introduction text goes here from db. -->
+            </p>
+        </div>
+      </div>
+
+        <!--*****************************************Start of Meet the team cards section************************************************-->
+        <h1>Meet the team</h1>
+        <br/>
+      <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
+          <!-- add thymeleaf repetition here ****************************************************************************************-->
+            <th: block th:each="teamMember:${visibleTeam}" >
+          <div class="col">
+          <div class="card shadow-sm card h-100 d-flex flex-column">
+            <img th:src="${teamMember.Employee.userProfile.profilePic.fileUrl}" style="border-radius: 50%; width: 200px; height: 200px; align-self: center; padding-top: 10px;">
+            <div class="card-body">
+                <h3 th:text="${teamMember.Employee.UserProfile.firstName} + ' ' + ${teamMember.Employee.UserProfile.lastName}"></h3>
+                <h6 style="color: blue;" th:text="${teamMember.Employee.jobDescription}"></h6>
+              <p class="card-text" th:text="${teamMember.aboutMe}">
+              </p>
+              <div class="d-flex justify-content-between align-items-center">
+                <div class="btn-group">                    
+                  <button type="button" class="btn btn-sm btn-outline-secondary" style="mt-auto" >Contact Me</button>
+                </div>                
+              </div>
+            </div>
+          </div>
+        </div>
+            </th:>
+          <!-- add thymeleaf repetition here ****************************************************************************************-->
+      </div>
+    </div>
+  </div>
+  <!--*****************************************end of card container for meet the team *******************************-->
+  <!--************************************ Start of propperties for sale and rent container **************************-->
+  <a id="Services"></a>
+  <div class="album py-5 bg-light"> 
+    <div class="container">
+        <h1>Check out our properties </h1>
+        <br/>
+        <div class="row row-cols-1 row-cols-sm-2 row-cols-md-2 g-2">
+            <div class="col">
+              <div class="card shadow-sm" style="align-items: center;">                
+                <img src="Images/StaffPageImages/house.png" style="width: 50px; height: 60px; padding-top: 10px;">
+                <div class="card-body" >                    
+                  <div class="d-flex justify-content-between align-items-center">
+                    <h4>For rent</h4>                  
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="col">
+              <div class="card shadow-sm" style="align-items: center;" >                
+                <img src="Images/Services/poundSignBuy.png" style="width: 50px; height: 60px; padding-top: 10px;">
+                <div class="card-body"  >  
+                    <h4>For sale</h4>               
+                  <div class="d-flex justify-content-between align-items-center">              
+                  </div>
+                </div>
+              </div>
+            </div>
+            
+    </div>
+  </div>
+
+  <!--************************************ End of propperties for sale and rent container **************************-->
+  <!--*********************************************Start of services container****************************************-->
+  <a id="Services"></a>
+  <div class="album py-5 bg-light"> 
+    <div class="container">
+        <h1>Our Services</h1>
+        <br/>
+        <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
+            <th: block th:each="service:${services}" >
+            <div class="col">
+              <div class="card shadow-sm" style="align-items: center;">                
+                <img th:src="${service.serviceImage.fileUrl}" style="width: 50px; height: 60px; padding-top: 10px;">
+                <div class="card-body" >                    
+                  <div class="d-flex justify-content-between align-items-center">
+                    <h4 th:text="${service.serviceName}">Property valuation</h4>
+                  </div>
+                </div>
+              </div>
+            </div>
+            </th:>
+          </div>
+    </div>
+  </div>
+<!-- *******************************************************End of our service container******************************-->
+<!-- ************************************************************Compeny events **************************************-->
+<a id="Events"></a>
+<div class="album py-5 bg-light"> 
+    <div class="container">
+        <h1>Company Events</h1>
+        <th:block th:each="event:${events}">
+        <br/>
+            <div class="media" style="display: flex; background-color: rgb(248, 245, 241); ">
+                <img class="mr-3" th:src="${event.eventImage.fileUrl}" width="120" height="120" alt="Generic placeholder image" style="border: 10px; border: 5px; padding: 5px;">
+                <div class="media-body" >
+                  <h5 class="mt-0" style="padding-left: 10px;" th:text="${event.eventName}"> </h5>
+                    <p style="padding-left: 10px;" th:text="${event.eventDescription}">
+
+                        
+                    </p>                   
+                </div>
+              </div>
+        </th:block>
+        
+    </div>
+  </div>
+</main>
+
+<footer class="text-muted py-5">
+  <div class="container">
+    <p class="float-end mb-1">
+      <a href="#">Back to top</a>
+    </p>
+    <p class="mb-1">Addams Estates &copy; 2022</p>
+
+  </div>
+</footer>
+
+
+    <script src="../assets/dist/js/bootstrap.bundle.min.js"></script>
+
+      
+  </body>
+</html>
