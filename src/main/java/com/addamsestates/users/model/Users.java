@@ -21,10 +21,14 @@ public class Users {
     @Column(name = "id", updatable = false, nullable = false)
     private Long id;
     @Column(name="user_name")
-    private String user_name;
+    private String userName;
     @Column(name="password")
     private String password;
     @Column(name="created_at")
     private Date created_at;
+
+    @OneToOne
+    @JoinColumn(name="id")
+    private UserProfile userProfile;
 
 }

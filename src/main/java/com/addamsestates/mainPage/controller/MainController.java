@@ -14,7 +14,11 @@ import com.addamsestates.mainPage.model.VisibleTeam;
 import com.addamsestates.mainPage.repo.VisibleTeamRepository;
 import com.addamsestates.mainPage.service.serviceImplementation.CompanyIntroServiceImpl;
 import com.addamsestates.mainPage.service.serviceImplementation.VisibleTeamServiceImpl;
+import com.addamsestates.properties.model.Properties;
+import com.addamsestates.properties.service.implementation.PropertiesServiceImpl;
+import com.addamsestates.users.model.Users;
 import com.addamsestates.users.repo.UserProfileReporitory;
+import com.addamsestates.users.service.implementation.UsersServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -42,6 +46,12 @@ public class MainController {
     @Autowired
     private EventsServiceImpl eventsService;
 
+    @Autowired
+    private PropertiesServiceImpl propertiesService;
+
+    @Autowired
+    private UsersServiceImpl usersService;
+
     @RequestMapping("/")
     public String getMain(Model model) {
 
@@ -65,7 +75,7 @@ public class MainController {
         //System.out.println(visibleTeam.get(0).getEmployee().getUserProfile().getProfilePic().getFileUrl());
         //System.out.println(services.size());
         //System.out.println(services.get(0).getServiceImage().getFileUrl());
-        // System.out.println(events.get(0).getEventImage().getFileUrl());
+        //System.out.println(events.get(0).getEventImage().getFileUrl());
 
 
         return "index";
@@ -80,17 +90,65 @@ public class MainController {
     @RequestMapping("/staffmain")
     public String getStaffLanding() {
 
+        String userName = "gaddams";
+
+        Users user = usersService.getUserByUserName(userName);
+
+        Long employeeId = user.getUserProfile().getEmployee().getEmployeeId();
+
+
+        System.out.println(user.getUserName());
+        System.out.println(user.getId());
+        System.out.println(user.getUserProfile().getEmployee().getEmployeeId());
+
         return "staffLanding";
     }
 
     @RequestMapping("/propertiesforsale")
-    public String getPropertiesForSale() {
+    public String getPropertiesForSale(Model model) {
 
+        BranchImages headerImage = branchImagesService.getImageBySectionUsed("header");
+        BranchImages logoImage = branchImagesService.getImageBySectionUsed("logo");
+        BranchImages faviconImage = branchImagesService.getImageBySectionUsed("favicon");
+        List<Properties> propertiesForSale = propertiesService.findAllActivePropertiesForSale();
+        List<Properties> propertiesForAuction = propertiesService.findAllActivePropertiesForAuction();
+
+        propertiesForSale.addAll(propertiesForAuction);
+
+        model.addAttribute("propertiesForSale", propertiesForSale);
+        model.addAttribute("headerImage", headerImage);
+        model.addAttribute("logoImage", logoImage);
+        model.addAttribute("faviconImage", faviconImage);
+
+        /*
+        System.out.println("All properties: "+propertiesService.findAllProperties().size());
+        System.out.println("All available propertiee: "+propertiesService.getByAvailability(true).size());
+        System.out.println("Sale: "+propertiesService.findAllActivePropertiesForSale().size());
+        System.out.println("Auction: "+propertiesService.findAllActivePropertiesForAuction().size());
+        System.out.println("Rent: "+propertiesService.findAllActivePropertiesToRent().size());
+        System.out.println("Property listing: ");
+        System.out.println(propertiesService.findAllActivePropertiesForSale().get(0).getPropertyImages().get(0).getFileUrl());
+        System.out.println(propertiesService.findAllActivePropertiesForSale().get(0).getPropertyTypeJoin().getPropertyType());
+        System.out.println(propertiesService.findAllActivePropertiesForSale().get(0).getDescription());
+        System.out.println(propertiesService.findAllActivePropertiesForSale().get(0).getPrice());
+        System.out.println("Combined properties for sale: "+propertiesForSale.size());
+        */
         return "propertiesSale";
     }
 
     @RequestMapping("/propertiestolet")
-    public String getPropertiesToLet() {
+    public String getPropertiesToLet(Model model) {
+
+        BranchImages headerImage = branchImagesService.getImageBySectionUsed("header");
+        BranchImages logoImage = branchImagesService.getImageBySectionUsed("logo");
+        BranchImages faviconImage = branchImagesService.getImageBySectionUsed("favicon");
+        List<Properties> propertiesForSale = propertiesService.findAllActivePropertiesToRent();
+
+
+        model.addAttribute("propertiesForSale", propertiesForSale);
+        model.addAttribute("headerImage", headerImage);
+        model.addAttribute("logoImage", logoImage);
+        model.addAttribute("faviconImage", faviconImage);
 
         return "propertiesLet";
     }

@@ -30,5 +30,9 @@ public class Enquiries {
     private Boolean completed;
     @Column(name="created_at")
     private Date createdAt;
+    @Column(name="enquirer_name")
+    private String enquirerName;
+    @Column(name="enquirer_contact")
+    private String enquirerContact;
 
 }

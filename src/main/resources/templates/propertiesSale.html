@@ -1,19 +1,20 @@
-    <!doctype html>
-    <html lang="en">
-      <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <meta name="description" content="">
-        <meta name="author" content="Norbert Simon with Bootstrap">
-        <meta name="generator" content="Hugo 0.88.1">
-        <title>Addams estates - properties for sale</title>    
-        <link rel="icon" type="image/png" sizes="16x16" href="Images/favicon32.png">
-        
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="Norbert Simon with Bootstrap">
+    <meta name="generator" content="Hugo 0.88.1">
+    <title>Addams estates - properties for sale</title>
+    <link rel="icon" type="image/png" sizes="16x16" th:href="${faviconImage.fileUrl}">
 
-        <!-- Bootstrap core CSS -->
+
+    <!-- Bootstrap core CSS -->
     <link href="../assets/dist/css/bootstrap.min.css" rel="stylesheet">
 
-        <style>
+    <style>
           .bd-placeholder-img {
             font-size: 1.125rem;
             text-anchor: middle;
@@ -27,234 +28,216 @@
               font-size: 3.5rem;
             }
           }
-        </style>
 
-        
-      </head>
-      <body>
-        
-    <header>
-
-      <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
-      <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
-      
+    </style>
 
 
-      <div class="navbar navbar-dark bg-dark shadow-sm">
+</head>
+<body>
+
+<header>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
+            crossorigin="anonymous"></script>
+
+
+    <div class="navbar navbar-dark bg-dark shadow-sm">
         <div class="container">
-          <a href="#" class="navbar-brand d-flex align-items-center">       
-            <img src ="Images/logoIcon.png" width="30" height="30" style="border-radius: 50%;"  >
-            <strong style="padding-left: 10px;">Addams Estates</strong>
-          </a>  
-          
-          <h6 style="color:white; align-self:right">
-            Welcome Gomez Addams
-            <img src="Images/StaffImages/gomezAdams2.jpg" style="border-radius: 50%; width: 30px; height: 35px; align-self: center;padding-top: 10px;">
-          </h6>        
-          <button type="button" class="btn btn-primary btn-sm">Sign out</button>
-          
+            <a href="#" class="navbar-brand d-flex align-items-center">
+                <img src="Images/logoIcon.png" width="30" height="30" style="border-radius: 50%;">
+                <strong style="padding-left: 10px;">Addams Estates</strong>
+            </a>
+
+            <h6 style="color:white; align-self:right">
+                Welcome Gomez Addams
+                <img src="Images/StaffImages/gomezAdams2.jpg"
+                     style="border-radius: 50%; width: 30px; height: 35px; align-self: center;padding-top: 10px;">
+            </h6>
+            <button type="button" class="btn btn-primary btn-sm">Sign out</button>
+
         </div>
-      </div>
-    </header>
+    </div>
+</header>
 
-    <main>
+<main>
 
-      <section class="py-5 text-center container">
+    <section class="py-5 text-center container">
         <div class="row py-lg-5">
             <h1>Welcome to Addams Estates - Properties for sale</h1>
-            <img src="Images/cityscapeTransilvania.jpg"  alt="">
+            <img th:src=${headerImage.fileUrl}  alt="">
             <h4>We sell the scariest properties in town</h4>
         </div>
-      </section>
-      <!--****************************************************Navbar section***********************************************-->
-    
-      <nav class="navbar navbar-expand-lg navbar-dark bg-dark navbar-fixed-top text-center" >
-        <div class="container text-center" >      
-            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-              <li class="nav-item">
-                <a class="nav-link active" aria-current="page" href="#">Home</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link active" href="#MeetTheTeam">Our Team</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link active" href="#Services">Services</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link active" href="#Services">Events</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link active" href="#Services">About Us</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link active" href="#Services">Contact us</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link active" href="#Services">Properties for Sale</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link active" href="#Services">Properties to Rent</a>
-              </li>
+    </section>
+    <!--****************************************************Navbar section***********************************************-->
 
-            </ul>       
-            
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark navbar-fixed-top text-center">
+        <div class="container text-center">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <li class="nav-item">
+                    <a class="nav-link active" aria-current="page" href="#">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link active" href="#MeetTheTeam">Our Team</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link active" href="#Services">Services</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link active" href="#Services">Events</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link active" href="#Services">About Us</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link active" href="#Services">Contact us</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link active" href="#Services">Properties for Sale</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link active" href="#Services">Properties to Rent</a>
+                </li>
+
+            </ul>
+
         </div>
-      </nav>
-      <br/>
-      <!--************************************************End of Navbar section********************************************-->
-        <!--***********************************************Properties for sale table ******************************************-->
-      <h3>Properties for sale</h3> 
-      <br>
-    <table class="table text-center">
-      <thead class="thead-dark ">
+    </nav>
+    <br/>
+    <!--************************************************End of Navbar section********************************************-->
+    <!--***********************************************Properties for sale table ******************************************-->
+    <h3>Properties for sale</h3>
+    <br>
+    <input type="text" id="propertyTypeInput" onkeyup="propertyFilter(document.getElementById('propertyTypeInput'),1)" placeholder="Search by property type" style="margin-left:10px;">
+    <input type="text" id="countyInput" onkeyup="propertyFilter(document.getElementById('countyInput'),3)" placeholder="Search by county">
+     <input type="text" id="postCodeInput" onkeyup="propertyFilter(document.getElementById('postCodeInput'),4)" placeholder="Search by post code">
+    <input type="text" id="bedroomsInput" onkeyup="propertyFilter(document.getElementById('bedroomsInput'),5)" placeholder="Search by number of bedrooms">
+    <input type="text" id="priceInput" onkeyup="propertyFilterPrice(document.getElementById('priceInput'),6)" placeholder="Search by price up to">
+
+    <table class="table text-center" id="propertiesTable">
+        <thead class="thead-dark ">
         <tr>
-          
-          <th scope="col">Photo</th>
-          <th scope="col">Property</th>
-          <th scope="col">Details</th>
-          <th scope="col">Price</th>
-          <th scope="col">Btn</th>
+
+            <th scope="col">Photo</th>
+            <th scope="col">Property Type</th>
+            <th scope="col">Description</th>
+            <th scope="col">County</th>
+            <th scope="col">Post Code</th>
+            <th scope="col">Bedrooms</th>
+            <th scope="col">Price</th>
+            <th scope="col">Btn</th>
         </tr>
-      </thead>
-      <tbody>
-        <tr>
-          
-          <td>
-            <img src="Properties/Fyvie castle/FyvieCastle.jpg" width="200" height="150">
-          </td>
-          <td>
-            <p>Fyver Castle</p>
-          </td>
-          <td>
-            <p>
-              Dating back to the 13th century, Fyvie castle now belongs to the National Trust for Scotland but, 
-              like so many British castles, it has a dark past. Its ghostly Green Lady is thought to be Dane Lilias Drummond,
-              who died of a broken heart when her husband Sir Alexander Seton began having an affair. Her name is carved into 
-              the castle walls and its claimed this act was carried out by her angry ghost after he death.
-            </p>
-          </td>
-          <td>
-            <p>O.N.O</p>
-          </td>
-          <td>
-            <button type="button" class="btn btn-success">View</button>
-          </td>
-        </tr>
-        <tr>
-          
-          <td>
-            <img src="Properties/Chilingham castle/GettyImages-464409983_master-cebd57f (1).jpg" width="200" height="150">
-          </td>
-          <td>
-            <p>Chillingham Castle</p>
-          </td>
-          <td>
-            <p>
-              Said to be the most haunted castle in Britain, Chillingham is claimed to be home to various spectres.
-               The White Pantry Ghost was first spotted by a footman, who’d been locked into the pantry overnight to
-                guard the family silver. He reported her as begging for water and it’s now thought she was a victim 
-                of poisoning. <br>
-                In the chapel, the voices of two men are often overheard talking but can never be traced. 
-                Visitors say the ghosts are often friendly.  The castle holds special ghost tours throughout the year 
-                and groups of ten or more can enjoy a candlelit meal by a roaring fire in the Minstrels’ 
-                Hall beforehand.
-            </p>
-          </td>
-          <td>
-            <p>O.N.O</p>
-          </td>
-          <td>
-            <button type="button" class="btn btn-success">View</button>
-          </td>
-        </tr>
-        <tr>
-          <td>
-            <img src="Properties/Berry Pomeroy castle/Berry_Pomeroy_Castle_-_geograph.org.uk_-_411651.jpg" width="200" height="150">
-          </td>
-          <td>Berry Pomeroy Castle</td>
-          <td>
-            <p>
-              Once the seat of the powerful Seymour family, the castle has two reported apparitions – the White Lady and 
-              the Blue Lady. The White Lady is said to be Margaret Pomeroy, who’s believed to roam the dungeons of 
-              St Margaret’s Tower, where she died after being starved to death by her jealous sister Eleanor. It’s claimed the
-               Blue Lady is the daughter of one of the Norman castle lords and that she lures people into various parts of the
-                castle to get them lost. Berry Pomeroy is owned by English Heritage and is open daily from June to October, 
-                and on weekends from November to March.
-            </p>
-          </td>
-          <td>
-            <p>O.N.O</p>
-          </td>
-          <td>
-            <button type="button" class="btn btn-success">View</button>
-          </td>
-        </tr>
-        <tr>
-          <td>
-            <img src="Properties/Muncaster castle/download.jpg" width="200" height="150">
-          </td>
-          <td>Muncaster Castle</td>
-          <td>
-            <p>
-              Muncaster castle is a Mecca for paranormal researchers, with visitors complaining of being haunted in the 
-              Tapestry Room, by a child crying and a woman singing. There are also many tales revolving around Tom Fool, 
-              aka Thomas Skelton, who is rarely seen but believed to play tricks on staff and visitors. The Muncaster Boggle,
-              or White Lady is supposedly the ghost of Mary Bragg, a young girl killed in the early 1800s on a road near the 
-              Main Gate
-            </p>
-          </td>
-          <td>
-            <p>O.N.O</p>
-          </td>
-          <td>
-            <button type="button" class="btn btn-success">View</button>
-          </td>
-        </tr>
-        <tr>
-          <td>
-            <img src="Properties/Glamis castle/GlamisCastle.jpg" width="200" height="150">
-          </td>
-          <td>Glamis Castle</td>
-          <td>
-            <p>
-              Perhaps better known these days as the childhood home of the late Queen Mother, Glamis castle was the setting 
-              for Shakespeare’s chilling tragedy Macbeth, who begins the play as Thane of Glamis, before murdering his way 
-              to power. Just as Macbeth was overcome by visions of the ghost of Banquo, so Glamis is still said to be haunted 
-              by many ghosts. A woman with no tongue has been seen in the grounds and staring from a barred window, gesturing 
-              at her terrible injuries. The Grey Lady is believed to be the ghost of Lady Glamis, who was burned at the stake 
-              in 1537 for being a witch.A young servant boy has been seen several times, while local legend has it that the 
-              ghost of Earl Beardie is in a secret room in the castle, gambling with the devil for all eternity. 
-              This Halloween you can spend a spooky evening at Glamis on October 28 and 29, with an interactive walk through 
-              the Bewitched Wood, and haunted tours of the castle.
-            </p>
-          </td>
-          <td>
-            <p>O.N.O</p>
-          </td>
-          <td>
-            <button type="button" class="btn btn-success">View</button>
-          </td>
-        </tr>
-      </tbody>
+        </thead>
+
+        <!--*********************Table body for thymeleaf ********************-->
+        <tbody>
+        <th:block th:each="property:${propertiesForSale}">
+            <tr>
+                <td>
+                    <img th:src="${property.PropertyImages[1].FileUrl}" width="200" height="150">
+                </td>
+                <td>
+                    <p th:text="${property.PropertyTypeJoin.PropertyType}"></p>
+                </td>
+                <td>
+                    <p th:text="${property.Description}">
+
+                    </p>
+                </td>
+                <!-- ****************** NEW ********************** -->
+                <td>
+                    <p th:text="${property.county}">
+
+                    </p>
+                </td>
+                <td>
+                    <p th:text="${property.postCode}">
+
+                    </p>
+                </td>
+                <td>
+                    <p th:text="${property.bedroomNo}">
+
+                    </p>
+                </td>
+                <!-- ******** END OF NEW ************************* -->
+                <td>
+                    <p th:text="${property.Price}"></p>
+                </td>
+                <td>
+                    <button type="button" class="btn btn-success">View</button>
+                </td>
+            </tr>
+        </th:block>
+
+        </tbody>
     </table>
 
 
     <!--*******************************************End of properties for sale table****************************************-->
-    </main>
+</main>
 
-    <footer class="text-muted py-5">
-      <div class="container">
+<footer class="text-muted py-5">
+    <div class="container">
         <p class="float-end mb-1">
-          <a href="#">Back to top</a>
+            <a href="#">Back to top</a>
         </p>
-        <p class="mb-1">Album example is &copy; Bootstrap, but please download and customize it for yourself!</p>
-        <p class="mb-0">New to Bootstrap? <a href="/">Visit the homepage</a> or read our <a href="../getting-started/introduction/">getting started guide</a>.</p>
-      </div>
-    </footer>
+        <p class="mb-1">Addams Estates &copy; 2022</p>
+
+    </div>
+</footer>
+<script src="../assets/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+function propertyFilter(input, columnNumber) {
+  // Declare variables
+  var filter, table, tr, td, i, txtValue;
+  filter = input.value.toUpperCase();
+  table = document.getElementById("propertiesTable");
+  tr = table.getElementsByTagName("tr");
+
+  // Loop through all table rows, and hide those who don't match the search query
+  for (i = 0; i < tr.length; i++) {
+    td = tr[i].getElementsByTagName("td")[columnNumber];
+    if (td) {
+      txtValue = td.textContent || td.innerText;
+      if (txtValue.toUpperCase().indexOf(filter) > -1) {
+        if(!tr[i].style.display=="none"){
+        tr[i].style.display = "";}
+      } else {
+        tr[i].style.display = "none";
+      }
+    }
+  }
+}
 
 
-        <script src="../assets/dist/js/bootstrap.bundle.min.js"></script>
+function propertyFilterPrice(input, columnNumber) {
+  // Declare variables
+  if (event.key === 'Enter'){
+  var filter, table, tr, td, i, txtValue;
+  filter = input.value.toUpperCase();
+  table = document.getElementById("propertiesTable");
+  tr = table.getElementsByTagName("tr");
 
-          
-      </body>
-    </html>
+  // Loop through all table rows, and hide those who don't match the search query
+  for (i = 0; i < tr.length; i++) {
+    td = tr[i].getElementsByTagName("td")[columnNumber];
+    if (td) {
+      txtValue = td.textContent || td.innerText;
+      if (parseInt(txtValue)<parseInt(filter)) {
+        if(!tr[i].style.display=="none"){
+        tr[i].style.display = "";}
+      } else {
+        tr[i].style.display = "none";
+      }
+    }
+  }
+  }
+}
+</script>
+
+
+</body>
+</html>

@@ -1,5 +1,6 @@
 package com.addamsestates.properties.model;
 
+import com.addamsestates.image.model.PropertiesImages;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -7,6 +8,7 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.util.Date;
+import java.util.List;
 
 
 @Entity
@@ -18,7 +20,7 @@ public class Properties {
 
     @Id
     @GeneratedValue()
-    @Column(name = "service_id", updatable = false, nullable = false)
+    @Column(name = "property_id", updatable = false, nullable = false)
     private Long propertyId;
     @Column(name="branch_id")
     private Long branchId;
@@ -26,14 +28,14 @@ public class Properties {
     private Long employeeId;
     @Column(name="customer_id")
     private Long customerId;
-    @Column(name="property_type_id")
-    private Long property_type;
-    @Column(name="property_features_id")
+    @Column(name="property_type")
+    private Long propertyType;
+    @Column(name="property_features")
     private Long property_features;
-    @Column(name="property_offer_id")
-    private Long offer_type;
+    @Column(name="offer")
+    private Long offer;
     @Column(name="availability")
-    private String availability;
+    private Boolean availability;
     @Column(name="description")
     private String description;
     @Column(name="bedroom_no")
@@ -46,10 +48,23 @@ public class Properties {
     private String price;
     @Column(name="created_at")
     private Date createdAt;
-    @Column(name="profile_picture")
-    private String profilePicture;
     @Column(name="address")
     private String address;
 
+    @OneToOne
+    @JoinColumn(name="property_type", insertable = false, updatable = false)
+    private PropertyType propertyTypeJoin;
+
+    @OneToOne
+    @JoinColumn(name="offer", insertable = false, updatable = false)
+    private PropertyOffer propertyOffer;
+
+    @OneToOne
+    @JoinColumn(name="property_features", insertable = false, updatable = false)
+    private PropertyFeatures propertyFeatures;
+
+    @OneToMany
+    @JoinColumn(name="property_id", insertable = false, updatable = false)
+    private List<PropertiesImages> propertyImages;
 
 }

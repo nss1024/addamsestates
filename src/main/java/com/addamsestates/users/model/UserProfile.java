@@ -1,5 +1,6 @@
 package com.addamsestates.users.model;
 
+import com.addamsestates.employees.model.Employee;
 import com.addamsestates.image.model.UserProfileImages;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -39,6 +40,10 @@ public class UserProfile {
 
     @OneToOne (cascade=CascadeType.ALL,orphanRemoval = false, fetch=FetchType.EAGER)
     @JoinColumn(name="user_profile_id")
-    UserProfileImages profilePic;
+    private UserProfileImages profilePic;
+
+    @OneToOne
+    @JoinColumn(name="user_profile_id")
+    private Employee employee;
 
 }
