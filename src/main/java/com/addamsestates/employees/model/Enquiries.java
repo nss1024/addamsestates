@@ -22,8 +22,8 @@ public class Enquiries {
     private Long enquiryId;
     @Column(name="employee_id")
     private Long employeeId;
-    @Column(name="contains")
-    private String contains;
+    @Column(name="contents")
+    private String contents;
     @Column(name="enquiry_type")
     private String enquiryType;
     @Column(name="completed")

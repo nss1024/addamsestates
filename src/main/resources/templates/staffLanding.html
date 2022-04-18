@@ -1,3 +1,4 @@
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <!doctype html>
 <html lang="en">
   <head>
@@ -164,69 +165,8 @@
       <h1>Properties and appointments</h1>
       <br/>
     <div class="row row-cols-1 row-cols-sm-2 row-cols-md-2 g-2">
-      <div class="col">
-        <div class="card shadow-sm">         
-          <div class="card-body">
-              <h3>Rental properties</h3>
-              <br>
-              <table class="table">
-                <thead>
-                  <tr>
-                    <th scope="col">Ref</th>
-                    <th scope="col">Description</th>
-                    <th scope="col">Perice</th>
-                    <th scope="col">Btn</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <th >1001</th>
-                    <td>Fyver Castle</td>
-                    <td>ONO</td>
-                    <td>
-                      <button type="button" class="btn btn-primary btn-sm btn-success">View</button>
-                      <button type="button" class="btn btn-primary btn-sm btn-warning" data-toggle="modal" data-target="#editModal">Edit</button>
-                      <button type="button" class="btn btn-primary btn-sm btn-danger" data-toggle="modal" data-target="#exampleModal">Delete</button>
-                    </td>
-                  </tr>
-                  <tr>
-                    <th >1002</th>
-                    <td>Chillingham Castle</td>
-                    <td>ONO</td>
-                    <td>
-                      <button type="button" class="btn btn-primary btn-sm btn-success">View</button>
-                      <button type="button" class="btn btn-primary btn-sm btn-warning" data-toggle="modal" data-target="#editModal">Edit</button>
-                      <button type="button" class="btn btn-primary btn-sm btn-danger" data-toggle="modal" data-target="#exampleModal">Delete</button>
-                    </td>
-                  </tr>
-                  <tr>
-                    <th >1003</th>
-                    <td>Berry Pomeroy Castle</td>
-                    <td>On request</td>
-                    <td>
-                      <button type="button" class="btn btn-primary btn-sm btn-success">View</button>
-                      <button type="button" class="btn btn-primary btn-sm btn-warning" data-toggle="modal" data-target="#editModal">Edit</button>
-                      <button type="button" class="btn btn-primary btn-sm btn-danger" data-toggle="modal" data-target="#exampleModal">Delete</button>
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
-              
-            <p class="card-text">
-              
-            </p>
-            <div class="d-flex justify-content-between align-items-center">
-              <div class="btn-group">                    
-                                
-              </div>                
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="col">
+       <div class="col">
         <div class="card shadow-sm">
-          
-          
           <div class="card-body">
               <h3>Properties for sale </h3>
               <br>
@@ -234,43 +174,29 @@
                 <thead>
                   <tr>
                     <th scope="col">Ref</th>
-                    <th scope="col">Description</th>
+                    <th scope="col">Property Type</th>
                     <th scope="col">Perice</th>
                     <th scope="col">Btn</th>
                   </tr>
                 </thead>
                 <tbody>
+                <th:block th:each="property:${properties}">
                   <tr>
-                    <th >2001</th>
-                    <td>Dover Castle</td>
-                    <td>ONO</td>
+                    <th th:text="${property.propertyId}"></th>
+                    <td th:text="${property.propertyTypeJoin.PropertyType}"></td>
+                    <td th:text="${property.price}"></td>
                     <td>
                       <button type="button" class="btn btn-primary btn-sm btn-success">View</button>
                       <button type="button" class="btn btn-primary btn-sm btn-warning" data-toggle="modal" data-target="#editModal">Edit</button>
+                      <!--
                       <button type="button" class="btn btn-primary btn-sm btn-danger" data-toggle="modal" data-target="#exampleModal">Delete</button>
+                      -->
                     </td>
                   </tr>
-                  <tr>
-                    <th >2002</th>
-                    <td>Hever Castle</td>
-                    <td>ONO</td>
-                    <td>
-                      <button type="button" class="btn btn-primary btn-sm btn-success">View</button>
-                      <button type="button" class="btn btn-primary btn-sm btn-warning" data-toggle="modal" data-target="#editModal">Edit</button>
-                      <button type="button" class="btn btn-primary btn-sm btn-danger" data-toggle="modal" data-target="#exampleModal">Delete</button>
-                    </td>
-                  </tr>
-                  <tr>
-                    <th >3003</th>
-                    <td>Chatham Pomeroy Castle</td>
-                    <td>On request</td>
-                    <td>
-                      <button type="button" class="btn btn-primary btn-sm btn-success">View</button>
-                      <button type="button" class="btn btn-primary btn-sm btn-warning" data-toggle="modal" data-target="#editModal">Edit</button>
-                      <button type="button" class="btn btn-primary btn-sm btn-danger" data-toggle="modal" data-target="#exampleModal">Delete</button>
-                    </td>
-                  </tr>
+
+                </th:block>
                 </tbody>
+                <!--*********************************************************************************************************************************** -->
               </table>
             <p class="card-text">
               
@@ -285,8 +211,7 @@
       </div>
       <div class="col">
         <div class="card shadow-sm">
-          
-
+          <!--***********************************Appointments ******************************************************** -->
           <div class="card-body">
               <h3>My appointments</h3>
               <br>
@@ -300,27 +225,18 @@
                   </tr>
                 </thead>
                 <tbody>
+                <th:block th:each="appointment:${appointments}">
                   <tr>                    
-                    <td>John Smith</td>
-                    <td>10.02.2022</td>
+                    <td th:text="${appointment.appointmentWith}">John Smith</td>
+                    <td th:text="${appointment.appointmentDate}">10.02.2022</td>
                     <td>10:00</td>
-                    <td>Office</td>
+                    <td th:text="${appointment.appointmentType}">Office</td>
                   </tr>
-                  <tr>
-                    <td>John Doe</td>
-                    <td>10.02.2022</td>
-                    <td>14:00</td>
-                    <td>Lunch</td>
-                  </tr>
-                  <tr>
-                    <td>Sarah Miller</td>
-                    <td>10.02.2022</td>
-                    <td>16:00</td>
-                    <td>Office</td>
-                  </tr>
+
+                </th:block>
                 </tbody>
               </table>
-              
+            <!--***********************************Appointments End***************************************************** -->
             <p class="card-text">
              
               </p>

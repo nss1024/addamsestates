@@ -58,4 +58,9 @@ public class PropertiesServiceImpl implements PropertiesService {
     public List<Properties> getByAvailability(Boolean isAvailable) {
         return propertiesRepository.getByAvailability(isAvailable);
     }
+
+    @Override
+    public List<Properties> getByEmployeeId(Long id) {
+        return propertiesRepository.getByEmployeeId(id);
+    }
 }

@@ -12,4 +12,6 @@ public interface PropertiesRepository extends JpaRepository<Properties, Long> {
 
     public List<Properties> getByAvailability(Boolean isAvailable);
 
+    public List<Properties> getByEmployeeId(Long employeeId);
+
 }

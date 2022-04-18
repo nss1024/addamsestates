@@ -5,7 +5,11 @@ import com.addamsestates.branch.model.Services;
 import com.addamsestates.branch.service.ServicesService;
 import com.addamsestates.branch.service.implementation.EventsServiceImpl;
 import com.addamsestates.branch.service.implementation.ServicesServiceImpl;
+import com.addamsestates.employees.model.Appointments;
+import com.addamsestates.employees.model.Enquiries;
 import com.addamsestates.employees.repo.EmployeeRepository;
+import com.addamsestates.employees.service.implementation.AppointmentsServiceImpl;
+import com.addamsestates.employees.service.implementation.EnquiriesServiceImplementation;
 import com.addamsestates.image.model.BranchImages;
 import com.addamsestates.image.repo.UserProfileImagesRepository;
 import com.addamsestates.image.srevice.serviceImpl.BranchImagesServiceImpl;
@@ -52,6 +56,12 @@ public class MainController {
     @Autowired
     private UsersServiceImpl usersService;
 
+    @Autowired
+    private EnquiriesServiceImplementation enquiriesServiceImplementation;
+
+    @Autowired
+    private AppointmentsServiceImpl appointmentsService;
+
     @RequestMapping("/")
     public String getMain(Model model) {
 
@@ -88,7 +98,7 @@ public class MainController {
     }
 
     @RequestMapping("/staffmain")
-    public String getStaffLanding() {
+    public String getStaffLanding(Model model) {
 
         String userName = "gaddams";
 
@@ -96,10 +106,31 @@ public class MainController {
 
         Long employeeId = user.getUserProfile().getEmployee().getEmployeeId();
 
+        List<Enquiries> enquiries = enquiriesServiceImplementation.getAllEnquiriesByEmployeeId(employeeId);
+        List<Enquiries> completedEnquiries = enquiriesServiceImplementation.getCompletedEnquiriesByEmployeeId(employeeId);
+        List<Enquiries> outstandingEnquiries = enquiriesServiceImplementation.getOutstandingEnquiriesByEmployeeId(employeeId);
+
+        List<Appointments> appointments = appointmentsService.getAllAppointmentsByEmployeeId(employeeId);
+        List<Appointments> completedAppointments = appointmentsService.getCompletedAppointmentsByEmployeeId(employeeId);
+        List<Appointments> outstandingAppointments = appointmentsService.outstandingAppointmentsByEmployeeId(employeeId);
+
+        List<Properties> employeeProperties = propertiesService.getByEmployeeId(employeeId);
+
+        model.addAttribute("enquiries", enquiries);
+        model.addAttribute("appointments", appointments);
+        model.addAttribute("properties", employeeProperties);
+
 
         System.out.println(user.getUserName());
         System.out.println(user.getId());
         System.out.println(user.getUserProfile().getEmployee().getEmployeeId());
+        System.out.println("Enquiries: "+enquiries.size());
+        System.out.println("Completed Enquiries: "+completedEnquiries.size());
+        System.out.println("Outstanding Enquiries: "+outstandingEnquiries.size());
+        System.out.println("Appointments: "+appointments.size());
+        System.out.println("Completed Appointments: "+completedAppointments.size());
+        System.out.println("Outstanding Appointments: "+outstandingAppointments.size());
+        System.out.println("Properties: "+employeeProperties.size());
 
         return "staffLanding";
     }
