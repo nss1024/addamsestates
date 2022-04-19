@@ -100,11 +100,13 @@ public class MainController {
     @RequestMapping("/staffmain")
     public String getStaffLanding(Model model) {
 
-        String userName = "gaddams";
+        String userName = "faddams";
 
         Users user = usersService.getUserByUserName(userName);
 
         Long employeeId = user.getUserProfile().getEmployee().getEmployeeId();
+
+        String employeeName = user.getUserProfile().getFirstName();
 
         List<Enquiries> enquiries = enquiriesServiceImplementation.getAllEnquiriesByEmployeeId(employeeId);
         List<Enquiries> completedEnquiries = enquiriesServiceImplementation.getCompletedEnquiriesByEmployeeId(employeeId);
@@ -114,13 +116,14 @@ public class MainController {
         List<Appointments> completedAppointments = appointmentsService.getCompletedAppointmentsByEmployeeId(employeeId);
         List<Appointments> outstandingAppointments = appointmentsService.outstandingAppointmentsByEmployeeId(employeeId);
 
-        List<Properties> employeeProperties = propertiesService.getByEmployeeId(employeeId);
+        List<Properties> employeeProperties = propertiesService.getByEmployeeIdAndAvailability(employeeId);
 
+        model.addAttribute("employeeName", employeeName);
         model.addAttribute("enquiries", enquiries);
         model.addAttribute("appointments", appointments);
         model.addAttribute("properties", employeeProperties);
 
-
+        /*
         System.out.println(user.getUserName());
         System.out.println(user.getId());
         System.out.println(user.getUserProfile().getEmployee().getEmployeeId());
@@ -131,6 +134,8 @@ public class MainController {
         System.out.println("Completed Appointments: "+completedAppointments.size());
         System.out.println("Outstanding Appointments: "+outstandingAppointments.size());
         System.out.println("Properties: "+employeeProperties.size());
+        System.out.println("Appointment time: "+appointments.get(0).getAppointmentTime());
+        */
 
         return "staffLanding";
     }

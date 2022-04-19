@@ -1,25 +1,23 @@
 package com.addamsestates.branch.model;
 
-import com.addamsestates.image.model.ServicesImages;
+import com.addamsestates.image.model.InternalServicesImages;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-
 import javax.persistence.*;
 import java.util.Date;
 
-
 @Entity
-@Table(name="services")
+@Table(name="internal_services")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class Services {
+public class InternalServices {
 
     @Id
     @GeneratedValue()
-    @Column(name = "service_id", updatable = false, nullable = false)
+    @Column(name = "iservice_id", updatable = false, nullable = false)
     private Long serviceId;
     @Column(name="branch_id")
     private Long branchId;
@@ -27,17 +25,16 @@ public class Services {
     private String serviceName;
     @Column(name="description")
     private String description;
-    @Column(name="image")
-    private String image;
-    @Column(name="create_date")
+    @Column(name="created_at")
     private Date createDate;
     @Column(name="active")
     private Boolean active;
     @Column(name="link")
     private String link;
 
-    @OneToOne(cascade=CascadeType.ALL, orphanRemoval = false, fetch=FetchType.EAGER)
-    @JoinColumn(name="service_id",insertable = false , updatable = false)
-    ServicesImages serviceImage;
+    @OneToOne
+    @JoinColumn(name="iservice_id")
+    private InternalServicesImages images;
+
 
 }

@@ -26,4 +26,6 @@ public interface PropertiesService {
 
     public List<Properties> getByEmployeeId(Long id);
 
+    public List<Properties> getByEmployeeIdAndAvailability(Long employeeId);
+
 }

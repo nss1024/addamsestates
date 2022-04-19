@@ -34,5 +34,6 @@ public class Appointments {
     private Date appointmentDate;
     @Column(name="created_at")
     private Date createdAt;
-
+    @Column(name="appointment_time")
+    private String appointmentTime;
 }

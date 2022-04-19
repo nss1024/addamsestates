@@ -90,7 +90,7 @@
   <a id="Services"></a>
   <div class="album py-5 bg-light"> 
     <div class="container">
-        <h1>Welcome Gomez</h1>
+        <h1 th:text="${'Welcome '+employeeName}"></h1>
         <br/>
         <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
             <div class="col">
@@ -164,11 +164,11 @@
   <div class="container">
       <h1>Properties and appointments</h1>
       <br/>
-    <div class="row row-cols-1 row-cols-sm-2 row-cols-md-2 g-2">
+    <div class="row row-cols-1 row-cols-sm-1 row-cols-md-1 g-1">
        <div class="col">
         <div class="card shadow-sm">
           <div class="card-body">
-              <h3>Properties for sale </h3>
+              <h3>Properties </h3>
               <br>
               <table class="table">
                 <thead>
@@ -176,7 +176,7 @@
                     <th scope="col">Ref</th>
                     <th scope="col">Property Type</th>
                     <th scope="col">Perice</th>
-                    <th scope="col">Btn</th>
+                    <th scope="col"></th>
                   </tr>
                 </thead>
                 <tbody>
@@ -227,10 +227,10 @@
                 <tbody>
                 <th:block th:each="appointment:${appointments}">
                   <tr>                    
-                    <td th:text="${appointment.appointmentWith}">John Smith</td>
-                    <td th:text="${appointment.appointmentDate}">10.02.2022</td>
-                    <td>10:00</td>
-                    <td th:text="${appointment.appointmentType}">Office</td>
+                    <td th:text="${appointment.appointmentWith}"></td>
+                    <td th:text="${#dates.format(appointment.appointmentDate,'dd-mm-yyyy')}"></td>
+                    <td th:text="${appointment.appointmentTime}"></td>
+                    <td th:text="${appointment.appointmentType}"></td>
                   </tr>
 
                 </th:block>
@@ -267,33 +267,17 @@
                   </tr>
                 </thead>
                 <tbody>
+                <th:block th:each="enquiry:${enquiries}">
                   <tr>
-                    <td>Sue</td>
-                    <td>10.02.2022</td>
-                    <td>Callaback - rent</td>                    
-                    <td>07894561212</td>
+                    <td th:text="${enquiry.enquirerName}"></td>
+                    <td th:text="${#dates.format(enquiry.createdAt,'dd-mm-yyyy')}"></td>
+                    <td th:text="${enquiry.enquiryType}" ></td>
+                    <td th:text="${enquiry.enquirerContact}"></td>
                     <td>
                       <button type="button" class="btn btn-primary btn-sm btn-info">Completed</button>
                     </td>
                   </tr>
-                  <tr>
-                    <td>Paul Johns</td>
-                    <td>11.02.2022</td>
-                    <td>email - quote</td>
-                    <td>p.johns@myemila.com </td>                    
-                    <td>
-                      <button type="button" class="btn btn-primary btn-sm btn-info">Completed</button>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>Chris Carrey</td>
-                    <td>11.02.2022</td>
-                    <td>email - removal</td>
-                    <td>chrisc@myemila.com </td>                    
-                    <td>
-                      <button type="button" class="btn btn-primary btn-sm btn-info">Completed</button>
-                    </td>
-                  </tr>
+                </th:block>
                 </tbody>
               </table>
               
@@ -377,8 +361,8 @@
     <p class="float-end mb-1">
       <a href="#">Back to top</a>
     </p>
-    <p class="mb-1">Album example is &copy; Bootstrap, but please download and customize it for yourself!</p>
-    <p class="mb-0">New to Bootstrap? <a href="/">Visit the homepage</a> or read our <a href="../getting-started/introduction/">getting started guide</a>.</p>
+    <p class="mb-1">Addams Estates &copy; 2022</p>
+
   </div>
   
   <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>

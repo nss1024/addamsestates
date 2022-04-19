@@ -63,4 +63,9 @@ public class PropertiesServiceImpl implements PropertiesService {
     public List<Properties> getByEmployeeId(Long id) {
         return propertiesRepository.getByEmployeeId(id);
     }
+
+    @Override
+    public List<Properties> getByEmployeeIdAndAvailability(Long employeeId) {
+        return propertiesRepository.getByEmployeeIdAndAvailability(employeeId,true);
+    }
 }
