@@ -17,7 +17,7 @@ import java.util.Date;
 public class Enquiries {
 
     @Id
-    @GeneratedValue()
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "enquiry_id", updatable = false, nullable = false)
     private Long enquiryId;
     @Column(name="employee_id")

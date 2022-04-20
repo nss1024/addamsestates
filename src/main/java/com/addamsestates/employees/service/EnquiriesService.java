@@ -12,4 +12,6 @@ public interface EnquiriesService {
 
     List<Enquiries> getOutstandingEnquiriesByEmployeeId(Long id);
 
+    void addNewEnquiry(Enquiries e);
+
 }

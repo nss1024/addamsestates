@@ -17,7 +17,7 @@ import java.util.Date;
 public class Appointments {
 
     @Id
-    @GeneratedValue()
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "appointment_id", updatable = false, nullable = false)
     private Long appointmentId;
     @Column(name="employee_id")

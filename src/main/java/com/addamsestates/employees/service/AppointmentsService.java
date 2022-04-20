@@ -12,4 +12,6 @@ public interface AppointmentsService {
 
     List<Appointments> outstandingAppointmentsByEmployeeId(Long id);
 
+    void addNewAppointment(Appointments a);
+
 }

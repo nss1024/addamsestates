@@ -1,35 +1,39 @@
 package com.addamsestates.mainPage.controller;
 
 import com.addamsestates.branch.model.Events;
+import com.addamsestates.branch.model.InternalServices;
 import com.addamsestates.branch.model.Services;
-import com.addamsestates.branch.service.ServicesService;
 import com.addamsestates.branch.service.implementation.EventsServiceImpl;
+import com.addamsestates.branch.service.implementation.InternalServicesServiceImpl;
 import com.addamsestates.branch.service.implementation.ServicesServiceImpl;
 import com.addamsestates.employees.model.Appointments;
 import com.addamsestates.employees.model.Enquiries;
-import com.addamsestates.employees.repo.EmployeeRepository;
 import com.addamsestates.employees.service.implementation.AppointmentsServiceImpl;
 import com.addamsestates.employees.service.implementation.EnquiriesServiceImplementation;
 import com.addamsestates.image.model.BranchImages;
-import com.addamsestates.image.repo.UserProfileImagesRepository;
 import com.addamsestates.image.srevice.serviceImpl.BranchImagesServiceImpl;
+import com.addamsestates.inputClasses.inputAppointments;
+import com.addamsestates.inputClasses.inputEnquiries;
 import com.addamsestates.mainPage.model.CompanyIntro;
 import com.addamsestates.mainPage.model.VisibleTeam;
-import com.addamsestates.mainPage.repo.VisibleTeamRepository;
 import com.addamsestates.mainPage.service.serviceImplementation.CompanyIntroServiceImpl;
 import com.addamsestates.mainPage.service.serviceImplementation.VisibleTeamServiceImpl;
 import com.addamsestates.properties.model.Properties;
 import com.addamsestates.properties.service.implementation.PropertiesServiceImpl;
 import com.addamsestates.users.model.Users;
-import com.addamsestates.users.repo.UserProfileReporitory;
 import com.addamsestates.users.service.implementation.UsersServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.List;
-import java.util.Optional;
 
 @Controller
 @RequestMapping("/")
@@ -61,6 +65,9 @@ public class MainController {
 
     @Autowired
     private AppointmentsServiceImpl appointmentsService;
+
+    @Autowired
+    private InternalServicesServiceImpl internalServicesService;
 
     @RequestMapping("/")
     public String getMain(Model model) {
@@ -100,7 +107,7 @@ public class MainController {
     @RequestMapping("/staffmain")
     public String getStaffLanding(Model model) {
 
-        String userName = "faddams";
+        String userName = "gaddams";
 
         Users user = usersService.getUserByUserName(userName);
 
@@ -118,9 +125,12 @@ public class MainController {
 
         List<Properties> employeeProperties = propertiesService.getByEmployeeIdAndAvailability(employeeId);
 
+        List<InternalServices> internalServices = internalServicesService.getAllActiveInternalServices();
+
+        model.addAttribute("internalServices", internalServices);
         model.addAttribute("employeeName", employeeName);
-        model.addAttribute("enquiries", enquiries);
-        model.addAttribute("appointments", appointments);
+        model.addAttribute("enquiries", outstandingEnquiries);
+        model.addAttribute("appointments", outstandingAppointments);
         model.addAttribute("properties", employeeProperties);
 
         /*
@@ -135,8 +145,9 @@ public class MainController {
         System.out.println("Outstanding Appointments: "+outstandingAppointments.size());
         System.out.println("Properties: "+employeeProperties.size());
         System.out.println("Appointment time: "+appointments.get(0).getAppointmentTime());
+        System.out.println("Internal services: " + internalServices.size());
+        System.out.println("Internal services: " + internalServices.get(0).getImages().getFileUrl());
         */
-
         return "staffLanding";
     }
 
@@ -194,4 +205,84 @@ public class MainController {
 
         return "property";
     }
+
+    @RequestMapping("/services")
+    public String getServices(Model model ) {
+
+        List<Services> services = servicesService.getByActive();
+        model.addAttribute("services", services);
+
+        return "services";
+    }
+
+    @RequestMapping("/contactus")
+    public String getContactUs(Model model ) {
+
+        BranchImages contactUsImage = branchImagesService.getImageBySectionUsed("contactUs");
+        model.addAttribute("contactUsImage", contactUsImage);
+
+        return "contactus";
+    }
+
+    @RequestMapping(value="/addAppointment", method = RequestMethod.POST)
+    public String addNewAppointment(@ModelAttribute inputAppointments inputAppointments, RedirectAttributes redirectAttributes  ){
+
+        String userName = "gaddams";
+        Users user = usersService.getUserByUserName(userName);
+        Long employeeId = user.getUserProfile().getEmployee().getEmployeeId();
+        java.sql.Date today=new java.sql.Date(System.currentTimeMillis());
+
+        Appointments newAppointment = new Appointments();
+        newAppointment.setEmployeeId(employeeId);
+        newAppointment.setAppointmentType(inputAppointments.getAppointmentType());
+        newAppointment.setAppointmentWith(inputAppointments.getAppointmentWith());
+        newAppointment.setDiscussion(inputAppointments.getDiscussion());
+        newAppointment.setCompleted(Boolean.FALSE);
+        try {
+            newAppointment.setAppointmentDate(new SimpleDateFormat("yyyy-mm-dd").parse(inputAppointments.getAppointmentDate()));
+        } catch (ParseException e) {
+            throw new RuntimeException(e);
+        }
+        newAppointment.setCreatedAt(today);
+        newAppointment.setAppointmentTime(inputAppointments.getAppointmentTime());
+
+        appointmentsService.addNewAppointment(newAppointment);
+            /*
+            System.out.println(inputAppointments.getAppointmentWith());
+            System.out.println(inputAppointments.getDiscussion());
+            System.out.println(inputAppointments.getAppointmentDate());
+            System.out.println(inputAppointments.getAppointmentTime());
+            System.out.println(inputAppointments.getAppointmentType());
+            */
+
+        redirectAttributes.addFlashAttribute("message","success");
+        //TODO check if variable exists in the redirect page and display it
+        /* <div th:if="${variable != null}" th:text="Yes, variable exists!"> */
+        return "redirect:/staffmain";
+    }
+
+    @RequestMapping(value="/addEnquiry", method = RequestMethod.POST)
+    public String addNewEnquiry(@ModelAttribute inputEnquiries inputEnquiries, RedirectAttributes redirectAttributes  ){
+
+        Enquiries newEnquiry = new Enquiries();
+        newEnquiry.setEmployeeId(inputEnquiries.getEmployeeId());
+        newEnquiry.setContents(inputEnquiries.getContents());
+        newEnquiry.setEnquiryType(inputEnquiries.getEnquiryType());
+        newEnquiry.setCompleted(Boolean.FALSE);
+        newEnquiry.setCreatedAt(new java.sql.Date(System.currentTimeMillis()));
+        newEnquiry.setEnquirerName(inputEnquiries.getEnquirerName());
+        newEnquiry.setEnquirerContact(inputEnquiries.getEnquirerContact());
+
+        enquiriesServiceImplementation.addNewEnquiry(newEnquiry);
+
+        System.out.println("Employee id " + inputEnquiries.getEmployeeId());
+        System.out.println("Name " + inputEnquiries.getEnquirerName());
+        System.out.println("Enquiry type " + inputEnquiries.getEnquiryType());
+        System.out.println("Message " + inputEnquiries.getContents());
+        System.out.println("Contact " + inputEnquiries.getEnquirerContact());
+
+
+        return "redirect:/";
+    }
+
 }

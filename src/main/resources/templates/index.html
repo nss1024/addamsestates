@@ -128,7 +128,7 @@
         <br/>
       <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
           <!-- add thymeleaf repetition here ****************************************************************************************-->
-            <th: block th:each="teamMember:${visibleTeam}" >
+            <th block th:each="teamMember:${visibleTeam}" >
           <div class="col">
           <div class="card shadow-sm card h-100 d-flex flex-column">
             <img th:src="${teamMember.Employee.userProfile.profilePic.fileUrl}" style="border-radius: 50%; width: 200px; height: 200px; align-self: center; padding-top: 10px;">
@@ -139,20 +139,81 @@
               </p>
               <div class="d-flex justify-content-between align-items-center">
                 <div class="btn-group">                    
-                  <button type="button" class="btn btn-sm btn-outline-secondary" style="mt-auto" >Contact Me</button>
+                  <button type="button" class="btn btn-sm btn-outline-secondary" data-bs-toggle="modal"  th:attr="data-bs-target='#modal'+${teamMember.Employee.UserProfile.firstName}, value=${teamMember.Employee.employeeId}" >Contact Me</button>
                 </div>                
               </div>
             </div>
           </div>
         </div>
-            </th:>
+                <!--********************************************************Modal adding new enquiry******************************-->
+
+                <!-- Modal -->
+                <div class="modal fade" th:attr="id='modal'+${teamMember.Employee.UserProfile.firstName}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="exampleModalLabel"  th:text="${teamMember.Employee.UserProfile.firstName}"></h5>
+                                <button type="button"  class="close" data-bs-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                <form action="/addEnquiry" method="post">
+                                    <input type = "hidden" name="employeeId"  th:attr="value=${teamMember.Employee.employeeId}" readonly>
+                                    <table border="1px">
+                                        <tr>
+                                            <td><label>Your name</label></td>
+                                            <td><input type = "text" name="enquirerName" placeholder="Enter your name" required></td>
+                                        </tr>
+                                        <tr>
+                                            <td><label>Enquiry type</label></td>
+                                            <td>
+                                                <input type="radio" id="sales" name="enquiryType" value="SALES" required>
+                                                <label for="sales">SALES</label><br>
+                                                <input type="radio" id="rent" name="enquiryType" value="RENT">
+                                                <label for="RENT">RENT</label><br>
+                                                <input type="radio" id="lettings" name="enquiryType" value="LETTINGS">
+                                                <label for="lettings">LETTINGS</label><br>
+                                                <input type="radio" id="service" name="enquiryType" value="SERVICES">
+                                                <label for="services">SERVICES</label><br>
+                                                <input type="radio" id="other" name="enquiryType" value="OTHER">
+                                                <label for="other">OTHER</label><br>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td><label>Message</label></td>
+                                            <td><textarea name="contents" rows="4" cols="30" required></textarea></td>
+                                        </tr>
+                                        <tr>
+                                            <td><label>How can we contact you ?</label></td>
+                                            <td><input type = "text" name="enquirerContact" placeholder="Enter your contact details" required></td>
+                                        </tr>
+                                        <tr aria-colspan="2">
+                                            <td> <input class="btn btn-primary" type="submit" value="Submit" style="border:5px;"></td>
+                                        </tr>
+                                    </table>
+                                </form>
+
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!--******************************************************End add new appointment modal *******************************-->
+
+
+            </th>
           <!-- add thymeleaf repetition here ****************************************************************************************-->
       </div>
     </div>
   </div>
   <!--*****************************************end of card container for meet the team *******************************-->
+
   <!--************************************ Start of propperties for sale and rent container **************************-->
-  <a id="Services"></a>
+  <a id="Properties"></a>
   <div class="album py-5 bg-light"> 
     <div class="container">
         <h1>Check out our properties </h1>
@@ -207,7 +268,7 @@
     </div>
   </div>
 <!-- *******************************************************End of our service container******************************-->
-<!-- ************************************************************Compeny events **************************************-->
+<!-- ************************************************************Company events **************************************-->
 <a id="Events"></a>
 <div class="album py-5 bg-light"> 
     <div class="container">
@@ -228,7 +289,12 @@
         
     </div>
   </div>
-</main>
+
+
+
+
+
+ </main>
 
 <footer class="text-muted py-5">
   <div class="container">

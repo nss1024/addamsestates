@@ -28,4 +28,9 @@ public class AppointmentsServiceImpl implements AppointmentsService {
     public List<Appointments> outstandingAppointmentsByEmployeeId(Long id) {
         return appointmentsRepository.getByEmployeeIdAndCompleted(id,false);
     }
+
+    @Override
+    public void addNewAppointment(Appointments a) {
+        appointmentsRepository.save(a);
+    }
 }

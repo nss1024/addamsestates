@@ -28,4 +28,9 @@ public class EnquiriesServiceImplementation implements EnquiriesService {
     public List<Enquiries> getOutstandingEnquiriesByEmployeeId(Long id) {
         return enquiriesRepository.getByEmployeeIdAndCompleted(id,false);
     }
+
+    @Override
+    public void addNewEnquiry(Enquiries e) {
+        enquiriesRepository.save(e);
+    }
 }

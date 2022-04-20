@@ -93,67 +93,18 @@
         <h1 th:text="${'Welcome '+employeeName}"></h1>
         <br/>
         <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
+          <th:block th:each="internalService:${internalServices}">
             <div class="col">
               <div class="card shadow-sm" style="align-items: center;">                
-                <img src="Images/StaffPageImages/poundSignSell.png" style="width: 50px; height: 60px; padding-top: 10px;">
+                <img th:src="${internalService.Images.FileUrl}" style="width: 50px; height: 60px; padding-top: 10px;" data-toggle="modal" th:attr="data-target=${internalService.link}">
                 <div class="card-body" >                    
                   <div class="d-flex justify-content-between align-items-center">
-                    <h4>Sell property</h4>                  
+                    <h4 th:text="${internalService.serviceName}">Sell property</h4>
                   </div>
                 </div>
               </div>
             </div>
-
-            <div class="col">
-              <div class="card shadow-sm" style="align-items: center;" >                
-                <img src="Images/StaffPageImages/contractLet.png" style="width: 50px; height: 60px; padding-top: 10px;">
-                <div class="card-body"  >  
-                    <h4>Rent property</h4>               
-                  <div class="d-flex justify-content-between align-items-center">              
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="col">
-              <div class="card shadow-sm" style="align-items: center;">
-                <img src="Images/StaffPageImages/houseAdd.png" style=" width: 50px; height: 60px; padding-top: 10px;">    
-                <div class="card-body">
-                    <h4>Add a property</h4>
-                  <div class="d-flex justify-content-between align-items-center">                                        
-                  </div>
-                </div>
-              </div>
-            </div> 
-            <div class="col">
-                <div class="card shadow-sm" style="align-items: center;">
-                  <img src="Images/StaffPageImages/calendarAdd.jpg" style=" width: 50px; height: 60px; padding-top: 10px;">    
-                  <div class="card-body">
-                      <h4>Add new appointment</h4>
-                    <div class="d-flex justify-content-between align-items-center">                                        
-                    </div>
-                  </div>
-                </div>
-              </div>
-            <div class="col">
-                <div class="card shadow-sm" style="align-items: center;">
-                  <img src="Images/StaffPageImages/kpi.png" style=" width: 50px; height: 60px; padding-top: 10px;">    
-                  <div class="card-body">
-                      <h4>My KPIs</h4>
-                    <div class="d-flex justify-content-between align-items-center">                                        
-                    </div>
-                  </div>
-                </div>
-            </div> 
-            <div class="col">
-                <div class="card shadow-sm" style="align-items: center;">
-                  <img src="Images/StaffPageImages/hr.png" style=" width: 60px; height: 60px; padding-top: 10px;">    
-                  <div class="card-body">
-                      <h4>HR</h4>
-                    <div class="d-flex justify-content-between align-items-center">                                        
-                    </div>
-                  </div>
-                </div>
-            </div>      
+          </th:block>
           </div>
     </div>
   </div>
@@ -298,10 +249,12 @@
 </div>
 
 <!-- ******************************************************End of Properties Section **************************************-->
-<!--********************************************************Modal for deleting property******************************-->
+
+
+<!--********************************************************Modal adding new appointment******************************-->
 
 <!-- Modal -->
-<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="addNewAppointmentModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
@@ -311,20 +264,57 @@
         </button>
       </div>
       <div class="modal-body">
-        Are you sure you want to remove this property?
+        <h1>Add a new appointment</h1>
+
+        <form action="/addAppointment" method="post">
+          <table border="1px">
+            <tr>
+              <td><label>Appointment with</label></td>
+              <td><input type = "text" name="appointmentWith" placeholder="Enter name" required></td>
+            </tr>
+            <tr>
+              <td><label>Appointment type</label></td>
+              <td>
+                <input type="radio" id="sales" name="appointmentType" value="SALES" required>
+                <label for="sales">SALES</label><br>
+                <input type="radio" id="rent" name="appointmentType" value="RENT">
+                <label for="RENT">RENT</label><br>
+                <input type="radio" id="lettings" name="appointmentType" value="LETTINGS">
+                <label for="lettings">LETTINGS</label><br>
+                <input type="radio" id="service" name="appointmentType" value="SERVICES">
+                <label for="services">SERVICES</label><br>
+                <input type="radio" id="other" name="appointmentType" value="OTHER">
+                <label for="other">OTHER</label><br>
+              </td>
+            </tr>
+            <tr>
+              <td><label>Discussion</label></td>
+              <td><input type = "text" name="discussion" placeholder="Enter main agenda topic" required></td>
+            </tr>
+            <tr>
+              <td><label>Appointment Date</label></td>
+              <td><input type = "date" name="appointmentDate" required></td>
+            </tr>
+            <tr>
+              <td><label>Appointment Time</label></td>
+              <td><input type = "time" name="appointmentTime" required></td>
+            </tr>
+            <tr aria-colspan="2">
+              <td> <input class="btn btn-primary" type="submit" value="Submit" style="border:5px;"></td>
+            </tr>
+          </table>
+        </form>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary btn-danger">Delete</button>
       </div>
     </div>
   </div>
 </div>
 
-<!--******************************************************End of property delete modal *******************************-->
+<!--******************************************************End add new appointment modal *******************************-->
 <!--*****************************************************************Edit modal***************************************-->
 
-<div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="editMaodal" aria-hidden="true">
+<div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="editModal" aria-hidden="true">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
