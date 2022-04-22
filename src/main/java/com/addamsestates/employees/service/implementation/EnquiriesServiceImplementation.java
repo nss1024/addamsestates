@@ -33,4 +33,14 @@ public class EnquiriesServiceImplementation implements EnquiriesService {
     public void addNewEnquiry(Enquiries e) {
         enquiriesRepository.save(e);
     }
+
+    @Override
+    public void updateEnquiry(Enquiries e) {
+        enquiriesRepository.save(e);
+    }
+
+    @Override
+    public Enquiries getEnquiryById(Long id) {
+        return enquiriesRepository.getById(id);
+    }
 }

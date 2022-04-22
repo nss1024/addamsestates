@@ -7,9 +7,9 @@
     <meta name="description" content="">
     <meta name="author" content="Norbert Simon with Bootstrap">
     <meta name="generator" content="Hugo 0.88.1">
-    <title>Addams estates - Staff Login</title>    
+    <title>Addams estates - Staff Login</title>
     <link rel="icon" type="image/png" sizes="16x16" href="Images/favicon32.png">
-    
+
 
     <!-- Bootstrap core CSS -->
     <link href="../assets/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -30,26 +30,26 @@
       }
     </style>
 
-    
+
   </head>
   <body>
-    
+
 <header>
 
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
-  
+
 </header>
 
-<main>  
+<main>
   <!--****************************************************Navbar section***********************************************-->
 <div style="align-items: center;">
   <nav class="navbar navbar-expand-lg navbar-dark bg-dark navbar-fixed-top text-center" >
-    <div class="container text-center" >  
-      <a href="#" class="navbar-brand d-flex align-items-center">       
+    <div class="container text-center" >
+      <a href="#" class="navbar-brand d-flex align-items-center">
         <img src ="Images/logoIcon.png" width="30" height="30" style="border-radius: 50%;"  >
 
-      </a>    
+      </a>
         <ul class="navbar-nav me-auto mb-2 mb-lg-0 ">
           <li class="nav-item">
             <a class="nav-link active" aria-current="page" href="#">Home</a>
@@ -75,29 +75,29 @@
           <li class="nav-item">
             <a class="nav-link active" href="#Services">Properties to Rent</a>
           </li>
-          
+
         </ul>
-        <a href="#" class="navbar-brand d-flex align-items-center float-end">             
-          <button class="btn btn-primary btn-sm my-2 my-sm-0 float-end" type="submit">Sign out</button>                  
-        </a>        
-        
+        <a href="#" class="navbar-brand d-flex align-items-center float-end">
+          <button class="btn btn-primary btn-sm my-2 my-sm-0 float-end" type="submit">Sign out</button>
+        </a>
+
     </div>
   </nav>
-<br/> 
+<br/>
 
-  
+
   <!--*********************************************Start of services container****************************************-->
   <a id="Services"></a>
-  <div class="album py-5 bg-light"> 
+  <div class="album py-5 bg-light">
     <div class="container">
         <h1 th:text="${'Welcome '+employeeName}"></h1>
         <br/>
         <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
           <th:block th:each="internalService:${internalServices}">
             <div class="col">
-              <div class="card shadow-sm" style="align-items: center;">                
+              <div class="card shadow-sm" style="align-items: center;">
                 <img th:src="${internalService.Images.FileUrl}" style="width: 50px; height: 60px; padding-top: 10px;" data-toggle="modal" th:attr="data-target=${internalService.link}">
-                <div class="card-body" >                    
+                <div class="card-body" >
                   <div class="d-flex justify-content-between align-items-center">
                     <h4 th:text="${internalService.serviceName}">Sell property</h4>
                   </div>
@@ -111,7 +111,7 @@
 <!-- *******************************************************End of our service container******************************-->
 <!-- ************************************************************Properties Section **************************************-->
 
-<div class="album py-5 bg-light"> 
+<div class="album py-5 bg-light">
   <div class="container">
       <h1>Properties and appointments</h1>
       <br/>
@@ -138,24 +138,107 @@
                     <td th:text="${property.price}"></td>
                     <td>
                       <button type="button" class="btn btn-primary btn-sm btn-success">View</button>
-                      <button type="button" class="btn btn-primary btn-sm btn-warning" data-toggle="modal" data-target="#editModal">Edit</button>
-                      <!--
-                      <button type="button" class="btn btn-primary btn-sm btn-danger" data-toggle="modal" data-target="#exampleModal">Delete</button>
-                      -->
+                      <button type="button" class="btn btn-primary btn-sm btn-warning" data-toggle="modal" th:attr="data-target='#editPropertyModal'+${property.propertyId}">Edit</button>
                     </td>
                   </tr>
+
+                  <!--*****************************************************************Edit property modal***************************************-->
+
+                  <div class="modal fade" th:attr="id='editPropertyModal'+${property.propertyId}" tabindex="-1" role="dialog" aria-labelledby="editModal" aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                      <div class="modal-content">
+                        <div class="modal-header">
+                          <h5 class="modal-title" th:text="'Update details for property ref: '+${property.propertyId}"></h5>
+                          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                          </button>
+                        </div>
+                        <div class="modal-body">
+                          <form action="/updateProperty" method="post">
+                            <input type = "hidden" name="propertyId"  th:attr="value=${property.propertyId}" readonly>
+                            <p>Property type</p>
+                            <th:block th:each="type:${propertyTypes}">
+                            <input type="radio" th:attr="id=${type.propertyType}, value=${type.propertyType}" name="propertyType"  required>
+                              <label th:attr="for=${type.propertyType}" th:text="${type.propertyType}"></label>
+                            </th:block>
+                            <h1> </h1>
+                            <br>
+                            <p>Offer type</p>
+                            <th:block th:each="offer:${propertyOfferTypes}">
+                              <input type="radio" th:attr="id=${offer.propertyOffer}, value=${offer.propertyOffer}" name="propertyOffer"  required>
+                              <label th:attr="for=${offer.propertyOffer}" th:text="${offer.propertyOffer}"></label>
+                            </th:block>
+                            <h1> </h1>
+                            <br>
+                            <p>Features </p>
+                            <th:block th:each="feature:${propertyFeatures}">
+                              <input type="radio" th:attr="id=${feature.propertyFeature}, value=${feature.propertyFeature}" name="propertyFeature"  required>
+                              <label th:attr="for=${feature.propertyFeature}" th:text="${feature.propertyFeature}"></label>
+                            </th:block>
+                            <h1> </h1>
+                            <br>
+                            <p>Update Availability </p>
+                              <input type="radio" id="TRUE" name="availability" value="TRUE" required>
+                              <label for="TRUE">Available</label>
+                              <input type="radio" id="FALSE" name="availability" value="TRUE" >
+                              <label for="FALSE">Not available</label>
+                            <h1> </h1>
+                            <br>
+                            <label for="descriptionarea">Property Description</label>
+                            <h1> </h1>
+                            <br>
+                            <textarea id="descriptionarea" name="description" rows="4" cols="30" th:text="${property.description}" required></textarea>
+                            <h1> </h1>
+                            <br>
+                            <label for="bedrooms">No of bedrooms</label>
+                            <br>
+                            <input id="bedrooms" type = "number" name="bedroomNo" th:attr="value=${property.bedroomNo}" required min="0" max="99">
+                            <h1> </h1>
+                            <br>
+                            <label for="postcode">Post code</label>
+                            <br>
+                            <input id="postcode" type = "text" name="postCode" th:attr="value=${property.postCode}" required>
+                            <h1> </h1>
+                            <br>
+                            <label for="county">County</label>
+                            <br>
+                            <input id="county" type = "text" name="county" th:attr="value=${property.county}" required>
+                            <h1> </h1>
+                            <br>
+                            <label for="price">Price</label>
+                            <br>
+                            <input id="price" type = "number" name="price" th:attr="value=${property.price}" required min="1" max="999999999">
+                            <h1> </h1>
+                            <br>
+                            <label for="address">Address</label>
+                            <br>
+                            <input id="address" type = "text" name="address" th:attr="value=${property.address}" required minlength="10">
+                            <br>
+                            <h1> </h1>
+                            <input class="btn btn-primary" type="submit" value="Submit" style="border:5px;">
+
+                          </form>
+                        </div>
+                        <div class="modal-footer">
+                          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <!--*********************************************************End of edit modal****************************************-->
 
                 </th:block>
                 </tbody>
                 <!--*********************************************************************************************************************************** -->
               </table>
             <p class="card-text">
-              
+
               </p>
             <div class="d-flex justify-content-between align-items-center">
               <div class="btn-group">
-                  
-              </div>                
+
+              </div>
             </div>
           </div>
         </div>
@@ -166,22 +249,28 @@
           <div class="card-body">
               <h3>My appointments</h3>
               <br>
-              <table class="table">
+              <table class="table text-center">
                 <thead>
-                  <tr>                    
+                  <tr>
                     <th scope="col">Contact</th>
                     <th scope="col">Date</th>
                     <th scope="col">Time</th>
                     <th scope="col">Location</th>
+                    <th scope="col"></th>
                   </tr>
                 </thead>
                 <tbody>
                 <th:block th:each="appointment:${appointments}">
-                  <tr>                    
+                  <tr>
                     <td th:text="${appointment.appointmentWith}"></td>
                     <td th:text="${#dates.format(appointment.appointmentDate,'dd-mm-yyyy')}"></td>
                     <td th:text="${appointment.appointmentTime}"></td>
                     <td th:text="${appointment.appointmentType}"></td>
+                    <td>
+                      <form method="POST" th:action="@{/updateAppointment(id=${appointment.appointmentId})}">
+                        <button type="submit" name="submit" value="value" class="btn btn-primary btn-sm btn-info">Completed</button>
+                      </form>
+                    </td>
                   </tr>
 
                 </th:block>
@@ -189,31 +278,31 @@
               </table>
             <!--***********************************Appointments End***************************************************** -->
             <p class="card-text">
-             
+
               </p>
             <div class="d-flex justify-content-between align-items-center">
               <div class="btn-group">
-                  
+
               </div>
-              
+
             </div>
           </div>
         </div>
       </div>
-      
+
       <div class="col">
-        <div class="card shadow-sm">          
+        <div class="card shadow-sm">
 
           <div class="card-body">
               <h3>Enquiries</h3>
               <br>
-              <table class="table">
+              <table class="table text-center">
                 <thead>
                   <tr>
                     <th scope="col">Name</th>
                     <th scope="col">Request date</th>
                     <th scope="col">Request type</th>
-                    <th scope="col">Contact</th>                    
+                    <th scope="col">Contact</th>
                     <th scope="col"></th>
                   </tr>
                 </thead>
@@ -225,25 +314,27 @@
                     <td th:text="${enquiry.enquiryType}" ></td>
                     <td th:text="${enquiry.enquirerContact}"></td>
                     <td>
-                      <button type="button" class="btn btn-primary btn-sm btn-info">Completed</button>
+                      <form method="POST" th:action="@{/updateEnquiry(id=${enquiry.enquiryId})}">
+                      <button type="submit" name="submit" value="value" class="btn btn-primary btn-sm btn-info">Completed</button>
+                      </form>
                     </td>
                   </tr>
                 </th:block>
                 </tbody>
               </table>
-              
+
             <p class="card-text">
-              
+
               </p>
             <div class="d-flex justify-content-between align-items-center">
               <div class="btn-group">
-                  
+
               </div>
-              
+
             </div>
           </div>
         </div>
-      </div>        
+      </div>
     </div>
   </div>
 </div>
@@ -312,38 +403,7 @@
 </div>
 
 <!--******************************************************End add new appointment modal *******************************-->
-<!--*****************************************************************Edit modal***************************************-->
 
-<div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="editModal" aria-hidden="true">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="editModal">Edit property details</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-        <form>
-          <div class="form-group">
-            <label for="PropertyName" class="col-form-label">Property Description:</label>
-            <input type="text" class="form-control" id="PropertyName">
-          </div>
-          <div class="form-group">
-            <label for="propertyPrice" class="col-form-label">Price:</label>
-            <input type="text" class="form-control" id="mpropertyPrice">
-          </div>
-        </form>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary btn-warning">Edit</button>
-      </div>
-    </div>
-  </div>
-</div>
-
-<!--*********************************************************End of edit modal****************************************-->
 </main>
 
 <footer class="text-muted py-5">
@@ -354,12 +414,12 @@
     <p class="mb-1">Addams Estates &copy; 2022</p>
 
   </div>
-  
+
   <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js" integrity="sha384-vFJXuSJphROIrBnz7yo7oB41mKfc8JzQZiCq4NCceLEaO4IHwicKwpJf9c9IpFgh" crossorigin="anonymous"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js" integrity="sha384-alpBpkh1PFOepccYVYDB4do5UnbKysX5WZXm3XxPqe5iKTfUKjNkCk9SaVuEZflJ" crossorigin="anonymous"></script>
 
-</footer>    
-    
+</footer>
+
   </body>
 </html>

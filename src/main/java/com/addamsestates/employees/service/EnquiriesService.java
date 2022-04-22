@@ -14,4 +14,7 @@ public interface EnquiriesService {
 
     void addNewEnquiry(Enquiries e);
 
+    void updateEnquiry(Enquiries e);
+    Enquiries getEnquiryById(Long id);
+
 }

@@ -14,12 +14,19 @@ import com.addamsestates.image.model.BranchImages;
 import com.addamsestates.image.srevice.serviceImpl.BranchImagesServiceImpl;
 import com.addamsestates.inputClasses.inputAppointments;
 import com.addamsestates.inputClasses.inputEnquiries;
+import com.addamsestates.inputClasses.inputProperties;
 import com.addamsestates.mainPage.model.CompanyIntro;
 import com.addamsestates.mainPage.model.VisibleTeam;
 import com.addamsestates.mainPage.service.serviceImplementation.CompanyIntroServiceImpl;
 import com.addamsestates.mainPage.service.serviceImplementation.VisibleTeamServiceImpl;
 import com.addamsestates.properties.model.Properties;
+import com.addamsestates.properties.model.PropertyFeatures;
+import com.addamsestates.properties.model.PropertyOffer;
+import com.addamsestates.properties.model.PropertyType;
 import com.addamsestates.properties.service.implementation.PropertiesServiceImpl;
+import com.addamsestates.properties.service.implementation.PropertyFeaturesServiceImpl;
+import com.addamsestates.properties.service.implementation.PropertyOfferTypeImpl;
+import com.addamsestates.properties.service.implementation.PropertyTypeServiceImpl;
 import com.addamsestates.users.model.Users;
 import com.addamsestates.users.service.implementation.UsersServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,6 +35,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 
@@ -68,6 +76,15 @@ public class MainController {
 
     @Autowired
     private InternalServicesServiceImpl internalServicesService;
+
+    @Autowired
+    private PropertyTypeServiceImpl propertyTypeService;
+
+    @Autowired
+    private PropertyOfferTypeImpl propertyOfferType;
+
+    @Autowired
+    private PropertyFeaturesServiceImpl propertyFeaturesService;
 
     @RequestMapping("/")
     public String getMain(Model model) {
@@ -127,11 +144,22 @@ public class MainController {
 
         List<InternalServices> internalServices = internalServicesService.getAllActiveInternalServices();
 
+        List<PropertyType> propertyTypes = propertyTypeService.GetAllpropertyTypes();
+
+        List<PropertyOffer> propertyOfferTypes = propertyOfferType.getAllPropertyOfferTypes();
+
+        List<PropertyFeatures> propertyFeatures = propertyFeaturesService.getAllPropertyFeatures();
+
         model.addAttribute("internalServices", internalServices);
         model.addAttribute("employeeName", employeeName);
         model.addAttribute("enquiries", outstandingEnquiries);
         model.addAttribute("appointments", outstandingAppointments);
         model.addAttribute("properties", employeeProperties);
+        model.addAttribute("propertyTypes", propertyTypes);
+        model.addAttribute("propertyOfferTypes", propertyOfferTypes);
+        model.addAttribute("propertyFeatures", propertyFeatures);
+
+        System.out.println(propertyTypes.size());
 
         /*
         System.out.println(user.getUserName());
@@ -283,6 +311,47 @@ public class MainController {
 
 
         return "redirect:/";
+    }
+
+    @RequestMapping(value="/updateEnquiry", method = RequestMethod.POST)
+    public String updateEnquiry(@RequestParam("id") Long id, RedirectAttributes redirectAttributes  ){
+
+
+        Enquiries enquiryToUpdate = enquiriesServiceImplementation.getEnquiryById(id);
+        enquiryToUpdate.setCompleted(Boolean.TRUE);
+        enquiriesServiceImplementation.updateEnquiry(enquiryToUpdate);
+
+        return "redirect:/staffmain";
+    }
+
+    @RequestMapping(value="/updateAppointment", method = RequestMethod.POST)
+    public String updateAppointment(@RequestParam("id") Long id, RedirectAttributes redirectAttributes  ){
+
+        Appointments appointmentToUpdate = appointmentsService.getAppointmentById(id);
+        appointmentToUpdate.setCompleted(Boolean.TRUE);
+        appointmentsService.updateAppointment(appointmentToUpdate);
+
+        return "redirect:/staffmain";
+    }
+
+    @RequestMapping(value="/updateProperty", method = RequestMethod.POST)
+    public String updateProperty(@ModelAttribute inputProperties inputProperties, RedirectAttributes redirectAttributes  ){
+
+        Properties propertyToUpdate = propertiesService.findPropertyById(inputProperties.getPropertyId());
+
+        propertyToUpdate.setPropertyType(propertyTypeService.getByPropertyType(inputProperties.getPropertyType()).getPropertyTypeId());
+        propertyToUpdate.setOffer(propertyOfferType.getByPropertyOffer(inputProperties.getPropertyOffer()).getPropertyOfferId());
+        propertyToUpdate.setProperty_features(propertyFeaturesService.getBypropertyFeature(inputProperties.getPropertyFeature()).getPropertyFeaturesId());
+        propertyToUpdate.setAvailability(inputProperties.getAvailability());
+        propertyToUpdate.setDescription(inputProperties.getDescription());
+        propertyToUpdate.setBedroomNo(inputProperties.getBedroomNo());
+        propertyToUpdate.setPostCode(inputProperties.getPostCode());
+        propertyToUpdate.setCounty(inputProperties.getCounty());
+        propertyToUpdate.setPrice(inputProperties.getPrice().toString());
+        propertyToUpdate.setAddress(inputProperties.getAddress());
+        propertiesService.updatePropertyDetails(propertyToUpdate);
+
+        return "redirect:/staffmain";
     }
 
 }

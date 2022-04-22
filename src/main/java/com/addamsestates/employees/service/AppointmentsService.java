@@ -14,4 +14,8 @@ public interface AppointmentsService {
 
     void addNewAppointment(Appointments a);
 
+    void updateAppointment(Appointments a);
+
+    Appointments getAppointmentById(Long id);
+
 }

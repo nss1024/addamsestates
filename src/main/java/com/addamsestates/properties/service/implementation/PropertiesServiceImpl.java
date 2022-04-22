@@ -68,4 +68,8 @@ public class PropertiesServiceImpl implements PropertiesService {
     public List<Properties> getByEmployeeIdAndAvailability(Long employeeId) {
         return propertiesRepository.getByEmployeeIdAndAvailability(employeeId,true);
     }
+
+    public void updatePropertyDetails(Properties p){
+        propertiesRepository.save(p);
+    }
 }

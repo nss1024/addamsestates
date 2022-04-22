@@ -39,7 +39,7 @@ public class Properties {
     @Column(name="description")
     private String description;
     @Column(name="bedroom_no")
-    private String bedroomNo;
+    private Integer bedroomNo;
     @Column(name="post_code")
     private String postCode;
     @Column(name="county")
