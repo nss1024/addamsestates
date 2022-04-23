@@ -35,6 +35,7 @@
         }
       }
 
+
     </style>
 
 
@@ -65,6 +66,7 @@
 <main>
 
     <div id="myCarousel" class="carousel slide" data-bs-ride="carousel">
+        <!--
         <div class="carousel-indicators">
             <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="0" class="active" aria-current="true"
                     aria-label="Slide 1"></button>
@@ -74,6 +76,8 @@
             <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="4" aria-label="Slide 5"></button>
             <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="5" aria-label="Slide 6"></button>
         </div>
+        -->
+
         <div class="carousel-inner">
             <div class="carousel-item active">
                 <svg class="bd-placeholder-img" width="100%" height="100%" xmlns="http://www.w3.org/2C0C0C0/svg"
@@ -82,200 +86,177 @@
                 </svg>
                 <div class="container">
                     <div class="carousel-caption text-start">
-                        <img src="Properties/Fyvie castle/FyvieCastle.jpg">
+
                     </div>
                 </div>
             </div>
-            <div class="carousel-item">
-                <svg class="bd-placeholder-img" width="100%" height="100%" xmlns="http://www.w3.org/2C0C0C0/svg"
-                     aria-hidden="true" preserveAspectRatio="xMidYMid slice" focusable="false">
-                    <rect width="100%" height="100%" fill="#C0C0C0"/>
-                </svg>
-                <div class="container">
-                    <div class="carousel-caption">
-                        <img src="Properties/Fyvie castle/FyvieCastleExterior1.jpg">
+            <th:block th:each="image:${property.propertyImages}">
+                <div class="carousel-item ">
+                    <svg class="bd-placeholder-img" width="100%" height="100%" xmlns="http://www.w3.org/2C0C0C0/svg"
+                         aria-hidden="true" preserveAspectRatio="xMidYMid slice" focusable="false">
+                        <rect width="100%" height="100%" fill="#C0C0C0"/>
+                    </svg>
+                    <div class="container">
+                        <div class="carousel-caption text-start">
+                            <div class="d-flex justify-content-center">
+                            <img th:src="${image.fileUrl}">
+                            </div>
+                        </div>
                     </div>
                 </div>
-            </div>
-            <div class="carousel-item">
-                <svg class="bd-placeholder-img" width="100%" height="100%" xmlns="http://www.w3.org/2C0C0C0/svg"
-                     aria-hidden="true" preserveAspectRatio="xMidYMid slice" focusable="false">
-                    <rect width="100%" height="100%" fill="#C0C0C0"/>
-                </svg>
-                <div class="container">
-                    <div class="carousel-caption text-end">
-                        <img src="Properties/Fyvie castle/FyvieCastleExterior2.jpg">
-                    </div>
-                </div>
-            </div>
-            <div class="carousel-item">
-                <svg class="bd-placeholder-img" width="100%" height="100%" xmlns="http://www.w3.org/2C0C0C0/svg"
-                     aria-hidden="true" preserveAspectRatio="xMidYMid slice" focusable="false">
-                    <rect width="100%" height="100%" fill="#C0C0C0"/>
-                </svg>
-                <div class="container">
-                    <div class="carousel-caption text-end">
-                        <img src="Properties/Fyvie castle/FyvieCastleInterior1.jpg">
-                    </div>
-                </div>
-            </div>
-            <div class="carousel-item">
-                <svg class="bd-placeholder-img" width="100%" height="100%" xmlns="http://www.w3.org/2C0C0C0/svg"
-                     aria-hidden="true" preserveAspectRatio="xMidYMid slice" focusable="false">
-                    <rect width="100%" height="100%" fill="#C0C0C0"/>
-                </svg>
-                <div class="container">
-                    <div class="carousel-caption text-end">
-                        <img src="Properties/Fyvie castle/FyvieCastleInterior2.jpg">
-                    </div>
-                </div>
-            </div>
-            <div class="carousel-item">
-                <svg class="bd-placeholder-img" width="100%" height="100%" xmlns="http://www.w3.org/2C0C0C0/svg"
-                     aria-hidden="true" preserveAspectRatio="xMidYMid slice" focusable="false">
-                    <rect width="100%" height="100%" fill="#C0C0C0"/>
-                </svg>
-                <div class="container">
-                    <div class="carousel-caption text-end">
-                        <img src="Properties/Fyvie castle/FyvieCastleInterior3.jpg">
-                    </div>
-                </div>
-            </div>
+            </th:block>
+            <button class="carousel-control-prev" type="button" data-bs-target="#myCarousel" data-bs-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Previous</span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#myCarousel" data-bs-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Next</span>
+            </button>
         </div>
-        <button class="carousel-control-prev" type="button" data-bs-target="#myCarousel" data-bs-slide="prev">
-            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-            <span class="visually-hidden">Previous</span>
-        </button>
-        <button class="carousel-control-next" type="button" data-bs-target="#myCarousel" data-bs-slide="next">
-            <span class="carousel-control-next-icon" aria-hidden="true"></span>
-            <span class="visually-hidden">Next</span>
-        </button>
-    </div>
 
-    <!--****************************End Of Carousel******************************************************************-->
-    <!-- Marketing messaging and featurettes
-    ================================================== -->
-    <!-- Wrap the rest of the page in another container to center all the content. -->
+        <!--****************************End Of Carousel******************************************************************-->
+        <!-- Marketing messaging and featurettes
+        ================================================== -->
+        <!-- Wrap the rest of the page in another container to center all the content. -->
 
-    <div class="container marketing">
+        <div class="container marketing">
 
-        <!-- Three columns of text below the carousel -->
-        <div class="row">
-            <div class="col-lg-4">
+            <!-- Three columns of text below the carousel -->
+            <div class="row">
+                <div class="col-lg-4">
 
-                <img src="Images/propertyPage/info.png"
-                     style="border-radius: 50%; width: 200px; height: 200px; align-self: center; padding-top: 10px;">
-                <h2>Description</h2>
-                <p th:text="${property.description}"></p>
-                <p></p>
-            </div><!-- /.col-lg-4 -->
-            <div class="col-lg-4">
+                    <img src="Images/propertyPage/info.png"
+                         style="border-radius: 50%; width: 200px; height: 200px; align-self: center; padding-top: 10px;">
+                    <h2>Description</h2>
+                    <p th:text="${property.description}"></p>
+                    <p></p>
+                </div><!-- /.col-lg-4 -->
+                <div class="col-lg-4">
 
-                <img src="Images/propertyPage/poundSignPrice.png"
-                     style="border-radius: 50%; width: 200px; height: 200px; align-self: center; padding-top: 10px;">
-                <h2>Sales Price</h2>
-                <p th:text="${property.price}"></p>
+                    <img src="Images/propertyPage/poundSignPrice.png"
+                         style="border-radius: 50%; width: 200px; height: 200px; align-self: center; padding-top: 10px;">
+                    <h2>Sales Price</h2>
+                    <p th:text="${property.price}"></p>
 
-                </p>
-                <p></p>
-            </div><!-- /.col-lg-4 -->
-            <div class="col-lg-4">
+                    </p>
+                    <p></p>
+                </div><!-- /.col-lg-4 -->
+                <div class="col-lg-4">
 
-                <img src="Images/propertyPage/contact.png" style="border-radius: 50%; width: 200px; height: 200px; align-self: center; padding-top: 10px;" data-bs-toggle="modal" data-bs-target="#contactAgentModal">
-                <h2>Contact Agent</h2>
-                <p th:text="${employee.UserProfile.FirstName}+' '+${employee.UserProfile.LastName}"></p>
+                    <img src="Images/propertyPage/contact.png"
+                         style="border-radius: 50%; width: 200px; height: 200px; align-self: center; padding-top: 10px;"
+                         data-bs-toggle="modal" data-bs-target="#contactAgentModal">
+                    <h2>Contact Agent</h2>
+                    <p th:text="${employee.UserProfile.FirstName}+' '+${employee.UserProfile.LastName}"></p>
 
-            </div><!-- /.col-lg-4 -->
-        </div><!-- /.row -->
+                </div><!-- /.col-lg-4 -->
+            </div><!-- /.row -->
 
-    </div><!-- /.container -->
+        </div><!-- /.container -->
 
-  <!--***********************************Property data ******************************************************** -->
-  <div class="card-body">
-    <h3>Property data</h3>
-    <br>
-    <table class="table">
-      <tbody>
+        <!--***********************************Property data ******************************************************** -->
+        <div class="card-body">
+            <h3>Property data</h3>
+            <br>
+            <table class="table">
+                <tbody>
 
 
-        <tr><td th:text="'Property Type: '+${property.propertyTypeJoin.propertyType}"></td></tr>
-        <tr><td th:text="'Listed on: '+${#dates.format(property.createdAt,'dd-MM-yyyy')}"></td></tr>
-        <tr><td th:text="'Bedrooms: '+${property.bedroomNo}"></td></tr>
-        <tr><td th:text="'County: '+${property.county}"></td></tr>
-        <tr><td th:text="'Feature: '+${property.propertyFeatures.propertyFeature}"></td></tr>
+                <tr>
+                    <td th:text="'Property Type: '+${property.propertyTypeJoin.propertyType}"></td>
+                </tr>
+                <tr>
+                    <td th:text="'Listed on: '+${#dates.format(property.createdAt,'dd-MM-yyyy')}"></td>
+                </tr>
+                <tr>
+                    <td th:text="'Bedrooms: '+${property.bedroomNo}"></td>
+                </tr>
+                <tr>
+                    <td th:text="'County: '+${property.county}"></td>
+                </tr>
+                <tr>
+                    <td th:text="'Feature: '+${property.propertyFeatures.propertyFeature}"></td>
+                </tr>
 
 
+                </tbody>
+            </table>
+            <!--***********************************Property data End***************************************************** -->
 
-      </tbody>
-    </table>
-    <!--***********************************Property data End***************************************************** -->
+            <!--********************************************************Modal adding new enquiry******************************-->
 
-      <!--********************************************************Modal adding new enquiry******************************-->
+            <!-- Modal -->
+            <div class="modal fade" id="contactAgentModal" tabindex="-1" role="dialog"
+                 aria-labelledby="contactAgentModal" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="contactAgentModalTitle"
+                                th:text="${employee.UserProfile.firstName}"></h5>
+                            <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <form action="/addEnquiryProperty" method="post">
+                                <input type="hidden" name="employeeId" th:attr="value=${employee.employeeId}" readonly>
+                                <input type="hidden" name="offerType" th:attr="value=${property.offer}" readonly>
+                                <table border="1px">
+                                    <tr>
+                                        <td><label>Your name</label></td>
+                                        <td><input type="text" name="enquirerName" placeholder="Enter your name"
+                                                   required></td>
+                                    </tr>
+                                    <tr>
+                                        <td><label>Enquiry type</label></td>
+                                        <td>
+                                            <input type="radio" id="sales" name="enquiryType" value="SALES" required>
+                                            <label for="sales">SALES</label><br>
+                                            <input type="radio" id="rent" name="enquiryType" value="RENT">
+                                            <label for="RENT">RENT</label><br>
+                                            <input type="radio" id="lettings" name="enquiryType" value="LETTINGS">
+                                            <label for="lettings">LETTINGS</label><br>
+                                            <input type="radio" id="service" name="enquiryType" value="SERVICES">
+                                            <label for="service">SERVICES</label><br>
+                                            <input type="radio" id="other" name="enquiryType" value="OTHER">
+                                            <label for="other">OTHER</label><br>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td><label>Message</label></td>
+                                        <td><textarea name="contents" rows="4" cols="30" required
+                                                      th:text="'I would like more information about property ' + ${property.propertyId}"></textarea>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td><label>How can we contact you ?</label></td>
+                                        <td><input type="text" name="enquirerContact"
+                                                   placeholder="Enter your contact details" required></td>
+                                    </tr>
+                                    <tr aria-colspan="2">
+                                        <td><input class="btn btn-primary" type="submit" value="Submit"
+                                                   style="border:5px;"></td>
+                                    </tr>
+                                </table>
+                            </form>
 
-      <!-- Modal -->
-      <div class="modal fade" id="contactAgentModal" tabindex="-1" role="dialog" aria-labelledby="contactAgentModal" aria-hidden="true">
-          <div class="modal-dialog" role="document">
-              <div class="modal-content">
-                  <div class="modal-header">
-                      <h5 class="modal-title" id="contactAgentModalTitle"  th:text="${employee.UserProfile.firstName}"></h5>
-                      <button type="button"  class="close" data-bs-dismiss="modal" aria-label="Close">
-                          <span aria-hidden="true">&times;</span>
-                      </button>
-                  </div>
-                  <div class="modal-body">
-                      <form action="/addEnquiryProperty" method="post">
-                          <input type = "hidden" name="employeeId"  th:attr="value=${employee.employeeId}" readonly>
-                          <input type = "hidden" name="offerType"  th:attr="value=${property.offer}" readonly>
-                          <table border="1px">
-                              <tr>
-                                  <td><label>Your name</label></td>
-                                  <td><input type = "text" name="enquirerName" placeholder="Enter your name" required></td>
-                              </tr>
-                              <tr>
-                                  <td><label>Enquiry type</label></td>
-                                  <td>
-                                      <input type="radio" id="sales" name="enquiryType" value="SALES" required>
-                                      <label for="sales">SALES</label><br>
-                                      <input type="radio" id="rent" name="enquiryType" value="RENT">
-                                      <label for="RENT">RENT</label><br>
-                                      <input type="radio" id="lettings" name="enquiryType" value="LETTINGS">
-                                      <label for="lettings">LETTINGS</label><br>
-                                      <input type="radio" id="service" name="enquiryType" value="SERVICES">
-                                      <label for="service">SERVICES</label><br>
-                                      <input type="radio" id="other" name="enquiryType" value="OTHER">
-                                      <label for="other">OTHER</label><br>
-                                  </td>
-                              </tr>
-                              <tr>
-                                  <td><label>Message</label></td>
-                                  <td><textarea name="contents" rows="4" cols="30" required th:text="'I would like more information about property ' + ${property.propertyId}"></textarea></td>
-                              </tr>
-                              <tr>
-                                  <td><label>How can we contact you ?</label></td>
-                                  <td><input type = "text" name="enquirerContact" placeholder="Enter your contact details" required></td>
-                              </tr>
-                              <tr aria-colspan="2">
-                                  <td> <input class="btn btn-primary" type="submit" value="Submit" style="border:5px;"></td>
-                              </tr>
-                          </table>
-                      </form>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
 
-                  </div>
-                  <div class="modal-footer">
-                      <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                  </div>
-              </div>
-          </div>
-      </div>
-
-      <!--******************************************************End add new appointment modal *******************************-->
+            <!--******************************************************End add new appointment modal *******************************-->
 
 
-    <!-- FOOTER -->
-    <footer class="container">
-        <p class="float-end"><a href="#">Back to top</a></p>
-        <p>Addams Estates &copy; 2022 </p>
-    </footer>
+            <!-- FOOTER -->
+            <footer class="container">
+                <p class="float-end"><a href="#">Back to top</a></p>
+                <p>Addams Estates &copy; 2022 </p>
+            </footer>
 </main>
 
 

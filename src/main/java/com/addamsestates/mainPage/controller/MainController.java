@@ -398,9 +398,14 @@ public class MainController {
         System.out.println("Contact " + inputEnquiries.getEnquirerContact());
            */
 
+        if(offertype==2){
+            return "redirect:/propertiestolet";
+        } else if (offertype==1 ||offertype==3||offertype==4) {
+            return "redirect:/propertiesforsale";
+        }else{
+            return "redirect:/";
+        }
 
-
-        return "redirect:/";
     }
 
     @RequestMapping(value="/updateEnquiry", method = RequestMethod.POST)
