@@ -137,7 +137,9 @@
                     <td th:text="${property.propertyTypeJoin.PropertyType}"></td>
                     <td th:text="${property.price}"></td>
                     <td>
-                      <button type="button" class="btn btn-primary btn-sm btn-success">View</button>
+                      <form method="POST" th:action="@{/viewProperty(id=${property.propertyId})}" th:target="_blank">
+                        <button type="submit" name="submit" value="value" class="btn btn-primary btn-sm btn-success">View</button>
+                      </form>
                       <button type="button" class="btn btn-primary btn-sm btn-success" data-toggle="modal" th:attr="data-target='#addPhotosModal'+${property.propertyId}">Add photos</button>
                       <button type="button" class="btn btn-primary btn-sm btn-warning" data-toggle="modal" th:attr="data-target='#editPropertyModal'+${property.propertyId}">Edit</button>
                     </td>
@@ -156,6 +158,8 @@
                         <div class="modal-body">
 
                           <form action="uploadPropertyPhotos" method="post" enctype="multipart/form-data" >
+                            <input type="hidden" name="propertyId" th:attr="value=${property.propertyId}">
+                            <input type="hidden" name="offerType" th:attr="value=${property.offer}">
                             <label for="fileUpload">Upload files</label> <br>
                             <input type="file" id="fileUpload" name="files" multiple accept=".jpg, .png, .jpeg, .gif, .bmp, .tif, .tiff|image/*"> <br>
                             <h1> </h1>
@@ -257,7 +261,7 @@
                     </div>
                   </div>
 
-                  <!--*********************************************************End of edit modal****************************************-->
+                  <!--*********************************************************End of edit property modal****************************************-->
 
                 </th:block>
                 </tbody>
@@ -325,6 +329,7 @@
         <div class="card shadow-sm">
 
           <div class="card-body">
+<!--************************************************************Enquiries*************************************************************************-->
               <h3>Enquiries</h3>
               <br>
               <table class="table text-center">
@@ -341,7 +346,7 @@
                 <th:block th:each="enquiry:${enquiries}">
                   <tr>
                     <td th:text="${enquiry.enquirerName}"></td>
-                    <td th:text="${#dates.format(enquiry.createdAt,'dd-mm-yyyy')}"></td>
+                    <td th:text="${#dates.format(enquiry.createdAt,'dd-MM-yyyy')}"></td>
                     <td th:text="${enquiry.enquiryType}" ></td>
                     <td th:text="${enquiry.enquirerContact}"></td>
                     <td>
@@ -738,26 +743,26 @@
           </button>
         </div>
         <div class="modal-body">
-          <form action="/updateProperty" method="post">
+          <form action="/addNewProperty" method="post">
             <input type = "hidden" name="employeeId"  th:attr="value=${employeeId}" readonly>
             <input type = "hidden" name="branchId"  th:attr="value=${branchId}" readonly>
             <p>Property type</p>
             <th:block th:each="type:${propertyTypes}">
-              <input type="radio" th:attr="id=${type.propertyType}, value=${type.propertyType}" name="propertyType"  required>
+              <input type="radio" th:attr="id=${type.propertyType}, value=${type.propertyTypeId}" name="propertyType"  required>
               <label th:attr="for=${type.propertyType}" th:text="${type.propertyType}"></label>
             </th:block>
             <h1> </h1>
             <br>
             <p>Offer type</p>
             <th:block th:each="offer:${propertyOfferTypes}">
-              <input type="radio" th:attr="id=${offer.propertyOffer}, value=${offer.propertyOffer}" name="propertyOffer"  required>
+              <input type="radio" th:attr="id=${offer.propertyOffer}, value=${offer.propertyOfferId}" name="propertyOffer"  required>
               <label th:attr="for=${offer.propertyOffer}" th:text="${offer.propertyOffer}"></label>
             </th:block>
             <h1> </h1>
             <br>
             <p>Features </p>
             <th:block th:each="feature:${propertyFeatures}">
-              <input type="radio" th:attr="id=${feature.propertyFeature}, value=${feature.propertyFeature}" name="propertyFeature"  required>
+              <input type="radio" th:attr="id=${feature.propertyFeature}, value=${feature.propertyFeaturesId}" name="propertyFeature"  required>
               <label th:attr="for=${feature.propertyFeature}" th:text="${feature.propertyFeature}"></label>
             </th:block>
             <h1> </h1>

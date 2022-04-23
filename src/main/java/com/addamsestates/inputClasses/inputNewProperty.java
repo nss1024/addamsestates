@@ -13,10 +13,10 @@ public class inputNewProperty {
 
     private Long branchId;
     private Long employeeId;
-    private Long customerId;
-    private String propertyType;
-    private String propertyOffer;
-    private String propertyFeature;
+    private Long ownerId;
+    private Long propertyType;
+    private Long propertyOffer;
+    private Long propertyFeature;
     private Boolean availability;
     private String description;
     private Integer bedroomNo;

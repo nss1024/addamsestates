@@ -136,7 +136,7 @@
         <th:block th:each="property:${propertiesForSale}">
             <tr>
                 <td>
-                    <img th:src="${property.PropertyImages[1].FileUrl}" width="200" height="150">
+                    <img th:src="${property.PropertyImages[0].FileUrl}" width="200" height="150">
                 </td>
                 <td>
                     <p th:text="${property.PropertyTypeJoin.PropertyType}"></p>
@@ -167,7 +167,9 @@
                     <p th:text="${property.Price}"></p>
                 </td>
                 <td>
-                    <button type="button" class="btn btn-success">View</button>
+                    <form method="POST" th:action="@{/viewProperty(id=${property.propertyId})}" th:target="_blank">
+                        <button type="submit" name="submit" value="value" class="btn btn-primary btn-sm btn-success">View</button>
+                    </form>
                 </td>
             </tr>
         </th:block>

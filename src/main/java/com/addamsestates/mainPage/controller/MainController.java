@@ -5,12 +5,15 @@ import com.addamsestates.branch.service.implementation.*;
 import com.addamsestates.customers.model.Customers;
 import com.addamsestates.customers.service.implementation.CustomerServiceImpl;
 import com.addamsestates.employees.model.Appointments;
+import com.addamsestates.employees.model.Employee;
 import com.addamsestates.employees.model.Enquiries;
 import com.addamsestates.employees.service.implementation.AppointmentsServiceImpl;
+import com.addamsestates.employees.service.implementation.EmployeeServiceImpl;
 import com.addamsestates.employees.service.implementation.EnquiriesServiceImplementation;
 import com.addamsestates.image.model.BranchImages;
 import com.addamsestates.image.model.PropertiesImages;
 import com.addamsestates.image.srevice.serviceImpl.BranchImagesServiceImpl;
+import com.addamsestates.image.srevice.serviceImpl.PropertiesImageServiceImpl;
 import com.addamsestates.inputClasses.*;
 import com.addamsestates.mainPage.model.CompanyIntro;
 import com.addamsestates.mainPage.model.VisibleTeam;
@@ -26,6 +29,7 @@ import com.addamsestates.properties.service.implementation.PropertyOfferTypeImpl
 import com.addamsestates.properties.service.implementation.PropertyTypeServiceImpl;
 import com.addamsestates.users.model.Users;
 import com.addamsestates.users.service.implementation.UsersServiceImpl;
+import com.addamsestates.utilities.FileUploadService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -37,10 +41,8 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 
-import java.io.File;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -101,6 +103,12 @@ public class MainController {
 
     @Autowired
     private LettingsServiceImpl lettingsService;
+
+    @Autowired
+    private PropertiesImageServiceImpl propertiesImageService;
+
+    @Autowired
+    private EmployeeServiceImpl employeeService;
 
     @RequestMapping("/")
     public String getMain(Model model) {
@@ -224,6 +232,7 @@ public class MainController {
 
                 List<PropertiesImages> defaultImage = new ArrayList<>();
                 defaultImage.add(defaultImg);
+                property.setPropertyImages(defaultImage);
             }
 
         }
@@ -256,6 +265,19 @@ public class MainController {
         BranchImages logoImage = branchImagesService.getImageBySectionUsed("logo");
         BranchImages faviconImage = branchImagesService.getImageBySectionUsed("favicon");
         List<Properties> propertiesForSale = propertiesService.findAllActivePropertiesToRent();
+
+        for(Properties property : propertiesForSale){
+            if(property.getPropertyImages().size()==0){
+                PropertiesImages defaultImg = new PropertiesImages();
+                defaultImg.setPropertyId(property.getPropertyId());
+                defaultImg.setFileUrl("Images/defaultPropertyImage.png");
+
+                List<PropertiesImages> defaultImage = new ArrayList<>();
+                defaultImage.add(defaultImg);
+                property.setPropertyImages(defaultImage);
+            }
+
+        }
 
 
         model.addAttribute("propertiesForSale", propertiesForSale);
@@ -339,7 +361,9 @@ public class MainController {
         newEnquiry.setEnquirerName(inputEnquiries.getEnquirerName());
         newEnquiry.setEnquirerContact(inputEnquiries.getEnquirerContact());
 
-        enquiriesServiceImplementation.addNewEnquiry(newEnquiry);
+        System.out.println(new java.sql.Date(System.currentTimeMillis()));
+
+        //enquiriesServiceImplementation.addNewEnquiry(newEnquiry);
         /*
         System.out.println("Employee id " + inputEnquiries.getEmployeeId());
         System.out.println("Name " + inputEnquiries.getEnquirerName());
@@ -347,6 +371,34 @@ public class MainController {
         System.out.println("Message " + inputEnquiries.getContents());
         System.out.println("Contact " + inputEnquiries.getEnquirerContact());
            */
+
+        return "redirect:/";
+    }
+
+    @RequestMapping(value="/addEnquiryProperty", method = RequestMethod.POST)
+    public String addNewEnquiryProperty(@ModelAttribute inputEnquiries inputEnquiries, @RequestParam("offerType") Long offertype, RedirectAttributes redirectAttributes  ){
+
+        Enquiries newEnquiry = new Enquiries();
+        newEnquiry.setEmployeeId(inputEnquiries.getEmployeeId());
+        newEnquiry.setContents(inputEnquiries.getContents());
+        newEnquiry.setEnquiryType(inputEnquiries.getEnquiryType());
+        newEnquiry.setCompleted(Boolean.FALSE);
+        newEnquiry.setCreatedAt(new java.sql.Date(System.currentTimeMillis()));
+        newEnquiry.setEnquirerName(inputEnquiries.getEnquirerName());
+        newEnquiry.setEnquirerContact(inputEnquiries.getEnquirerContact());
+
+        System.out.println(new java.sql.Date(System.currentTimeMillis()));
+
+        //enquiriesServiceImplementation.addNewEnquiry(newEnquiry);
+        /*
+        System.out.println("Employee id " + inputEnquiries.getEmployeeId());
+        System.out.println("Name " + inputEnquiries.getEnquirerName());
+        System.out.println("Enquiry type " + inputEnquiries.getEnquiryType());
+        System.out.println("Message " + inputEnquiries.getContents());
+        System.out.println("Contact " + inputEnquiries.getEnquirerContact());
+           */
+
+
 
         return "redirect:/";
     }
@@ -436,11 +488,31 @@ public class MainController {
         return "test";
     }
 
-    @RequestMapping(value="/fileTest", method = RequestMethod.POST)
-    public String fileTest(@RequestParam("files") MultipartFile[] files){
+    @RequestMapping(value="/uploadPropertyPhotos", method = RequestMethod.POST)
+    public String fileTest(@RequestParam("files") MultipartFile[] files, @RequestParam("propertyId") Long propertyId, @RequestParam("offerType") int offerType){
+
+        FileUploadService fileUploadService = new FileUploadService();
+        fileUploadService.processUpload(files, offerType);
+        List<inputImage> images = fileUploadService.getImages();
+
+        System.out.println(offerType);
+
+        for(inputImage image:images){
+            image.setPropertyId(propertyId);
+            System.out.println(image.getFileName()+" "+image.getFileDescription()+" "+image.getFileUrl()+" "+image.getPropertyId());
+
+            PropertiesImages newImage = new PropertiesImages();
+            newImage.setFileName(image.getFileName());
+            newImage.setFileDescription(image.getFileDescription());
+            newImage.setFileUrl(image.getFileUrl());
+            newImage.setCreatedAt(new java.sql.Date(System.currentTimeMillis()));
+            newImage.setPropertyId(image.getPropertyId());
+            propertiesImageService.addPropertyImage(newImage);
 
 
-        return "redirect:/testpage";
+        }
+
+        return "redirect:/staffmain";
     }
 
     @RequestMapping(value="/sellProperty", method = RequestMethod.POST)
@@ -539,11 +611,53 @@ public class MainController {
 
         Properties newProperty =  new Properties();
 
+        newProperty.setBranchId(inputProperty.getBranchId());
+        newProperty.setEmployeeId(inputProperty.getEmployeeId());
+        newProperty.setCustomerId(inputProperty.getOwnerId());
+        newProperty.setPropertyType(inputProperty.getPropertyType());
+        newProperty.setProperty_features(inputProperty.getPropertyFeature());
+        newProperty.setOffer(inputProperty.getPropertyOffer());
+        newProperty.setAvailability(inputProperty.getAvailability());
+        newProperty.setDescription(inputProperty.getDescription());
+        newProperty.setBedroomNo(inputProperty.getBedroomNo());
+        newProperty.setPostCode(inputProperty.getPostCode());
+        newProperty.setCounty(inputProperty.getCounty());
+        newProperty.setPrice(inputProperty.getPrice().toString());
+        newProperty.setCreatedAt(new java.sql.Date(System.currentTimeMillis()));
+        newProperty.setAddress(inputProperty.getAddress());
 
+        propertiesService.addNewProperty(newProperty);
 
-        //propertiesService.updatePropertyDetails(propertyToUpdate);
-
+        /*
+        System.out.println(inputProperty.getBranchId());
+        System.out.println(inputProperty.getEmployeeId());
+        System.out.println(inputProperty.getOwnerId());
+        System.out.println(inputProperty.getPropertyType());
+        System.out.println(inputProperty.getPropertyFeature());
+        System.out.println(inputProperty.getPropertyOffer());
+        System.out.println(inputProperty.getAvailability());
+        System.out.println(inputProperty.getDescription());
+        System.out.println(inputProperty.getBedroomNo());
+        System.out.println(inputProperty.getPostCode());
+        System.out.println(inputProperty.getCounty());
+        System.out.println(inputProperty.getPrice());
+        System.out.println(inputProperty.getAddress());
+        */
         return "redirect:/staffmain";
+    }
+
+    @RequestMapping(value="/viewProperty", method = RequestMethod.POST)
+    public String viewProperty(@RequestParam("id") Long id, RedirectAttributes redirectAttributes, Model model  ){
+
+        Properties property = propertiesService.findPropertyById(id);
+        Employee employee = employeeService.egtEmployeeById(property.getEmployeeId());
+
+
+        model.addAttribute("property", property);
+        model.addAttribute("employee", employee);
+
+
+        return "property";
     }
 
 }
