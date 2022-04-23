@@ -19,7 +19,7 @@ import java.util.List;
 public class Properties {
 
     @Id
-    @GeneratedValue()
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "property_id", updatable = false, nullable = false)
     private Long propertyId;
     @Column(name="branch_id")

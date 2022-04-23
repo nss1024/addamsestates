@@ -16,7 +16,7 @@ import javax.persistence.*;
 public class PropertyFeatures {
 
     @Id
-    @GeneratedValue()
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "property_features_id", updatable = false, nullable = false)
     private Long propertyFeaturesId;
     @Column(name="property_feature")

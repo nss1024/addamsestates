@@ -17,7 +17,7 @@ import java.util.Date;
 public class Lettings {
 
     @Id
-    @GeneratedValue()
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "record_id", updatable = false, nullable = false)
     private Long recordId;
     @Column(name="branch_id")
@@ -28,8 +28,8 @@ public class Lettings {
     private Long propertyId;
     @Column(name="owner_id")
     private Long ownerId;
-    @Column(name="buyer_id")
-    private Long buyerId;
+    @Column(name="renter_id")
+    private Long renterId;
     @Column(name="document_id")
     private Long documentId;
     @Column(name="created_at")

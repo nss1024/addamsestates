@@ -18,8 +18,8 @@ public class InternalServicesImages {
     @GeneratedValue()
     @Column(name = "file_id", updatable = false, nullable = false)
     private Long fileId;
-    @Column(name="iservice_id")
-    private Long iServiceId;
+    @Column(name="intserviceid")
+    private Long intServiceId;
     @Column(name="file_name")
     private String fileName;
     @Column(name="file_description")

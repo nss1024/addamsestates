@@ -10,4 +10,6 @@ public interface PropertyFeaturesService {
 
     PropertyFeatures getBypropertyFeature(String propertyFeature);
 
+    void addNewPropertyFeature(PropertyFeatures f);
+
 }

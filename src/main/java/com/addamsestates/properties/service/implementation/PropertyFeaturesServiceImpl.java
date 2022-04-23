@@ -24,4 +24,9 @@ public class PropertyFeaturesServiceImpl implements PropertyFeaturesService {
     public PropertyFeatures getBypropertyFeature(String propertyFeature) {
         return propertyFeaturesRepository.getBypropertyFeature(propertyFeature);
     }
+
+    @Override
+    public void addNewPropertyFeature(PropertyFeatures f) {
+        propertyFeaturesRepository.save(f);
+    }
 }

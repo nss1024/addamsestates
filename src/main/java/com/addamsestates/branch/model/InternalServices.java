@@ -33,7 +33,7 @@ public class InternalServices {
     private String link;
 
     @OneToOne
-    @JoinColumn(name="iservice_id")
+    @JoinColumn(name="iservice_id", referencedColumnName = "intserviceid")
     private InternalServicesImages images;
 
 

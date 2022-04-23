@@ -28,4 +28,8 @@ public interface PropertiesService {
 
     public List<Properties> getByEmployeeIdAndAvailability(Long employeeId);
 
+    void addNewProperty(Properties p);
+
+
+
 }

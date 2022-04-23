@@ -18,8 +18,8 @@ import java.util.Date;
 public class Contracts {
 
     @Id
-    @GeneratedValue()
-    @Column(name = "branch_id", updatable = false, nullable = false)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "contract_id", updatable = false, nullable = false)
     private Long contractId;
     @Column(name="file_name")
     private String fileName;
@@ -29,5 +29,7 @@ public class Contracts {
     private String contractUrl;
     @Column(name="created_at")
     private Date createdAt;
+    @Column(name="type")
+    private String type;
 
 }

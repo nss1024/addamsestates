@@ -33,6 +33,8 @@ public class Employee {
     private String jobDescription;
     @Column(name="created_at")
     private Date createdAt;
+    @Column(name="branch_id")
+    private Long branchId;
 
 
     @OneToOne(cascade=CascadeType.ALL, orphanRemoval = false, fetch=FetchType.EAGER)

@@ -18,7 +18,7 @@ import java.util.Date;
 public class Customers {
 
     @Id
-    @GeneratedValue()
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "customer_id", updatable = false, nullable = false)
     private Long customerId;
     @Column(name="user_id")
@@ -33,6 +33,8 @@ public class Customers {
     private String contactNumber;
     @Column(name="created_at")
     private Date createdAt;
+    @Column(name="branch_id")
+    private Long branchId;
 
 }
 

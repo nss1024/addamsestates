@@ -23,11 +23,16 @@
               </button>
             </div>
             <div class="modal-body">
-              ...
+              <form action="fileTest" method="post" enctype="multipart/form-data" >
+                <label for="fileUpload">Upload files</label> <br>
+                <input type="file" id="fileUpload" name="files" multiple accept=".jpg, .png, .jpeg, .gif, .bmp, .tif, .tiff|image/*"> <br>
+                <h1> </h1>
+                <input type="submit" name="submit" value="submit">
+              </form>
             </div>
             <div class="modal-footer">
               <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-              <button type="button" class="btn btn-primary">Save changes</button>
+
             </div>
           </div>
         </div>

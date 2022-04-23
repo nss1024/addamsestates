@@ -1,20 +1,17 @@
 package com.addamsestates.mainPage.controller;
 
-import com.addamsestates.branch.model.Events;
-import com.addamsestates.branch.model.InternalServices;
-import com.addamsestates.branch.model.Services;
-import com.addamsestates.branch.service.implementation.EventsServiceImpl;
-import com.addamsestates.branch.service.implementation.InternalServicesServiceImpl;
-import com.addamsestates.branch.service.implementation.ServicesServiceImpl;
+import com.addamsestates.branch.model.*;
+import com.addamsestates.branch.service.implementation.*;
+import com.addamsestates.customers.model.Customers;
+import com.addamsestates.customers.service.implementation.CustomerServiceImpl;
 import com.addamsestates.employees.model.Appointments;
 import com.addamsestates.employees.model.Enquiries;
 import com.addamsestates.employees.service.implementation.AppointmentsServiceImpl;
 import com.addamsestates.employees.service.implementation.EnquiriesServiceImplementation;
 import com.addamsestates.image.model.BranchImages;
+import com.addamsestates.image.model.PropertiesImages;
 import com.addamsestates.image.srevice.serviceImpl.BranchImagesServiceImpl;
-import com.addamsestates.inputClasses.inputAppointments;
-import com.addamsestates.inputClasses.inputEnquiries;
-import com.addamsestates.inputClasses.inputProperties;
+import com.addamsestates.inputClasses.*;
 import com.addamsestates.mainPage.model.CompanyIntro;
 import com.addamsestates.mainPage.model.VisibleTeam;
 import com.addamsestates.mainPage.service.serviceImplementation.CompanyIntroServiceImpl;
@@ -36,11 +33,15 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 
+import java.io.File;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @Controller
@@ -86,6 +87,21 @@ public class MainController {
     @Autowired
     private PropertyFeaturesServiceImpl propertyFeaturesService;
 
+    @Autowired
+    private CustomerServiceImpl customerService;
+
+    @Autowired
+    private DocumentsServiceImpl documentsService;
+
+    @Autowired
+    private ContractsServiceImpl contractsService;
+
+    @Autowired
+    private SalesServiceImpl salesService;
+
+    @Autowired
+    private LettingsServiceImpl lettingsService;
+
     @RequestMapping("/")
     public String getMain(Model model) {
 
@@ -130,14 +146,13 @@ public class MainController {
 
         Long employeeId = user.getUserProfile().getEmployee().getEmployeeId();
 
+        Long branchId = user.getUserProfile().getEmployee().getBranchId();
+
         String employeeName = user.getUserProfile().getFirstName();
 
-        List<Enquiries> enquiries = enquiriesServiceImplementation.getAllEnquiriesByEmployeeId(employeeId);
-        List<Enquiries> completedEnquiries = enquiriesServiceImplementation.getCompletedEnquiriesByEmployeeId(employeeId);
+
         List<Enquiries> outstandingEnquiries = enquiriesServiceImplementation.getOutstandingEnquiriesByEmployeeId(employeeId);
 
-        List<Appointments> appointments = appointmentsService.getAllAppointmentsByEmployeeId(employeeId);
-        List<Appointments> completedAppointments = appointmentsService.getCompletedAppointmentsByEmployeeId(employeeId);
         List<Appointments> outstandingAppointments = appointmentsService.outstandingAppointmentsByEmployeeId(employeeId);
 
         List<Properties> employeeProperties = propertiesService.getByEmployeeIdAndAvailability(employeeId);
@@ -150,6 +165,12 @@ public class MainController {
 
         List<PropertyFeatures> propertyFeatures = propertyFeaturesService.getAllPropertyFeatures();
 
+        List<Customers> allCustomers = customerService.getAllCustomers();
+
+        List<Contracts> allSalesContracts = contractsService.getByType("Sales");
+
+        List<Contracts> allLettingsContracts = contractsService.getByType("Lettings");
+
         model.addAttribute("internalServices", internalServices);
         model.addAttribute("employeeName", employeeName);
         model.addAttribute("enquiries", outstandingEnquiries);
@@ -158,10 +179,14 @@ public class MainController {
         model.addAttribute("propertyTypes", propertyTypes);
         model.addAttribute("propertyOfferTypes", propertyOfferTypes);
         model.addAttribute("propertyFeatures", propertyFeatures);
-
-        System.out.println(propertyTypes.size());
+        model.addAttribute("allCustomers", allCustomers);
+        model.addAttribute("allSalesContracts", allSalesContracts);
+        model.addAttribute("allLettingsContracts", allLettingsContracts);
+        model.addAttribute("employeeId", employeeId);
+        model.addAttribute("branchId", branchId);
 
         /*
+        System.out.println(allSalesContracts.size());
         System.out.println(user.getUserName());
         System.out.println(user.getId());
         System.out.println(user.getUserProfile().getEmployee().getEmployeeId());
@@ -189,6 +214,19 @@ public class MainController {
         List<Properties> propertiesForAuction = propertiesService.findAllActivePropertiesForAuction();
 
         propertiesForSale.addAll(propertiesForAuction);
+
+        //iterate through the retrieved records, if one has no images, add a default image to it.
+        for(Properties property : propertiesForSale){
+            if(property.getPropertyImages().size()==0){
+                PropertiesImages defaultImg = new PropertiesImages();
+                defaultImg.setPropertyId(property.getPropertyId());
+                defaultImg.setFileUrl("Images/defaultPropertyImage.png");
+
+                List<PropertiesImages> defaultImage = new ArrayList<>();
+                defaultImage.add(defaultImg);
+            }
+
+        }
 
         model.addAttribute("propertiesForSale", propertiesForSale);
         model.addAttribute("headerImage", headerImage);
@@ -302,13 +340,13 @@ public class MainController {
         newEnquiry.setEnquirerContact(inputEnquiries.getEnquirerContact());
 
         enquiriesServiceImplementation.addNewEnquiry(newEnquiry);
-
+        /*
         System.out.println("Employee id " + inputEnquiries.getEmployeeId());
         System.out.println("Name " + inputEnquiries.getEnquirerName());
         System.out.println("Enquiry type " + inputEnquiries.getEnquiryType());
         System.out.println("Message " + inputEnquiries.getContents());
         System.out.println("Contact " + inputEnquiries.getEnquirerContact());
-
+           */
 
         return "redirect:/";
     }
@@ -350,6 +388,160 @@ public class MainController {
         propertyToUpdate.setPrice(inputProperties.getPrice().toString());
         propertyToUpdate.setAddress(inputProperties.getAddress());
         propertiesService.updatePropertyDetails(propertyToUpdate);
+
+        return "redirect:/staffmain";
+    }
+
+    @RequestMapping(value="/addCustomer", method = RequestMethod.POST)
+    public String addNewEnquiry(@ModelAttribute inputCustomer inputCustomer, RedirectAttributes redirectAttributes  ){
+
+        Customers newCustomer = new Customers();
+        newCustomer.setFirstName(inputCustomer.getFirstName());
+        newCustomer.setLastName(inputCustomer.getLastName());
+        newCustomer.setEmail(inputCustomer.getEmail());
+        newCustomer.setContactNumber(inputCustomer.getContactNumber());
+        newCustomer.setCreatedAt(new java.sql.Date(System.currentTimeMillis()));
+        newCustomer.setBranchId(1L);
+
+        customerService.addNewCustomer(newCustomer);
+        /*
+        System.out.println(inputCustomer.getFirstName());
+        System.out.println(inputCustomer.getLastName());
+        System.out.println(inputCustomer.getEmail());
+        System.out.println(inputCustomer.getContactNumber());
+        */
+        return "redirect:/staffmain";
+    }
+
+    @RequestMapping(value="/addFeature", method = RequestMethod.POST)
+    public String addNewFeature(@RequestParam("featureName") String featureName, @RequestParam("featureDescription") String featureDescription, RedirectAttributes redirectAttributes  ){
+
+
+        PropertyFeatures newFeature = new PropertyFeatures();
+        newFeature.setPropertyFeature(featureName);
+        newFeature.setPropertyFeatureDescription(featureDescription);
+
+        propertyFeaturesService.addNewPropertyFeature(newFeature);
+
+        /*
+        System.out.println(featureName);
+        System.out.println(featureDescription);
+        */
+        return "redirect:/staffmain";
+    }
+
+    @RequestMapping(value="/testpage")
+    public String getTestPage(){
+
+        return "test";
+    }
+
+    @RequestMapping(value="/fileTest", method = RequestMethod.POST)
+    public String fileTest(@RequestParam("files") MultipartFile[] files){
+
+
+        return "redirect:/testpage";
+    }
+
+    @RequestMapping(value="/sellProperty", method = RequestMethod.POST)
+    public String sellProperty(@ModelAttribute inputSellRentProperty inputSellRentProperty, RedirectAttributes redirectAttributes  ){
+
+        //createa new document -> documents the sales transaction
+
+        Documents newDocument = new Documents();
+        newDocument.setBranchId(inputSellRentProperty.getBranchId());
+        newDocument.setEmployeeId(inputSellRentProperty.getEmployeeId());
+        newDocument.setContractId(inputSellRentProperty.getContractId());
+        newDocument.setCreatedAt(new java.sql.Date(System.currentTimeMillis()));
+
+        documentsService.addDocument(newDocument);
+
+        Long documentId = documentsService.getLastInserted().getDocumentId();
+
+        //create a new sale using the above document
+
+        Sales newSale = new Sales();
+        newSale.setBranchId(inputSellRentProperty.getBranchId());
+        newSale.setEmployeeId(inputSellRentProperty.getEmployeeId());
+        newSale.setPropertyId(inputSellRentProperty.getPropertyId());
+        newSale.setOwnerId(inputSellRentProperty.getOwnerId());
+        newSale.setBuyerId(inputSellRentProperty.getBuyerId());
+        newSale.setDocumentId(documentId);
+        newSale.setCreatedAt(new java.sql.Date(System.currentTimeMillis()));
+
+        salesService.addNewSale(newSale);
+
+        // remove property from available properties list -> if need to re sell , need to re list
+
+        Properties soldProperty = propertiesService.findPropertyById(inputSellRentProperty.getPropertyId());
+        soldProperty.setAvailability(Boolean.FALSE);
+        propertiesService.updatePropertyDetails(soldProperty);
+
+        /*
+        System.out.println("Property: "+inputSellRentProperty.getPropertyId());
+        System.out.println("Branch: "+inputSellRentProperty.getBranchId());
+        System.out.println("Buyer: "+inputSellRentProperty.getBuyerId());
+        System.out.println("Owner: "+inputSellRentProperty.getOwnerId());
+        System.out.println("Employee: "+inputSellRentProperty.getEmployeeId());
+        System.out.println("Contract: "+inputSellRentProperty.getContractId());
+        */
+        return "redirect:/staffmain";
+    }
+
+    @RequestMapping(value="/letProperty", method = RequestMethod.POST)
+    public String letProperty(@ModelAttribute inputSellRentProperty inputSellRentProperty, RedirectAttributes redirectAttributes  ){
+
+        //createa new document -> documents the sales transaction
+
+        Documents newDocument = new Documents();
+        newDocument.setBranchId(inputSellRentProperty.getBranchId());
+        newDocument.setEmployeeId(inputSellRentProperty.getEmployeeId());
+        newDocument.setContractId(inputSellRentProperty.getContractId());
+        newDocument.setCreatedAt(new java.sql.Date(System.currentTimeMillis()));
+
+        documentsService.addDocument(newDocument);
+
+        Long documentId = documentsService.getLastInserted().getDocumentId();
+
+        //create a new sale using the above document
+
+        Lettings newLetting = new Lettings();
+        newLetting.setBranchId(inputSellRentProperty.getBranchId());
+        newLetting.setEmployeeId(inputSellRentProperty.getEmployeeId());
+        newLetting.setPropertyId(inputSellRentProperty.getPropertyId());
+        newLetting.setOwnerId(inputSellRentProperty.getOwnerId());
+        newLetting.setRenterId(inputSellRentProperty.getBuyerId());
+        newLetting.setDocumentId(documentId);
+        newLetting.setCreatedAt(new java.sql.Date(System.currentTimeMillis()));
+
+        lettingsService.addNewLetting(newLetting);
+
+        // remove property from available properties list -> if need to re sell , need to re list
+
+
+        Properties letProperty = propertiesService.findPropertyById(inputSellRentProperty.getPropertyId());
+        letProperty.setAvailability(Boolean.FALSE);
+        propertiesService.updatePropertyDetails(letProperty);
+
+
+        System.out.println("Property: "+inputSellRentProperty.getPropertyId());
+        System.out.println("Branch: "+inputSellRentProperty.getBranchId());
+        System.out.println("Buyer: "+inputSellRentProperty.getBuyerId());
+        System.out.println("Owner: "+inputSellRentProperty.getOwnerId());
+        System.out.println("Employee: "+inputSellRentProperty.getEmployeeId());
+        System.out.println("Contract: "+inputSellRentProperty.getContractId());
+
+        return "redirect:/staffmain";
+    }
+
+    @RequestMapping(value="/addNewProperty", method = RequestMethod.POST)
+    public String addNewProperty(@ModelAttribute inputNewProperty inputProperty, RedirectAttributes redirectAttributes  ){
+
+        Properties newProperty =  new Properties();
+
+
+
+        //propertiesService.updatePropertyDetails(propertyToUpdate);
 
         return "redirect:/staffmain";
     }

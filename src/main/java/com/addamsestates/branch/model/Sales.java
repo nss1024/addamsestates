@@ -17,7 +17,7 @@ import java.util.Date;
 public class Sales {
 
     @Id
-    @GeneratedValue()
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "record_id", updatable = false, nullable = false)
     private Long recordId;
     @Column(name="branch_id")

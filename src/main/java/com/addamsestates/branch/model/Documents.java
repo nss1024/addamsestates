@@ -17,7 +17,7 @@ import java.util.Date;
 public class Documents {
 
     @Id
-    @GeneratedValue()
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "document_id", updatable = false, nullable = false)
     private Long documentId;
     @Column(name="branch_id")

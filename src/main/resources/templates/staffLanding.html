@@ -121,7 +121,7 @@
           <div class="card-body">
               <h3>Properties </h3>
               <br>
-              <table class="table">
+              <table class="table text-center">
                 <thead>
                   <tr>
                     <th scope="col">Ref</th>
@@ -138,10 +138,41 @@
                     <td th:text="${property.price}"></td>
                     <td>
                       <button type="button" class="btn btn-primary btn-sm btn-success">View</button>
+                      <button type="button" class="btn btn-primary btn-sm btn-success" data-toggle="modal" th:attr="data-target='#addPhotosModal'+${property.propertyId}">Add photos</button>
                       <button type="button" class="btn btn-primary btn-sm btn-warning" data-toggle="modal" th:attr="data-target='#editPropertyModal'+${property.propertyId}">Edit</button>
                     </td>
                   </tr>
 
+                  <!--*******************************************************************Add photos modal **********************************************************************-->
+                  <div class="modal fade" th:attr="id='addPhotosModal'+${property.propertyId}" tabindex="-1" role="dialog" aria-labelledby="addPhotosModal" aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                      <div class="modal-content">
+                        <div class="modal-header">
+                          <h5 class="modal-title" th:text="'Add photos for property : '+${property.propertyId}"></h5>
+                          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                          </button>
+                        </div>
+                        <div class="modal-body">
+
+                          <form action="uploadPropertyPhotos" method="post" enctype="multipart/form-data" >
+                            <label for="fileUpload">Upload files</label> <br>
+                            <input type="file" id="fileUpload" name="files" multiple accept=".jpg, .png, .jpeg, .gif, .bmp, .tif, .tiff|image/*"> <br>
+                            <h1> </h1>
+                            <input type="submit" name="submit" value="submit">
+                          </form>
+
+                        </div>
+                        <div class="modal-footer">
+                          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+
+
+                  <!--************************************************************End of Add photos modal ********************************************************************** -->
                   <!--*****************************************************************Edit property modal***************************************-->
 
                   <div class="modal fade" th:attr="id='editPropertyModal'+${property.propertyId}" tabindex="-1" role="dialog" aria-labelledby="editModal" aria-hidden="true">
@@ -349,13 +380,13 @@
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Delete property</h5>
+        <h5 class="modal-title" id="exampleModalLabel">Add a new appointment</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
       <div class="modal-body">
-        <h1>Add a new appointment</h1>
+
 
         <form action="/addAppointment" method="post">
           <table border="1px">
@@ -403,6 +434,391 @@
 </div>
 
 <!--******************************************************End add new appointment modal *******************************-->
+
+  <!--********************************************************Modal adding new customer******************************-->
+
+  <!-- Modal -->
+  <div class="modal fade" id="addNewCustomer" tabindex="-1" role="dialog" aria-labelledby="addNewCustomerModal" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="addNewCustomerModal">Add a new customer</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <form action="addCustomer" method="post">
+            <table border="1px">
+              <tr>
+                <td><label>First name</label></td>
+                <td><input type = "text" name="firstName" placeholder="Enter first name" required></td>
+              </tr>
+              <tr>
+              <tr>
+                <td><label>Last Name</label></td>
+                <td><input type = "text" name="lastName" placeholder="Enter last name" required></td>
+              </tr>
+              <tr>
+                <td><label>Email</label></td>
+                <td><input type = "email" name="email" placeholder="Enter email address" required></td>
+              </tr>
+              <tr>
+                <td><label>Contact Number</label></td>
+                <td><input type = "tel" name="contactNumber" placeholder="Enter phone number" required></td>
+              </tr>
+              <tr aria-colspan="2">
+                <td> <input class="btn btn-primary" type="submit" value="Submit" style="border:5px;"></td>
+                <td> <input class="btn btn-primary" type="reset" value="Reset" style="border:5px;"></td>
+              </tr>
+            </table>
+          </form>
+        </div>
+        <div class="modal-footer">
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!--******************************************************End add new customer modal *******************************-->
+
+  <!--********************************************************Modal adding new feature******************************-->
+
+  <!-- Modal -->
+  <div class="modal fade" id="addNewFeature" tabindex="-1" role="dialog" aria-labelledby="addNewFeature" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="addNewFeatureTitle">Add new feature</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <form action="addFeature" method="post">
+            <table border="1px">
+              <tr>
+                <td><label>Feature name</label></td>
+                <td><input type = "text" name="featureName" placeholder="Enter feature name" required></td>
+              </tr>
+              <tr>
+              <tr>
+                <td><label>Feature Description</label></td>
+                <td><input type = "text" name="featureDescription" placeholder="Enter feature description" required></td>
+              </tr>
+              <tr aria-colspan="2">
+                <td> <input class="btn btn-primary" type="submit" value="Submit" style="border:5px;"></td>
+                <td> <input class="btn btn-primary" type="reset" value="Reset" style="border:5px;"></td>
+              </tr>
+            </table>
+          </form>
+        </div>
+        <div class="modal-footer">
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!--******************************************************End add new feature modal *******************************-->
+
+  <!--********************************************************Modal show all customers******************************-->
+
+  <!-- Modal -->
+  <div class="modal fade" id="viewCustomerList" tabindex="-1" role="dialog" aria-labelledby="viewCustomerList" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="viewCustomerListTitle">Customers</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+
+          <table class="table text-center">
+            <thead>
+                <tr>
+                  <td>Id </td>
+                  <td>First Name </td>
+                  <td>Last Name </td>
+                  <td>Contact email</td>
+                </tr>
+            </thead>
+            <tbody>
+            <th:block th:each="customer:${allCustomers}">
+              <tr>
+              <td th:text="${customer.customerId}"></td>
+              <td th:text="${customer.firstName}"></td>
+              <td th:text="${customer.lastName}"></td>
+              <td th:text="${customer.email}"></td>
+              </tr>
+            </th:block>
+            </tbody>
+          </table>
+
+        </div>
+        <div class="modal-footer">
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!--******************************************************End show all customers modal *******************************-->
+
+  <!--********************************************************Modal sell property******************************-->
+
+  <!-- Modal -->
+  <div class="modal fade" id="sellProperty" tabindex="-1" role="dialog" aria-labelledby="sellProperty" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="sellPropertyTitle">Sell property</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <form action="sellProperty" method="post">
+            <h5>Select contract type</h5>
+            <h1> </h1>
+          <th:block th:each="contract:${allSalesContracts}">
+            <input type="radio" name="contractId" th:attr="value=${contract.contractId}">
+            <label th:text="${contract.contractDescription}"></label>
+            <br>
+          </th:block>
+            <h1> </h1>
+            <input type = "hidden" name="employeeId"  th:attr="value=${employeeId}" readonly>
+            <input type = "hidden" name="branchId"  th:attr="value=${branchId}" readonly>
+            <h5>Enter transaction details</h5>
+            <table >
+              <tr>
+                <td><label>Property Reference</label></td>
+                <td><input type = "number" name="propertyId" placeholder="Property Reference" required></td>
+              </tr>
+              <tr>
+              <tr>
+                <td><label>Owner Reference</label></td>
+                <td><input type = "number" name="ownerId" placeholder="Owner Reference" required></td>
+              </tr>
+              <tr>
+                <td><label>Buyer Reference</label></td>
+                <td><input type = "number" name="buyerId" placeholder="Buyer Reference" required></td>
+              </tr>
+              <!--
+              <tr aria-colspan="2" >
+                <td> <input class="btn btn-primary" type="submit" value="Submit" style="border:15px;"></td>
+                <td> <input class="btn btn-primary" type="reset" value="Reset" style="border:15px;"></td>
+              </tr> -->
+            </table>
+            <br>
+            <h1> </h1>
+            <input class="btn btn-primary" type="submit" value="Submit" style="border:15px;">
+            <td> <input class="btn btn-primary" type="reset" value="Reset" style="border:15px;">
+          </form>
+        </div>
+        <div class="modal-footer">
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!--******************************************************End sell property modal *******************************-->
+  <!--********************************************************Modal rent property******************************-->
+
+  <!-- Modal -->
+  <div class="modal fade" id="rentProperty" tabindex="-1" role="dialog" aria-labelledby="rentProperty" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="rentPropertyTitle">Rent a property</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <form action="letProperty" method="post">
+            <h5>Select contract type</h5>
+            <h1> </h1>
+            <th:block th:each="contract:${allLettingsContracts}">
+              <input type="radio" name="contractId" th:attr="value=${contract.contractId}">
+              <label th:text="${contract.contractDescription}"></label>
+              <br>
+            </th:block>
+            <h1> </h1>
+            <input type = "hidden" name="employeeId"  th:attr="value=${employeeId}" readonly>
+            <input type = "hidden" name="branchId"  th:attr="value=${branchId}" readonly>
+            <h5>Enter transaction details</h5>
+            <table >
+              <tr>
+                <td><label>Property Reference</label></td>
+                <td><input type = "number" name="propertyId" placeholder="Property Reference" required></td>
+              </tr>
+              <tr>
+              <tr>
+                <td><label>Owner Reference</label></td>
+                <td><input type = "number" name="ownerId" placeholder="Owner Reference" required></td>
+              </tr>
+              <tr>
+                <td><label>Renter Reference</label></td>
+                <td><input type = "number" name="buyerId" placeholder="Buyer Reference" required></td>
+              </tr>
+              <!--
+              <tr aria-colspan="2" >
+                <td> <input class="btn btn-primary" type="submit" value="Submit" style="border:15px;"></td>
+                <td> <input class="btn btn-primary" type="reset" value="Reset" style="border:15px;"></td>
+              </tr> -->
+            </table>
+            <br>
+            <h1> </h1>
+            <input class="btn btn-primary" type="submit" value="Submit" style="border:15px;">
+            <td> <input class="btn btn-primary" type="reset" value="Reset" style="border:15px;">
+          </form>
+        </div>
+        <div class="modal-footer">
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!--******************************************************End rent property modal *******************************-->
+  <!--********************************************************Modal KPI******************************-->
+
+  <!-- Modal -->
+  <div class="modal fade" id="kpiModal" tabindex="-1" role="dialog" aria-labelledby="kpi" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="kpiModalTitle">Redirect to external analytics site</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          This button will redirect you to an external analytics site.
+        </div>
+        <div class="modal-footer">
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!--******************************************************End KPI modal *******************************-->
+  <!--********************************************************Modal HR******************************-->
+
+  <!-- Modal -->
+  <div class="modal fade" id="hrModal" tabindex="-1" role="dialog" aria-labelledby="hr" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="hrTitle">Redirect to external hr site</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          This button will redirect you to an external hr services provider site.
+        </div>
+        <div class="modal-footer">
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!--******************************************************End HR modal *******************************-->
+
+  <!--*****************************************************************Add new property modal***************************************-->
+
+  <div class="modal fade" id="addNewProperty" tabindex="-1" role="dialog" aria-labelledby="editModal" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" > Add new property </h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <form action="/updateProperty" method="post">
+            <input type = "hidden" name="employeeId"  th:attr="value=${employeeId}" readonly>
+            <input type = "hidden" name="branchId"  th:attr="value=${branchId}" readonly>
+            <p>Property type</p>
+            <th:block th:each="type:${propertyTypes}">
+              <input type="radio" th:attr="id=${type.propertyType}, value=${type.propertyType}" name="propertyType"  required>
+              <label th:attr="for=${type.propertyType}" th:text="${type.propertyType}"></label>
+            </th:block>
+            <h1> </h1>
+            <br>
+            <p>Offer type</p>
+            <th:block th:each="offer:${propertyOfferTypes}">
+              <input type="radio" th:attr="id=${offer.propertyOffer}, value=${offer.propertyOffer}" name="propertyOffer"  required>
+              <label th:attr="for=${offer.propertyOffer}" th:text="${offer.propertyOffer}"></label>
+            </th:block>
+            <h1> </h1>
+            <br>
+            <p>Features </p>
+            <th:block th:each="feature:${propertyFeatures}">
+              <input type="radio" th:attr="id=${feature.propertyFeature}, value=${feature.propertyFeature}" name="propertyFeature"  required>
+              <label th:attr="for=${feature.propertyFeature}" th:text="${feature.propertyFeature}"></label>
+            </th:block>
+            <h1> </h1>
+            <br>
+            <p>Availability </p>
+            <input type="radio" id="nTRUE" name="availability" value="TRUE" required>
+            <label for="nTRUE">Available</label>
+            <input type="radio" id="nFALSE" name="availability" value="TRUE" >
+            <label for="nFALSE">Not available</label>
+            <h1> </h1>
+            <br>
+            <label for="ownerid">Owner id</label>
+            <br>
+            <input id="ownerid" type = "number" name="ownerId" placeholder="Owner id" required min="0" max="999">
+            <h1> </h1>
+            <br>
+            <label for="ndescriptionarea">Property Description</label>
+            <h1> </h1>
+            <br>
+            <textarea id="ndescriptionarea" name="description" rows="4" cols="30" placeholder="Enter property description" required></textarea>
+            <h1> </h1>
+            <br>
+            <label for="nbedrooms">No of bedrooms</label>
+            <br>
+            <input id="nbedrooms" type = "number" name="bedroomNo" placeholder="Bedrooms " required min="0" max="99">
+            <h1> </h1>
+            <br>
+            <label for="npostcode">Post code</label>
+            <br>
+            <input id="npostcode" type = "text" name="postCode" placeholder="Enter Post code" required>
+            <h1> </h1>
+            <br>
+            <label for="ncounty">County</label>
+            <br>
+            <input id="ncounty" type = "text" name="county" placeholder="Enter county" required>
+            <h1> </h1>
+            <br>
+            <label for="nprice">Price</label>
+            <br>
+            <input id="nprice" type = "number" name="price" placeholder="Enter price" required min="1" max="999999999">
+            <h1> </h1>
+            <br>
+            <label for="naddress">Address</label>
+            <br>
+            <input id="naddress" type = "text" name="address" placeholder="Enter address" required minlength="10">
+            <br>
+            <h1> </h1>
+
+
+            <input class="btn btn-primary" type="submit" value="Submit" style="border:5px;">
+
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!--*********************************************************End of add new property modal****************************************-->
 
 </main>
 

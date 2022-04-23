@@ -69,6 +69,12 @@ public class PropertiesServiceImpl implements PropertiesService {
         return propertiesRepository.getByEmployeeIdAndAvailability(employeeId,true);
     }
 
+    @Override
+    public void addNewProperty(Properties p) {
+        propertiesRepository.save(p);
+    }
+
+
     public void updatePropertyDetails(Properties p){
         propertiesRepository.save(p);
     }
