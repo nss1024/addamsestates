@@ -149,6 +149,7 @@
                          data-bs-toggle="modal" data-bs-target="#contactAgentModal">
                     <h2>Contact Agent</h2>
                     <p th:text="${employee.UserProfile.FirstName}+' '+${employee.UserProfile.LastName}"></p>
+                    <p th:text="'Tel: '+${employee.UserProfile.contactNumber}"></p>
 
                 </div><!-- /.col-lg-4 -->
             </div><!-- /.row -->
@@ -249,7 +250,7 @@
                 </div>
             </div>
 
-            <!--******************************************************End add new appointment modal *******************************-->
+            <!--******************************************************End add new enquiry modal *******************************-->
 
 
             <!-- FOOTER -->

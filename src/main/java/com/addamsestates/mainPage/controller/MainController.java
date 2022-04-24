@@ -11,8 +11,10 @@ import com.addamsestates.employees.service.implementation.AppointmentsServiceImp
 import com.addamsestates.employees.service.implementation.EmployeeServiceImpl;
 import com.addamsestates.employees.service.implementation.EnquiriesServiceImplementation;
 import com.addamsestates.image.model.BranchImages;
+import com.addamsestates.image.model.EventsImages;
 import com.addamsestates.image.model.PropertiesImages;
 import com.addamsestates.image.srevice.serviceImpl.BranchImagesServiceImpl;
+import com.addamsestates.image.srevice.serviceImpl.EventsImagesServiceImpl;
 import com.addamsestates.image.srevice.serviceImpl.PropertiesImageServiceImpl;
 import com.addamsestates.inputClasses.*;
 import com.addamsestates.mainPage.model.CompanyIntro;
@@ -41,6 +43,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 
+import java.sql.Date;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -110,6 +113,9 @@ public class MainController {
     @Autowired
     private EmployeeServiceImpl employeeService;
 
+    @Autowired
+    private EventsImagesServiceImpl eventsImageService;
+
     @RequestMapping("/")
     public String getMain(Model model) {
 
@@ -120,6 +126,17 @@ public class MainController {
         List<CompanyIntro> ci = companyIntroService.getAll();
         List<Services> services = servicesService.getByActive();
         List<Events> events = eventsService.getActiveEvents();
+
+        //add default image to events if none has been provided
+        for(Events event : events){
+            if(event.getEventImage()==null){
+                EventsImages eventImg = new EventsImages();
+                eventImg.setEventsId(event.getEventId());
+                eventImg.setFileUrl("Images/defaultImage.png");
+                EventsImages defaultImage = eventImg;
+                event.setEventImage(defaultImage);
+            }
+        }
 
         model.addAttribute("companyIntro", ci.get(0));
         model.addAttribute("headerImage", headerImage);
@@ -655,7 +672,7 @@ public class MainController {
     public String viewProperty(@RequestParam("id") Long id, RedirectAttributes redirectAttributes, Model model  ){
 
         Properties property = propertiesService.findPropertyById(id);
-        Employee employee = employeeService.egtEmployeeById(property.getEmployeeId());
+        Employee employee = employeeService.getEmployeeById(property.getEmployeeId());
 
 
         model.addAttribute("property", property);
@@ -663,6 +680,164 @@ public class MainController {
 
 
         return "property";
+    }
+
+    @RequestMapping("/adminpage")
+    public String getAdminPage(Model model) {
+
+        String userName = "gaddams";
+        Users user = usersService.getUserByUserName(userName);
+        Long employeeId = user.getUserProfile().getEmployee().getEmployeeId();
+        Long branchId = user.getUserProfile().getEmployee().getBranchId();
+        String employeeName = user.getUserProfile().getFirstName();
+        List<Services> services = servicesService.getAll();
+        List<Events> events = eventsService.getAllEvents();
+
+        List<Properties> employeeProperties = propertiesService.getByEmployeeIdAndAvailability(employeeId);
+        List<InternalServices> internalServices = internalServicesService.getAllInternalServices();
+
+        List<Employee> allEmployees = employeeService.getAllEmployees();
+
+        model.addAttribute("internalServices", internalServices);
+        model.addAttribute("employeeName", employeeName);
+        model.addAttribute("employeeId", employeeId);
+        model.addAttribute("allEmployees", allEmployees);
+        model.addAttribute("branchId", branchId);
+        model.addAttribute("services", services);
+        model.addAttribute("events", events);
+
+
+        return "adminPage";
+    }
+
+    @RequestMapping(value="/updateExternalService", method = RequestMethod.POST)
+    public String updateExternalService(@RequestParam("active") Boolean active, @RequestParam("id") Long id, RedirectAttributes redirectAttributes  ){
+        // if the service is active (active == true) change it to false and vice versa
+        /*
+        System.out.println(active);
+        System.out.println(id);
+        */
+        Services serviceToUpdate = servicesService.getById(id);
+
+        if(active == true){
+            serviceToUpdate.setActive(Boolean.FALSE);
+        }else{
+            serviceToUpdate.setActive(Boolean.TRUE);
+        }
+
+        servicesService.updateService(serviceToUpdate);
+
+
+        return "redirect:/adminpage";
+    }
+
+    @RequestMapping(value="/updateInternalService", method = RequestMethod.POST)
+    public String updateInternalService(@RequestParam("active") Boolean active,  @RequestParam("id") Long id, RedirectAttributes redirectAttributes  ){
+        /*
+        System.out.println(active);
+        System.out.println(id);
+        */
+        InternalServices internalServiceToUpdate = internalServicesService.getInternalServiceById(id);
+
+        if(active == true){
+            internalServiceToUpdate.setActive(Boolean.FALSE);
+        }else{
+            internalServiceToUpdate.setActive(Boolean.TRUE);
+        }
+
+        internalServicesService.updateInternalService(internalServiceToUpdate);
+
+        return "redirect:/adminpage";
+    }
+
+    @RequestMapping(value="/updateEvents", method = RequestMethod.POST)
+    public String updateEvents(@RequestParam("active") Boolean active,  @RequestParam("id") Long id, RedirectAttributes redirectAttributes  ){
+        /*
+        System.out.println(active);
+        System.out.println(id);
+           */
+        Events eventToUpdate = eventsService.geEventById(id);
+
+        if(active == true){
+            eventToUpdate.setEventActive(Boolean.FALSE);
+        }else{
+            eventToUpdate.setEventActive(Boolean.TRUE);
+        }
+
+        eventsService.updateEvent(eventToUpdate);
+
+        redirectAttributes.addFlashAttribute("message", "Success");
+        redirectAttributes.addFlashAttribute("alertClass", "alert-success");
+
+        return "redirect:/adminpage";
+    }
+
+    @RequestMapping(value="/addNewEvent", method = RequestMethod.POST)
+    public String addNewProperty(@ModelAttribute inputNewEvent newEvent, @RequestParam("file") MultipartFile file, RedirectAttributes redirectAttributes  ){
+
+        Events newEventToSave = new Events();
+        newEventToSave.setEventType(newEvent.getEventType());
+        newEventToSave.setEventName(newEvent.getEventName());
+        newEventToSave.setEventDescription(newEvent.getEventDescription());
+        newEventToSave.setEventActive(Boolean.TRUE);
+        newEventToSave.setBranchId(newEvent.getBranchId());
+        newEventToSave.setCreatedAt(new java.sql.Date(System.currentTimeMillis()));
+        newEventToSave.setStartDate(Date.valueOf(newEvent.getStartDate()));
+        newEventToSave.setEndDate(Date.valueOf(newEvent.getEndDate()));
+
+        eventsService.addNewEvent(newEventToSave);
+
+
+
+        FileUploadService fileUploadService = new FileUploadService();
+        fileUploadService.processSingleUpload(file,98);
+        inputImage eventInputImage = fileUploadService.getSingleInputImage();
+
+        Long lastInsertedEventId = eventsService.getLastInserted().getEventId();
+
+        System.out.println("Last Inserdet event id: "+ lastInsertedEventId);
+
+        EventsImages newEventImage = new EventsImages();
+        newEventImage.setFileName(eventInputImage.getFileName());
+        newEventImage.setFileDescription(eventInputImage.getFileDescription());
+        newEventImage.setFileUrl(eventInputImage.getFileUrl());
+        newEventImage.setCreatedAt(new java.sql.Date(System.currentTimeMillis()));
+        newEventImage.setEventsId(lastInsertedEventId);
+
+        eventsImageService.addNewImage(newEventImage);
+        /*
+        System.out.println(newEvent.getEventName());
+        System.out.println(newEvent.getEventType());
+        System.out.println(newEvent.getEventDescription());
+        System.out.println(newEvent.getStartDate());
+        System.out.println(newEvent.getEndDate());
+        System.out.println(newEvent.getBranchId());
+        System.out.println(file.getOriginalFilename());
+         */
+        return "redirect:/adminpage";
+    }
+
+    @RequestMapping(value="/addNewEmployee", method = RequestMethod.POST)
+    public String addNewEmployee(@ModelAttribute inputColleague inputColleague, @RequestParam("file") MultipartFile file, RedirectAttributes redirectAttributes  ){
+
+        System.out.println(inputColleague.getUserName());
+        System.out.println(inputColleague.getPassword());
+        System.out.println(inputColleague.getRePassword());
+        System.out.println(inputColleague.getFirstName());
+        System.out.println(inputColleague.getLastName());
+        System.out.println(inputColleague.getEmail());
+        System.out.println(inputColleague.getContactNumber());
+        System.out.println(inputColleague.getPermissions());
+        System.out.println(inputColleague.getStartDate());
+        System.out.println(inputColleague.getSalary());
+        System.out.println(inputColleague.getAddress());
+        System.out.println(inputColleague.getJobDescription());
+        System.out.println(inputColleague.getAboutMe());
+        System.out.println(inputColleague.getContact());
+        System.out.println(inputColleague.getVisible());
+        System.out.println(file.getOriginalFilename());
+
+        return "redirect:/adminpage";
     }
 
 }

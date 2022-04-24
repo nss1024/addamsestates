@@ -1,0 +1,624 @@
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="Norbert Simon with Bootstrap">
+    <meta name="generator" content="Hugo 0.88.1">
+    <title>Addams estates - Admin Login</title>
+    <link rel="icon" type="image/png" sizes="16x16" href="Images/favicon32.png">
+
+
+    <!-- Bootstrap core CSS -->
+    <link href="../assets/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <style>
+      .bd-placeholder-img {
+        font-size: 1.125rem;
+        text-anchor: middle;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        user-select: none;
+      }
+
+      @media (min-width: 768px) {
+        .bd-placeholder-img-lg {
+          font-size: 3.5rem;
+        }
+      }
+
+    </style>
+
+
+</head>
+<body>
+
+<header>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
+            crossorigin="anonymous"></script>
+
+</header>
+
+<main>
+    <!--****************************************************Navbar section***********************************************-->
+    <div style="align-items: center;">
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark navbar-fixed-top text-center">
+            <div class="container text-center">
+                <a href="#" class="navbar-brand d-flex align-items-center">
+                    <img src="Images/logoIcon.png" width="30" height="30" style="border-radius: 50%;">
+
+                </a>
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0 ">
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="#">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="#MeetTheTeam">Our Team</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="#Services">Services</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="#Services">Events</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="#Services">About Us</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="#Services">Contact us</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="#Services">Properties for Sale</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="#Services">Properties to Rent</a>
+                    </li>
+
+                </ul>
+                <a href="#" class="navbar-brand d-flex align-items-center float-end">
+                    <button class="btn btn-primary btn-sm my-2 my-sm-0 float-end" type="submit">Sign out</button>
+                </a>
+
+            </div>
+        </nav>
+        <br/>
+
+
+        <!--*********************************************Start of service toggle container****************************************-->
+        <a id="Services"></a>
+        <div class="album py-5 bg-light">
+            <div class="container">
+                <div id="successDiv" th:if="${message}" th:text="${message}" th:class="${'alert ' + alertClass}"/>
+                <h1 th:text="${'Welcome '+employeeName}"></h1>
+                <br/>
+                <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
+                    <div class="col">
+                        <div class="card shadow-sm" style="align-items: center;">
+                            <img src="Images/Services/externalServices.jpg"
+                                 style="width: 50px; height: 60px; padding-top: 10px;">
+                            <h3> External services</h3>
+                            <div class="card-body">
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <!--********************************************* External services table *************************************************************-->
+                                    <br>
+                                    <table class="table text-center">
+                                        <thead>
+                                        <tr>
+                                            <th scope="col">Service Name</th>
+                                            <th scope="col"> Active service</th>
+                                            <th scope="col"> Update activity</th>
+
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        <th:block th:each="service:${services}">
+                                            <tr>
+                                                <td th:text="${service.serviceName}"></td>
+                                                <td th:text="${service.active}"></td>
+                                                <td>
+                                                    <form method="POST"
+                                                          th:action="@{/updateExternalService(active=${service.active},id=${service.serviceId})}">
+                                                        <button type="submit" name="submit" value="value"
+                                                                class="btn btn-primary btn-sm btn-warning">Update
+                                                        </button>
+                                                    </form>
+                                                </td>
+                                            </tr>
+                                        </th:block>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <!--********************************************* External services table End *************************************************************-->
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col">
+                        <div class="card shadow-sm" style="align-items: center;">
+                            <img src="Images/Services/internalServices.jpg"
+                                 style="width: 50px; height: 60px; padding-top: 10px;">
+                            <h3> Internal services</h3>
+                            <div class="card-body">
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <!--********************************************* Intenal services table *************************************************************-->
+                                    <br>
+                                    <table class="table text-center">
+                                        <thead>
+                                        <tr>
+                                            <th scope="col">Service Name</th>
+                                            <th scope="col"> Active service</th>
+                                            <th scope="col"> Update activity</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        <th:block th:each="service:${internalServices}">
+                                            <tr>
+                                                <td th:text="${service.serviceName}"></td>
+                                                <td th:text="${service.active}"></td>
+                                                <td>
+                                                    <form method="POST"
+                                                          th:action="@{/updateInternalService(active=${service.active},id=${service.serviceId})}">
+                                                        <button type="submit" name="submit" value="value"
+                                                                class="btn btn-primary btn-sm btn-warning">Update
+                                                        </button>
+                                                    </form>
+                                                </td>
+                                            </tr>
+                                        </th:block>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <!--********************************************* Intenal services table End *************************************************************-->
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col">
+                        <div class="card shadow-sm" style="align-items: center;">
+                            <img src="Images/Services/Events.png" style="width: 50px; height: 60px; padding-top: 10px;">
+                            <h3> Events</h3>
+                            <div class="card-body">
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <!--********************************************* Events services table *************************************************************-->
+                                    <br>
+                                    <table class="table text-center">
+                                        <thead>
+                                        <tr>
+                                            <th scope="col">Event Name</th>
+                                            <th scope="col"> Active event</th>
+                                            <th scope="col"> Update activity</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        <th:block th:each="event:${events}">
+                                            <tr>
+                                                <td th:text="${event.eventName}"></td>
+                                                <td th:text="${event.eventActive}"></td>
+                                                <td>
+                                                    <form method="POST"
+                                                          th:action="@{/updateEvents(active=${event.eventActive},id=${event.eventId})}">
+                                                        <button type="submit" name="submit" value="value"
+                                                                class="btn btn-primary btn-sm btn-warning">Update
+                                                        </button>
+                                                    </form>
+                                                </td>
+                                            </tr>
+                                        </th:block>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <!--********************************************* Events services table End *************************************************************-->
+
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <!-- *******************************************************End of our services toggle container*******************************************************-->
+
+    <!--********************************************************Add users and events buttons ************************************************************ -->
+
+    <a id="AddNewUserEventButtons"></a>
+    <div class="album py-5 bg-light">
+        <div class="container">
+            <br/>
+            <div class="row row-cols-1 row-cols-sm-2 row-cols-md-2 g-2">
+                <div class="col">
+                    <div class="card shadow-sm" style="align-items: center;">
+                        <img src="Images/Services/AddUser.png" style="width: 50px; height: 60px; padding-top: 10px;" data-toggle="modal" data-target="#addNewColleagueModal">
+                        <div class="card-body">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <h4>Add New Colleague </h4>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col">
+                    <div class="card shadow-sm" style="align-items: center;">
+                        <img src="Images/Services/newEvent.png" style="width: 50px; height: 60px; padding-top: 10px;"
+                             data-toggle="modal" data-target="#addEventModal">
+                        <div class="card-body">
+                            <h4>Add new event</h4>
+                            <div class="d-flex justify-content-between align-items-center">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!--*******************************************************End Add users and events buttons ********************************************************** -->
+
+    <!--*********************************************                Start of employees container                   ****************************************-->
+    <a id="Employees"></a>
+    <div class="album py-5 bg-light">
+        <div class="container">
+            <h1 > Employees </h1>
+            <br/>
+            <div class="row row-cols-1 row-cols-sm-1 row-cols-md-1 g-1">
+                <div class="col">
+                    <div class="card shadow-sm" style="align-items: center;">
+                        <img src="Images/Services/employees.png"
+                             style="width: 50px; height: 60px; padding-top: 10px;">
+                        <h3> </h3>
+                        <div class="card-body">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <!--********************************************* Employees table *************************************************************-->
+                                <br>
+                                <table class="table text-center">
+                                    <thead>
+                                    <tr>
+                                        <th scope="col">Employee Id</th>
+                                        <th scope="col"> First name</th>
+                                        <th scope="col"> Last name</th>
+                                        <th scope="col"> User name</th>
+                                        <th scope="col"> Job description</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <th:block th:each="employee:${allEmployees}">
+                                        <tr>
+                                            <td th:text="${employee.employeeId}"></td>
+                                            <td th:text="${employee.userProfile.firstName}"></td>
+                                            <td th:text="${employee.userProfile.lastName}"></td>
+                                            <td th:text="${employee.userProfile.user.userName}"></td>
+                                            <td th:text="${employee.jobDescription}"></td>
+                                        </tr>
+                                    </th:block>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <!--********************************************* Employees table end *************************************************************-->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+<!--*************************************************************     End of Employees container ****************************************************************** -->
+
+    <!--******************************************************************** MODALS ***********************************************************************-->
+
+    <!--********************************************************Modal add event******************************-->
+
+    <!-- Modal -->
+    <div class="modal fade" id="addEventModal" tabindex="-1" role="dialog" aria-labelledby="addEvent"
+         aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="addEventModalTitle">Redirect to external analytics site</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form action="addNewEvent" method="post" enctype="multipart/form-data">
+
+                        <input type="hidden" name="branchId" th:attr="value=${branchId}" readonly>
+
+                        <table>
+                            <tr>
+                            <td><label for="eventName">Event name</label></td>
+                            <td><input type="text" name="eventName" id="eventName" placeholder="Enter event name" required></td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <label> Event type </label>
+                              </td>
+                              <td>
+                            <input type="radio" id="openHouse" name="eventType" value="OPEN HOUSE" required>
+                            <label for="openHouse">Open House</label><br>
+                            <input type="radio" id="party" name="eventType" value="PARTY">
+                            <label for="party">Party</label><br>
+                            <input type="radio" id="seminar" name="eventType" value="SEMINAR">
+                            <label for="seminar">Seminar</label><br>
+                              </td>
+                            </tr>
+
+                            <tr>
+                            <td><label for="startDate">Start Date</label></td>
+                            <td><input type="date" id="startDate" name="startDate" required></td>
+                            </tr>
+
+                            <tr>
+                            <td> <label for="endDate">End Date</label></td>
+                            <td><input type="date" id="endDate" name="endDate" required></td>
+                            </tr>
+
+                            <tr>
+                            <td><label for="eventDescription">Event name</label></td>
+                            <td><input type="text" name="eventDescription" id="eventDescription" placeholder="Enter event description" required></td>
+                            </tr>
+
+                            <tr>
+                            <td> <label for="fileUpload">Upload cover photo</label> </td>
+                            <td><input type="file" id="fileUpload" name="file"  accept=".jpg, .png, .jpeg, .gif, .bmp, .tif, .tiff|image/*" required> </td>
+                            </tr>
+                        </table>
+                        <input type="submit" name="submit" value="Submit">
+                    </form>
+
+                </div>
+                <div class="modal-footer">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!--******************************************************End add event modal *******************************-->
+    <!--********************************************************Add new user Modal******************************-->
+
+    <!-- Modal -->
+    <div class="modal fade" id="addNewColleagueModal" tabindex="-1" role="dialog" aria-labelledby="addNewColleagueModal" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="addNewColleagueModalTitle">Add new Colleague</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form action="addNewEmployee" method="post" enctype="multipart/form-data">
+                        <input type="hidden" name="branchId" th:attr="value=${branchId}" readonly>
+                        <table>
+                            <tr>
+                                <td><label for="userName">User name</label></td>
+                                <td><input type="text" name="userName" id="userName" placeholder="User name" required></td>
+                            </tr>
+                            <tr>
+                                <td><label for="password">Password</label></td>
+                                <td><input type="text" name="password" id="password" placeholder="password " required></td>
+                            </tr>
+                            <tr>
+                                <td><label for="repassword">Re-enter Password</label></td>
+                                <td><input type="text" name="rePassword" id="repassword" placeholder="Re-enter password " required></td>
+                            </tr>
+                            <tr>
+                                <td><label for="firstName">First name</label></td>
+                                <td><input type="text" name="firstName" id="firstName" placeholder="First name" required></td>
+                            </tr>
+                            <tr>
+                                <td><label for="LastName">Last name</label></td>
+                                <td><input type="text" name="LastName" id="LastName" placeholder="Last name" required></td>
+                            </tr>
+                            <tr>
+                                <td><label for="email">Email</label></td>
+                                <td><input type="email" name="email" id="email" placeholder="Email" required></td>
+                            </tr>
+                            <tr>
+                                <td><label for="contactNumber">Contact phone number</label></td>
+                                <td><input type="tel" name="contactNumber" id="contactNumber" placeholder="Phone number" required></td>
+                            </tr>
+                            <tr>
+                                <td><label>Permissions</label></td>
+                                <td>
+                                    <input type="radio" id="employee" name="permission" value="EMPLOYEE" required>
+                                    <label for="openHouse">Employee</label><br>
+                                    <input type="radio" id="Admin" name="permission" value="ADMINISTRATOR">
+                                    <label for="Admin">Administrator</label><br>
+                                    <input type="radio" id="user" name="permission" value="USER">
+                                    <label for="user">User</label><br>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><label for="employeeStartDate">Start date</label></td>
+                                <td><input type="text" name="startDate" id="employeeStartDate" placeholder="Start date" required></td>
+                            </tr>
+                            <tr>
+                                <td><label for="salary">Salary</label></td>
+                                <td><input type="number" name="salary" id="salary" placeholder="Salary" required min="15000" max="100000"></td>
+                            </tr>
+                            <tr>
+                                <td><label for="employeeAddress">Address</label></td>
+                                <td><input type="text" name="employeeAddress" id="employeeAddress" placeholder="Address" required min="10"></td>
+                            </tr>
+                            <tr>
+                                <td><label for="jobDescription">Job description</label></td>
+                                <td><input type="text" name="jobDescription" id="jobDescription" placeholder="Job Description" required min="10"></td>
+                            </tr>
+                            <tr>
+                                <td><label for="aboutMe">About me</label></td>
+                                <td><input type="text" name="aboutMe" id="aboutMe" placeholder="About me" required min="10"></td>
+                            </tr>
+                            <tr>
+                                <td><label for="companyContact">Company contact</label></td>
+                                <td><input type="text" name="contact" id="companyContact" placeholder="Company contact" required min="10"></td>
+                            </tr>
+                            <tr>
+                                <td><label for="visible">Visible on main page</label></td>
+                                <td><input type="checkbox" name="visible" id="visible" ></td>
+                            </tr>
+                            <tr>
+                                <td> <label for="fileUploadColleague">Upload cover photo</label> </td>
+                                <td><input type="file" id="fileUploadColleague" name="file"  accept=".jpg, .png, .jpeg, .gif, .bmp, .tif, .tiff|image/*" required> </td>
+                            </tr>
+                            <br>
+                            <h1> </h1>
+
+                        </table>
+                        <input type="submit" name="submit" value="Submit">
+                        <input type="reset" name="submit" value="Reset">
+                    </form>
+                </div>
+                <div class="modal-footer">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!--******************************************************End HR modal *******************************-->
+
+    <!--*****************************************************************Add new property modal***************************************-->
+
+    <div class="modal fade" id="addNewProperty" tabindex="-1" role="dialog" aria-labelledby="editModal"
+         aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title"> Add new property </h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form action="/addNewProperty" method="post">
+                        <input type="hidden" name="employeeId" th:attr="value=${employeeId}" readonly>
+                        <input type="hidden" name="branchId" th:attr="value=${branchId}" readonly>
+                        <p>Property type</p>
+                        <th:block th:each="type:${propertyTypes}">
+                            <input type="radio" th:attr="id=${type.propertyType}, value=${type.propertyTypeId}"
+                                   name="propertyType" required>
+                            <label th:attr="for=${type.propertyType}" th:text="${type.propertyType}"></label>
+                        </th:block>
+                        <h1></h1>
+                        <br>
+                        <p>Offer type</p>
+                        <th:block th:each="offer:${propertyOfferTypes}">
+                            <input type="radio" th:attr="id=${offer.propertyOffer}, value=${offer.propertyOfferId}"
+                                   name="propertyOffer" required>
+                            <label th:attr="for=${offer.propertyOffer}" th:text="${offer.propertyOffer}"></label>
+                        </th:block>
+                        <h1></h1>
+                        <br>
+                        <p>Features </p>
+                        <th:block th:each="feature:${propertyFeatures}">
+                            <input type="radio"
+                                   th:attr="id=${feature.propertyFeature}, value=${feature.propertyFeaturesId}"
+                                   name="propertyFeature" required>
+                            <label th:attr="for=${feature.propertyFeature}"
+                                   th:text="${feature.propertyFeature}"></label>
+                        </th:block>
+                        <h1></h1>
+                        <br>
+                        <p>Availability </p>
+                        <input type="radio" id="nTRUE" name="availability" value="TRUE" required>
+                        <label for="nTRUE">Available</label>
+                        <input type="radio" id="nFALSE" name="availability" value="TRUE">
+                        <label for="nFALSE">Not available</label>
+                        <h1></h1>
+                        <br>
+                        <label for="ownerid">Owner id</label>
+                        <br>
+                        <input id="ownerid" type="number" name="ownerId" placeholder="Owner id" required min="0"
+                               max="999">
+                        <h1></h1>
+                        <br>
+                        <label for="ndescriptionarea">Property Description</label>
+                        <h1></h1>
+                        <br>
+                        <textarea id="ndescriptionarea" name="description" rows="4" cols="30"
+                                  placeholder="Enter property description" required></textarea>
+                        <h1></h1>
+                        <br>
+                        <label for="nbedrooms">No of bedrooms</label>
+                        <br>
+                        <input id="nbedrooms" type="number" name="bedroomNo" placeholder="Bedrooms " required min="0"
+                               max="99">
+                        <h1></h1>
+                        <br>
+                        <label for="npostcode">Post code</label>
+                        <br>
+                        <input id="npostcode" type="text" name="postCode" placeholder="Enter Post code" required>
+                        <h1></h1>
+                        <br>
+                        <label for="ncounty">County</label>
+                        <br>
+                        <input id="ncounty" type="text" name="county" placeholder="Enter county" required>
+                        <h1></h1>
+                        <br>
+                        <label for="nprice">Price</label>
+                        <br>
+                        <input id="nprice" type="number" name="price" placeholder="Enter price" required min="1"
+                               max="999999999">
+                        <h1></h1>
+                        <br>
+                        <label for="naddress">Address</label>
+                        <br>
+                        <input id="naddress" type="text" name="address" placeholder="Enter address" required
+                               minlength="10">
+                        <br>
+                        <h1></h1>
+
+
+                        <input class="btn btn-primary" type="submit" value="Submit" style="border:5px;">
+
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!--*********************************************************End of add new property modal****************************************-->
+
+
+
+    <script>
+    setTimeout(function() {
+    $('#successDiv').fadeOut('fast');
+    }, 3000); // <-- time in milliseconds
+    </script>
+
+</main>
+
+<footer class="text-muted py-5">
+    <div class="container">
+        <p class="float-end mb-1">
+            <a href="#">Back to top</a>
+        </p>
+        <p class="mb-1">Addams Estates &copy; 2022</p>
+
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+            integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+            crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js"
+            integrity="sha384-vFJXuSJphROIrBnz7yo7oB41mKfc8JzQZiCq4NCceLEaO4IHwicKwpJf9c9IpFgh"
+            crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js"
+            integrity="sha384-alpBpkh1PFOepccYVYDB4do5UnbKysX5WZXm3XxPqe5iKTfUKjNkCk9SaVuEZflJ"
+            crossorigin="anonymous"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+
+</footer>
+
+</body>
+</html>

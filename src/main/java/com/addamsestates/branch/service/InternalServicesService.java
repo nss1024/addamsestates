@@ -12,4 +12,6 @@ public interface InternalServicesService {
 
     InternalServices getInternalServiceById(Long id);
 
+    void updateInternalService (InternalServices is);
+
 }

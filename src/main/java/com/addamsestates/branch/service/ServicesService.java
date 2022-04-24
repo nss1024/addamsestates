@@ -12,4 +12,6 @@ public interface ServicesService {
 
     List<Services> getByActive();
 
+    void updateService(Services s);
+
 }

@@ -12,4 +12,10 @@ public interface EventsService {
 
     List <Events> getActiveEvents();
 
+    Events getLastInserted();
+
+    void updateEvent(Events event);
+
+    void addNewEvent(Events event);
+
 }

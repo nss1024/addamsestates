@@ -18,7 +18,7 @@ import java.util.Date;
 public class Events {
 
     @Id
-    @GeneratedValue()
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "event_id", updatable = false, nullable = false)
     private Long eventId;
     @Column(name="event_type")

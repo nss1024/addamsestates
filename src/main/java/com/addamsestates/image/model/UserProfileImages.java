@@ -17,7 +17,7 @@ import java.util.Date;
 public class UserProfileImages {
 
     @Id
-    @GeneratedValue()
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "file_id", updatable = false, nullable = false)
     private Long fileId;
     @Column(name="user_profile_id")

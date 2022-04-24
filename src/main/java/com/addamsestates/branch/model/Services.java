@@ -18,7 +18,7 @@ import java.util.Date;
 public class Services {
 
     @Id
-    @GeneratedValue()
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "service_id", updatable = false, nullable = false)
     private Long serviceId;
     @Column(name="branch_id")
@@ -28,7 +28,7 @@ public class Services {
     @Column(name="description")
     private String description;
     @Column(name="image")
-    private String image;
+    private Long image;
     @Column(name="create_date")
     private Date createDate;
     @Column(name="active")

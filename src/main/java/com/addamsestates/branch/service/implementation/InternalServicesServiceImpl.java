@@ -29,4 +29,9 @@ public class InternalServicesServiceImpl implements InternalServicesService {
     public InternalServices getInternalServiceById(Long id) {
         return internalServicesRepository.getById(id);
     }
+
+    @Override
+    public void updateInternalService(InternalServices is) {
+        internalServicesRepository.save(is);
+    }
 }

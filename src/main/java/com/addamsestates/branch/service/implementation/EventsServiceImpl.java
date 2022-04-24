@@ -28,4 +28,20 @@ public class EventsServiceImpl implements EventsService {
     public List<Events> getActiveEvents() {
         return eventsRepository.getByEventActive(true);
     }
+
+    @Override
+    public Events getLastInserted() {
+        return eventsRepository.findFirstByOrderByEventIdDesc();
+    }
+
+    @Override
+    public void updateEvent(Events event) {
+        eventsRepository.save(event);
+    }
+
+    @Override
+    public void addNewEvent(Events event) {
+        eventsRepository.save(event);
+
+    }
 }

@@ -16,7 +16,7 @@ import java.util.Date;
 public class InternalServices {
 
     @Id
-    @GeneratedValue()
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "iservice_id", updatable = false, nullable = false)
     private Long serviceId;
     @Column(name="branch_id")

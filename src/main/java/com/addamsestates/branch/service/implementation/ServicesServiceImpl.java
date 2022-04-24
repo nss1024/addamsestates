@@ -27,4 +27,9 @@ public class ServicesServiceImpl implements ServicesService {
     public List<Services> getByActive(){
         return servicesRepository.getByActive(true);
     }
+
+    @Override
+    public void updateService(Services s) {
+        servicesRepository.save(s);
+    }
 }

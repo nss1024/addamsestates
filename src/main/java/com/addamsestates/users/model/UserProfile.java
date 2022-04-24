@@ -19,7 +19,7 @@ import java.util.Date;
 public class UserProfile {
 
     @Id
-    @GeneratedValue()
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "user_profile_id", updatable = false, nullable = false)
     private Long userProfileId;
     @Column(name="user_id")
@@ -45,5 +45,9 @@ public class UserProfile {
     @OneToOne
     @JoinColumn(name="user_profile_id")
     private Employee employee;
+
+    @OneToOne
+    @JoinColumn(name="user_profile_id")
+    private Users user;
 
 }
