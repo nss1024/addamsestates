@@ -38,7 +38,7 @@ public class Events {
     @Column(name="branch_id")
     private Long branchId;
 
-    @OneToOne(cascade=CascadeType.ALL, orphanRemoval = false, fetch=FetchType.EAGER)
+    @OneToOne(fetch=FetchType.EAGER)
     @JoinColumn(name="event_id")
     private EventsImages eventImage;
 

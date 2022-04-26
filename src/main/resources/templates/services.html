@@ -54,32 +54,31 @@
                     <img src="Images/logoIcon.png" width="30" height="30" style="border-radius: 50%;">
 
                 </a>
-                <ul class="navbar-nav me-auto mb-2 mb-lg-0 ">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                     <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="#">Home</a>
+                        <a class="nav-link active" aria-current="page" th:href="@{/}" th:target="_blank">Home</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link active" href="#MeetTheTeam">Our Team</a>
+                        <a class="nav-link active" th:href="@{/}" th:target="_blank">Our Team</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link active" href="#Services">Services</a>
+                        <a class="nav-link active" th:href="@{/}" th:target="_blank">Services</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link active" href="#Services">Events</a>
+                        <a class="nav-link active" th:href="@{/}" th:target="_blank">Events</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link active" href="#Services">About Us</a>
+                        <a class="nav-link active" th:href="@{/}" th:target="_blank">About Us</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link active" href="#Services">Contact us</a>
+                        <a class="nav-link active" th:href="@{contactUs}" th:target="_blank">Contact us</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link active" href="#Services">Properties for Sale</a>
+                        <a class="nav-link active" th:href="@{propertiesforsale}" th:target="_blank">Properties for Sale</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link active" href="#Services">Properties to Rent</a>
+                        <a class="nav-link active" th:href="@{propertiestolet}" th:target>Properties to Rent</a>
                     </li>
-
                 </ul>
                 <a href="#" class="navbar-brand d-flex align-items-center float-end">
                     <button class="btn btn-primary btn-sm my-2 my-sm-0 float-end" type="submit">Sign out</button>

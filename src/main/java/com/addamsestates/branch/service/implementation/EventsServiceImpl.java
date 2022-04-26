@@ -44,4 +44,9 @@ public class EventsServiceImpl implements EventsService {
         eventsRepository.save(event);
 
     }
+
+    @Override
+    public void deleteEvent(Long id) {
+        eventsRepository.deleteById(id);
+    }
 }

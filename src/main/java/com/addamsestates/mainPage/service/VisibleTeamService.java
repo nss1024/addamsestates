@@ -13,4 +13,6 @@ public interface VisibleTeamService {
 
     List<VisibleTeam> getByVisible();
 
+    void addNewTeamMember(VisibleTeam vt);
+
 }

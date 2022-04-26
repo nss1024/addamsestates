@@ -66,17 +66,7 @@
 <main>
 
     <div id="myCarousel" class="carousel slide" data-bs-ride="carousel">
-        <!--
-        <div class="carousel-indicators">
-            <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="0" class="active" aria-current="true"
-                    aria-label="Slide 1"></button>
-            <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="1" aria-label="Slide 2"></button>
-            <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="2" aria-label="Slide 3"></button>
-            <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="3" aria-label="Slide 4"></button>
-            <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="4" aria-label="Slide 5"></button>
-            <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="5" aria-label="Slide 6"></button>
-        </div>
-        -->
+
 
         <div class="carousel-inner">
             <div class="carousel-item active">
@@ -121,7 +111,7 @@
         <!-- Wrap the rest of the page in another container to center all the content. -->
 
         <div class="container marketing">
-
+            <div id="successDiv" th:if="${message}" th:text="${message}" th:class="${'alert ' + alertClass}"/>
             <!-- Three columns of text below the carousel -->
             <div class="row">
                 <div class="col-lg-4">
@@ -258,8 +248,18 @@
                 <p class="float-end"><a href="#">Back to top</a></p>
                 <p>Addams Estates &copy; 2022 </p>
             </footer>
+
+            <script>
+    setTimeout(function() {
+    $('#successDiv').fadeOut('fast');
+    }, 3000); // <-- time in milliseconds
+    </script>
+
 </main>
 
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+        integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+        crossorigin="anonymous"></script>
 
 <script src="../assets/dist/js/bootstrap.bundle.min.js"></script>
 

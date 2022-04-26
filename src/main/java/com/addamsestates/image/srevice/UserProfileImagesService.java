@@ -13,4 +13,8 @@ public interface UserProfileImagesService {
 
     List<UserProfileImages> getAllImagesByEntityId(Long id);
 
+    void addNewImage(UserProfileImages userProfileImage);
+
+    void UpdateImage(UserProfileImages userProfileImage);
+
 }

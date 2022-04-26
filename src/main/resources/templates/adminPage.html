@@ -29,6 +29,7 @@
         }
       }
 
+
     </style>
 
 
@@ -54,32 +55,32 @@
                     <img src="Images/logoIcon.png" width="30" height="30" style="border-radius: 50%;">
 
                 </a>
-                <ul class="navbar-nav me-auto mb-2 mb-lg-0 ">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                     <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="#">Home</a>
+                        <a class="nav-link active" aria-current="page" th:href="@{/}" th:target="_blank">Home</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link active" href="#MeetTheTeam">Our Team</a>
+                        <a class="nav-link active" th:href="@{/}" th:target="_blank">Our Team</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link active" href="#Services">Services</a>
+                        <a class="nav-link active" th:href="@{/}" th:target="_blank">Services</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link active" href="#Services">Events</a>
+                        <a class="nav-link active" th:href="@{/}" th:target="_blank">Events</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link active" href="#Services">About Us</a>
+                        <a class="nav-link active" th:href="@{/}" th:target="_blank">About Us</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link active" href="#Services">Contact us</a>
+                        <a class="nav-link active" th:href="@{contactUs}" th:target="_blank">Contact us</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link active" href="#Services">Properties for Sale</a>
+                        <a class="nav-link active" th:href="@{propertiesforsale}" th:target="_blank">Properties for
+                            Sale</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link active" href="#Services">Properties to Rent</a>
+                        <a class="nav-link active" th:href="@{propertiestolet}" th:target>Properties to Rent</a>
                     </li>
-
                 </ul>
                 <a href="#" class="navbar-brand d-flex align-items-center float-end">
                     <button class="btn btn-primary btn-sm my-2 my-sm-0 float-end" type="submit">Sign out</button>
@@ -208,6 +209,14 @@
                                                         </button>
                                                     </form>
                                                 </td>
+                                                <td>
+                                                    <form method="POST"
+                                                          th:action="@{/deleteEvent(active=${event.eventActive},id=${event.eventId})}">
+                                                        <button type="submit" name="submit" value="value"
+                                                                class="btn btn-danger btn-sm">Delete
+                                                        </button>
+                                                    </form>
+                                                </td>
                                             </tr>
                                         </th:block>
                                         </tbody>
@@ -235,7 +244,8 @@
             <div class="row row-cols-1 row-cols-sm-2 row-cols-md-2 g-2">
                 <div class="col">
                     <div class="card shadow-sm" style="align-items: center;">
-                        <img src="Images/Services/AddUser.png" style="width: 50px; height: 60px; padding-top: 10px;" data-toggle="modal" data-target="#addNewColleagueModal">
+                        <img src="Images/Services/AddUser.png" style="width: 50px; height: 60px; padding-top: 10px;"
+                             data-toggle="modal" data-target="#addNewColleagueModal">
                         <div class="card-body">
                             <div class="d-flex justify-content-between align-items-center">
                                 <h4>Add New Colleague </h4>
@@ -265,14 +275,14 @@
     <a id="Employees"></a>
     <div class="album py-5 bg-light">
         <div class="container">
-            <h1 > Employees </h1>
+            <h1> Employees </h1>
             <br/>
             <div class="row row-cols-1 row-cols-sm-1 row-cols-md-1 g-1">
                 <div class="col">
                     <div class="card shadow-sm" style="align-items: center;">
                         <img src="Images/Services/employees.png"
                              style="width: 50px; height: 60px; padding-top: 10px;">
-                        <h3> </h3>
+                        <h3></h3>
                         <div class="card-body">
                             <div class="d-flex justify-content-between align-items-center">
                                 <!--********************************************* Employees table *************************************************************-->
@@ -308,7 +318,7 @@
         </div>
     </div>
 
-<!--*************************************************************     End of Employees container ****************************************************************** -->
+    <!--*************************************************************     End of Employees container ****************************************************************** -->
 
     <!--******************************************************************** MODALS ***********************************************************************-->
 
@@ -332,41 +342,44 @@
 
                         <table>
                             <tr>
-                            <td><label for="eventName">Event name</label></td>
-                            <td><input type="text" name="eventName" id="eventName" placeholder="Enter event name" required></td>
+                                <td><label for="eventName">Event name</label></td>
+                                <td><input type="text" name="eventName" id="eventName" placeholder="Enter event name"
+                                           required></td>
                             </tr>
                             <tr>
-                              <td>
-                                <label> Event type </label>
-                              </td>
-                              <td>
-                            <input type="radio" id="openHouse" name="eventType" value="OPEN HOUSE" required>
-                            <label for="openHouse">Open House</label><br>
-                            <input type="radio" id="party" name="eventType" value="PARTY">
-                            <label for="party">Party</label><br>
-                            <input type="radio" id="seminar" name="eventType" value="SEMINAR">
-                            <label for="seminar">Seminar</label><br>
-                              </td>
-                            </tr>
-
-                            <tr>
-                            <td><label for="startDate">Start Date</label></td>
-                            <td><input type="date" id="startDate" name="startDate" required></td>
+                                <td>
+                                    <label> Event type </label>
+                                </td>
+                                <td>
+                                    <input type="radio" id="openHouse" name="eventType" value="OPEN HOUSE" required>
+                                    <label for="openHouse">Open House</label><br>
+                                    <input type="radio" id="party" name="eventType" value="PARTY">
+                                    <label for="party">Party</label><br>
+                                    <input type="radio" id="seminar" name="eventType" value="SEMINAR">
+                                    <label for="seminar">Seminar</label><br>
+                                </td>
                             </tr>
 
                             <tr>
-                            <td> <label for="endDate">End Date</label></td>
-                            <td><input type="date" id="endDate" name="endDate" required></td>
+                                <td><label for="startDate">Start Date</label></td>
+                                <td><input type="date" id="startDate" name="startDate" required></td>
                             </tr>
 
                             <tr>
-                            <td><label for="eventDescription">Event name</label></td>
-                            <td><input type="text" name="eventDescription" id="eventDescription" placeholder="Enter event description" required></td>
+                                <td><label for="endDate">End Date</label></td>
+                                <td><input type="date" id="endDate" name="endDate" required></td>
                             </tr>
 
                             <tr>
-                            <td> <label for="fileUpload">Upload cover photo</label> </td>
-                            <td><input type="file" id="fileUpload" name="file"  accept=".jpg, .png, .jpeg, .gif, .bmp, .tif, .tiff|image/*" required> </td>
+                                <td><label for="eventDescription">Event name</label></td>
+                                <td><input type="text" name="eventDescription" id="eventDescription"
+                                           placeholder="Enter event description" required></td>
+                            </tr>
+
+                            <tr>
+                                <td><label for="fileUpload">Upload cover photo</label></td>
+                                <td><input type="file" id="fileUpload" name="file"
+                                           accept=".jpg, .png, .jpeg, .gif, .bmp, .tif, .tiff|image/*" required></td>
                             </tr>
                         </table>
                         <input type="submit" name="submit" value="Submit">
@@ -383,7 +396,8 @@
     <!--********************************************************Add new user Modal******************************-->
 
     <!-- Modal -->
-    <div class="modal fade" id="addNewColleagueModal" tabindex="-1" role="dialog" aria-labelledby="addNewColleagueModal" aria-hidden="true">
+    <div class="modal fade" id="addNewColleagueModal" tabindex="-1" role="dialog" aria-labelledby="addNewColleagueModal"
+         aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
@@ -398,23 +412,28 @@
                         <table>
                             <tr>
                                 <td><label for="userName">User name</label></td>
-                                <td><input type="text" name="userName" id="userName" placeholder="User name" required></td>
+                                <td><input type="text" name="userName" id="userName" placeholder="User name" required>
+                                </td>
                             </tr>
                             <tr>
                                 <td><label for="password">Password</label></td>
-                                <td><input type="text" name="password" id="password" placeholder="password " required></td>
+                                <td><input type="text" name="password" id="password" placeholder="password " required>
+                                </td>
                             </tr>
                             <tr>
                                 <td><label for="repassword">Re-enter Password</label></td>
-                                <td><input type="text" name="rePassword" id="repassword" placeholder="Re-enter password " required></td>
+                                <td><input type="text" name="rePassword" id="repassword"
+                                           placeholder="Re-enter password " required></td>
                             </tr>
                             <tr>
                                 <td><label for="firstName">First name</label></td>
-                                <td><input type="text" name="firstName" id="firstName" placeholder="First name" required></td>
+                                <td><input type="text" name="firstName" id="firstName" placeholder="First name"
+                                           required></td>
                             </tr>
                             <tr>
                                 <td><label for="LastName">Last name</label></td>
-                                <td><input type="text" name="LastName" id="LastName" placeholder="Last name" required></td>
+                                <td><input type="text" name="LastName" id="LastName" placeholder="Last name" required>
+                                </td>
                             </tr>
                             <tr>
                                 <td><label for="email">Email</label></td>
@@ -422,12 +441,13 @@
                             </tr>
                             <tr>
                                 <td><label for="contactNumber">Contact phone number</label></td>
-                                <td><input type="tel" name="contactNumber" id="contactNumber" placeholder="Phone number" required></td>
+                                <td><input type="tel" name="contactNumber" id="contactNumber" placeholder="Phone number"
+                                           required></td>
                             </tr>
                             <tr>
                                 <td><label>Permissions</label></td>
                                 <td>
-                                    <input type="radio" id="employee" name="permission" value="EMPLOYEE" required>
+                                    <input type="radio" id="employee" name="permissions" value="EMPLOYEE" required>
                                     <label for="openHouse">Employee</label><br>
                                     <input type="radio" id="Admin" name="permission" value="ADMINISTRATOR">
                                     <label for="Admin">Administrator</label><br>
@@ -437,38 +457,45 @@
                             </tr>
                             <tr>
                                 <td><label for="employeeStartDate">Start date</label></td>
-                                <td><input type="text" name="startDate" id="employeeStartDate" placeholder="Start date" required></td>
+                                <td><input type="text" name="startDate" id="employeeStartDate" placeholder="Start date"
+                                           required></td>
                             </tr>
                             <tr>
                                 <td><label for="salary">Salary</label></td>
-                                <td><input type="number" name="salary" id="salary" placeholder="Salary" required min="15000" max="100000"></td>
+                                <td><input type="number" name="salary" id="salary" placeholder="Salary" required
+                                           min="15000" max="100000"></td>
                             </tr>
                             <tr>
                                 <td><label for="employeeAddress">Address</label></td>
-                                <td><input type="text" name="employeeAddress" id="employeeAddress" placeholder="Address" required min="10"></td>
+                                <td><input type="text" name="address" id="employeeAddress" placeholder="Address"
+                                           required min="10"></td>
                             </tr>
                             <tr>
                                 <td><label for="jobDescription">Job description</label></td>
-                                <td><input type="text" name="jobDescription" id="jobDescription" placeholder="Job Description" required min="10"></td>
+                                <td><input type="text" name="jobDescription" id="jobDescription"
+                                           placeholder="Job Description" required min="10"></td>
                             </tr>
                             <tr>
                                 <td><label for="aboutMe">About me</label></td>
-                                <td><input type="text" name="aboutMe" id="aboutMe" placeholder="About me" required min="10"></td>
+                                <td><input type="text" name="aboutMe" id="aboutMe" placeholder="About me" required
+                                           min="10"></td>
                             </tr>
                             <tr>
                                 <td><label for="companyContact">Company contact</label></td>
-                                <td><input type="text" name="contact" id="companyContact" placeholder="Company contact" required min="10"></td>
+                                <td><input type="text" name="contact" id="companyContact" placeholder="Company contact"
+                                           required min="10"></td>
                             </tr>
                             <tr>
                                 <td><label for="visible">Visible on main page</label></td>
-                                <td><input type="checkbox" name="visible" id="visible" ></td>
+                                <td><input type="checkbox" name="visible" id="visible"></td>
                             </tr>
                             <tr>
-                                <td> <label for="fileUploadColleague">Upload cover photo</label> </td>
-                                <td><input type="file" id="fileUploadColleague" name="file"  accept=".jpg, .png, .jpeg, .gif, .bmp, .tif, .tiff|image/*" required> </td>
+                                <td><label for="fileUploadColleague">Upload cover photo</label></td>
+                                <td><input type="file" id="fileUploadColleague" name="file"
+                                           accept=".jpg, .png, .jpeg, .gif, .bmp, .tif, .tiff|image/*" required></td>
                             </tr>
                             <br>
-                            <h1> </h1>
+                            <h1></h1>
 
                         </table>
                         <input type="submit" name="submit" value="Submit">
@@ -589,11 +616,11 @@
     <!--*********************************************************End of add new property modal****************************************-->
 
 
-
     <script>
     setTimeout(function() {
     $('#successDiv').fadeOut('fast');
     }, 3000); // <-- time in milliseconds
+
     </script>
 
 </main>

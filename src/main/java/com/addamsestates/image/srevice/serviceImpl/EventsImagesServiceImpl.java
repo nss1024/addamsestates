@@ -21,6 +21,12 @@ public class EventsImagesServiceImpl implements EventsImagesService {
     }
 
     @Override
+    public void deleteEventsImage(Long id) {
+        eventsImagesRepository.deleteById(id);
+    }
+
+
+    @Override
     public List<EventsImages> getAllImages() {
         return eventsImagesRepository.findAll();
     }

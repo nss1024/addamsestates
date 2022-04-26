@@ -18,4 +18,6 @@ public interface EventsService {
 
     void addNewEvent(Events event);
 
+    void deleteEvent(Long id);
+
 }

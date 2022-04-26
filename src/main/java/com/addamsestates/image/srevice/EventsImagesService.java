@@ -8,8 +8,12 @@ public interface EventsImagesService {
 
     void addNewImage(EventsImages ei);
 
+    void deleteEventsImage(Long id);
+
     List<EventsImages> getAllImages();
 
     EventsImages getImageById(Long id);
+
+
 
 }

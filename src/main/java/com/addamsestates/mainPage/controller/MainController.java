@@ -13,9 +13,11 @@ import com.addamsestates.employees.service.implementation.EnquiriesServiceImplem
 import com.addamsestates.image.model.BranchImages;
 import com.addamsestates.image.model.EventsImages;
 import com.addamsestates.image.model.PropertiesImages;
+import com.addamsestates.image.model.UserProfileImages;
 import com.addamsestates.image.srevice.serviceImpl.BranchImagesServiceImpl;
 import com.addamsestates.image.srevice.serviceImpl.EventsImagesServiceImpl;
 import com.addamsestates.image.srevice.serviceImpl.PropertiesImageServiceImpl;
+import com.addamsestates.image.srevice.serviceImpl.UserProfileImageServiceImpl;
 import com.addamsestates.inputClasses.*;
 import com.addamsestates.mainPage.model.CompanyIntro;
 import com.addamsestates.mainPage.model.VisibleTeam;
@@ -29,7 +31,9 @@ import com.addamsestates.properties.service.implementation.PropertiesServiceImpl
 import com.addamsestates.properties.service.implementation.PropertyFeaturesServiceImpl;
 import com.addamsestates.properties.service.implementation.PropertyOfferTypeImpl;
 import com.addamsestates.properties.service.implementation.PropertyTypeServiceImpl;
+import com.addamsestates.users.model.UserProfile;
 import com.addamsestates.users.model.Users;
+import com.addamsestates.users.service.implementation.UserProfileServiceImpl;
 import com.addamsestates.users.service.implementation.UsersServiceImpl;
 import com.addamsestates.utilities.FileUploadService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -116,6 +120,11 @@ public class MainController {
     @Autowired
     private EventsImagesServiceImpl eventsImageService;
 
+    @Autowired
+    private UserProfileServiceImpl userProfileService;
+
+    @Autowired
+    private UserProfileImageServiceImpl userProfileImageService;
     @RequestMapping("/")
     public String getMain(Model model) {
 
@@ -146,13 +155,6 @@ public class MainController {
         model.addAttribute("services", services);
         model.addAttribute("events", events);
 
-        //System.out.println("getIntro working");
-        //System.out.println(visibleTeam.get(0).getEmployee().getUserProfile().getProfilePic().getFileUrl());
-        //System.out.println(services.size());
-        //System.out.println(services.get(0).getServiceImage().getFileUrl());
-        //System.out.println(events.get(0).getEventImage().getFileUrl());
-
-
         return "index";
     }
 
@@ -165,7 +167,7 @@ public class MainController {
     @RequestMapping("/staffmain")
     public String getStaffLanding(Model model) {
 
-        String userName = "gaddams";
+        String userName = "g.addams";
 
         Users user = usersService.getUserByUserName(userName);
 
@@ -210,22 +212,6 @@ public class MainController {
         model.addAttribute("employeeId", employeeId);
         model.addAttribute("branchId", branchId);
 
-        /*
-        System.out.println(allSalesContracts.size());
-        System.out.println(user.getUserName());
-        System.out.println(user.getId());
-        System.out.println(user.getUserProfile().getEmployee().getEmployeeId());
-        System.out.println("Enquiries: "+enquiries.size());
-        System.out.println("Completed Enquiries: "+completedEnquiries.size());
-        System.out.println("Outstanding Enquiries: "+outstandingEnquiries.size());
-        System.out.println("Appointments: "+appointments.size());
-        System.out.println("Completed Appointments: "+completedAppointments.size());
-        System.out.println("Outstanding Appointments: "+outstandingAppointments.size());
-        System.out.println("Properties: "+employeeProperties.size());
-        System.out.println("Appointment time: "+appointments.get(0).getAppointmentTime());
-        System.out.println("Internal services: " + internalServices.size());
-        System.out.println("Internal services: " + internalServices.get(0).getImages().getFileUrl());
-        */
         return "staffLanding";
     }
 
@@ -259,19 +245,7 @@ public class MainController {
         model.addAttribute("logoImage", logoImage);
         model.addAttribute("faviconImage", faviconImage);
 
-        /*
-        System.out.println("All properties: "+propertiesService.findAllProperties().size());
-        System.out.println("All available propertiee: "+propertiesService.getByAvailability(true).size());
-        System.out.println("Sale: "+propertiesService.findAllActivePropertiesForSale().size());
-        System.out.println("Auction: "+propertiesService.findAllActivePropertiesForAuction().size());
-        System.out.println("Rent: "+propertiesService.findAllActivePropertiesToRent().size());
-        System.out.println("Property listing: ");
-        System.out.println(propertiesService.findAllActivePropertiesForSale().get(0).getPropertyImages().get(0).getFileUrl());
-        System.out.println(propertiesService.findAllActivePropertiesForSale().get(0).getPropertyTypeJoin().getPropertyType());
-        System.out.println(propertiesService.findAllActivePropertiesForSale().get(0).getDescription());
-        System.out.println(propertiesService.findAllActivePropertiesForSale().get(0).getPrice());
-        System.out.println("Combined properties for sale: "+propertiesForSale.size());
-        */
+
         return "propertiesSale";
     }
 
@@ -305,11 +279,6 @@ public class MainController {
         return "propertiesLet";
     }
 
-    @RequestMapping("/property")
-    public String getProperty() {
-
-        return "property";
-    }
 
     @RequestMapping("/services")
     public String getServices(Model model ) {
@@ -352,17 +321,10 @@ public class MainController {
         newAppointment.setAppointmentTime(inputAppointments.getAppointmentTime());
 
         appointmentsService.addNewAppointment(newAppointment);
-            /*
-            System.out.println(inputAppointments.getAppointmentWith());
-            System.out.println(inputAppointments.getDiscussion());
-            System.out.println(inputAppointments.getAppointmentDate());
-            System.out.println(inputAppointments.getAppointmentTime());
-            System.out.println(inputAppointments.getAppointmentType());
-            */
 
-        redirectAttributes.addFlashAttribute("message","success");
-        //TODO check if variable exists in the redirect page and display it
-        /* <div th:if="${variable != null}" th:text="Yes, variable exists!"> */
+        redirectAttributes.addFlashAttribute("message", "Success");
+        redirectAttributes.addFlashAttribute("alertClass", "alert-success");
+
         return "redirect:/staffmain";
     }
 
@@ -378,16 +340,10 @@ public class MainController {
         newEnquiry.setEnquirerName(inputEnquiries.getEnquirerName());
         newEnquiry.setEnquirerContact(inputEnquiries.getEnquirerContact());
 
-        System.out.println(new java.sql.Date(System.currentTimeMillis()));
 
-        //enquiriesServiceImplementation.addNewEnquiry(newEnquiry);
-        /*
-        System.out.println("Employee id " + inputEnquiries.getEmployeeId());
-        System.out.println("Name " + inputEnquiries.getEnquirerName());
-        System.out.println("Enquiry type " + inputEnquiries.getEnquiryType());
-        System.out.println("Message " + inputEnquiries.getContents());
-        System.out.println("Contact " + inputEnquiries.getEnquirerContact());
-           */
+
+        redirectAttributes.addFlashAttribute("message", "Success");
+        redirectAttributes.addFlashAttribute("alertClass", "alert-success");
 
         return "redirect:/";
     }
@@ -404,16 +360,11 @@ public class MainController {
         newEnquiry.setEnquirerName(inputEnquiries.getEnquirerName());
         newEnquiry.setEnquirerContact(inputEnquiries.getEnquirerContact());
 
-        System.out.println(new java.sql.Date(System.currentTimeMillis()));
 
-        //enquiriesServiceImplementation.addNewEnquiry(newEnquiry);
-        /*
-        System.out.println("Employee id " + inputEnquiries.getEmployeeId());
-        System.out.println("Name " + inputEnquiries.getEnquirerName());
-        System.out.println("Enquiry type " + inputEnquiries.getEnquiryType());
-        System.out.println("Message " + inputEnquiries.getContents());
-        System.out.println("Contact " + inputEnquiries.getEnquirerContact());
-           */
+
+
+        redirectAttributes.addFlashAttribute("message", "Success");
+        redirectAttributes.addFlashAttribute("alertClass", "alert-success");
 
         if(offertype==2){
             return "redirect:/propertiestolet";
@@ -433,6 +384,9 @@ public class MainController {
         enquiryToUpdate.setCompleted(Boolean.TRUE);
         enquiriesServiceImplementation.updateEnquiry(enquiryToUpdate);
 
+        redirectAttributes.addFlashAttribute("message", "Success");
+        redirectAttributes.addFlashAttribute("alertClass", "alert-success");
+
         return "redirect:/staffmain";
     }
 
@@ -442,6 +396,9 @@ public class MainController {
         Appointments appointmentToUpdate = appointmentsService.getAppointmentById(id);
         appointmentToUpdate.setCompleted(Boolean.TRUE);
         appointmentsService.updateAppointment(appointmentToUpdate);
+
+        redirectAttributes.addFlashAttribute("message", "Success");
+        redirectAttributes.addFlashAttribute("alertClass", "alert-success");
 
         return "redirect:/staffmain";
     }
@@ -463,6 +420,9 @@ public class MainController {
         propertyToUpdate.setAddress(inputProperties.getAddress());
         propertiesService.updatePropertyDetails(propertyToUpdate);
 
+        redirectAttributes.addFlashAttribute("message", "Success");
+        redirectAttributes.addFlashAttribute("alertClass", "alert-success");
+
         return "redirect:/staffmain";
     }
 
@@ -478,12 +438,11 @@ public class MainController {
         newCustomer.setBranchId(1L);
 
         customerService.addNewCustomer(newCustomer);
-        /*
-        System.out.println(inputCustomer.getFirstName());
-        System.out.println(inputCustomer.getLastName());
-        System.out.println(inputCustomer.getEmail());
-        System.out.println(inputCustomer.getContactNumber());
-        */
+
+
+        redirectAttributes.addFlashAttribute("message", "Success");
+        redirectAttributes.addFlashAttribute("alertClass", "alert-success");
+
         return "redirect:/staffmain";
     }
 
@@ -497,10 +456,9 @@ public class MainController {
 
         propertyFeaturesService.addNewPropertyFeature(newFeature);
 
-        /*
-        System.out.println(featureName);
-        System.out.println(featureDescription);
-        */
+        redirectAttributes.addFlashAttribute("message", "Success");
+        redirectAttributes.addFlashAttribute("alertClass", "alert-success");
+
         return "redirect:/staffmain";
     }
 
@@ -511,7 +469,7 @@ public class MainController {
     }
 
     @RequestMapping(value="/uploadPropertyPhotos", method = RequestMethod.POST)
-    public String fileTest(@RequestParam("files") MultipartFile[] files, @RequestParam("propertyId") Long propertyId, @RequestParam("offerType") int offerType){
+    public String fileTest(@RequestParam("files") MultipartFile[] files, @RequestParam("propertyId") Long propertyId, @RequestParam("offerType") int offerType,RedirectAttributes redirectAttributes){
 
         FileUploadService fileUploadService = new FileUploadService();
         fileUploadService.processUpload(files, offerType);
@@ -530,9 +488,10 @@ public class MainController {
             newImage.setCreatedAt(new java.sql.Date(System.currentTimeMillis()));
             newImage.setPropertyId(image.getPropertyId());
             propertiesImageService.addPropertyImage(newImage);
-
-
         }
+
+        redirectAttributes.addFlashAttribute("message", "Success");
+        redirectAttributes.addFlashAttribute("alertClass", "alert-success");
 
         return "redirect:/staffmain";
     }
@@ -571,14 +530,9 @@ public class MainController {
         soldProperty.setAvailability(Boolean.FALSE);
         propertiesService.updatePropertyDetails(soldProperty);
 
-        /*
-        System.out.println("Property: "+inputSellRentProperty.getPropertyId());
-        System.out.println("Branch: "+inputSellRentProperty.getBranchId());
-        System.out.println("Buyer: "+inputSellRentProperty.getBuyerId());
-        System.out.println("Owner: "+inputSellRentProperty.getOwnerId());
-        System.out.println("Employee: "+inputSellRentProperty.getEmployeeId());
-        System.out.println("Contract: "+inputSellRentProperty.getContractId());
-        */
+
+        redirectAttributes.addFlashAttribute("message", "Success");
+        redirectAttributes.addFlashAttribute("alertClass", "alert-success");
         return "redirect:/staffmain";
     }
 
@@ -625,6 +579,9 @@ public class MainController {
         System.out.println("Employee: "+inputSellRentProperty.getEmployeeId());
         System.out.println("Contract: "+inputSellRentProperty.getContractId());
 
+        redirectAttributes.addFlashAttribute("message", "Success");
+        redirectAttributes.addFlashAttribute("alertClass", "alert-success");
+
         return "redirect:/staffmain";
     }
 
@@ -650,21 +607,10 @@ public class MainController {
 
         propertiesService.addNewProperty(newProperty);
 
-        /*
-        System.out.println(inputProperty.getBranchId());
-        System.out.println(inputProperty.getEmployeeId());
-        System.out.println(inputProperty.getOwnerId());
-        System.out.println(inputProperty.getPropertyType());
-        System.out.println(inputProperty.getPropertyFeature());
-        System.out.println(inputProperty.getPropertyOffer());
-        System.out.println(inputProperty.getAvailability());
-        System.out.println(inputProperty.getDescription());
-        System.out.println(inputProperty.getBedroomNo());
-        System.out.println(inputProperty.getPostCode());
-        System.out.println(inputProperty.getCounty());
-        System.out.println(inputProperty.getPrice());
-        System.out.println(inputProperty.getAddress());
-        */
+
+        redirectAttributes.addFlashAttribute("message", "Success");
+        redirectAttributes.addFlashAttribute("alertClass", "alert-success");
+
         return "redirect:/staffmain";
     }
 
@@ -685,7 +631,7 @@ public class MainController {
     @RequestMapping("/adminpage")
     public String getAdminPage(Model model) {
 
-        String userName = "gaddams";
+        String userName = "g.addams";
         Users user = usersService.getUserByUserName(userName);
         Long employeeId = user.getUserProfile().getEmployee().getEmployeeId();
         Long branchId = user.getUserProfile().getEmployee().getBranchId();
@@ -713,10 +659,7 @@ public class MainController {
     @RequestMapping(value="/updateExternalService", method = RequestMethod.POST)
     public String updateExternalService(@RequestParam("active") Boolean active, @RequestParam("id") Long id, RedirectAttributes redirectAttributes  ){
         // if the service is active (active == true) change it to false and vice versa
-        /*
-        System.out.println(active);
-        System.out.println(id);
-        */
+
         Services serviceToUpdate = servicesService.getById(id);
 
         if(active == true){
@@ -727,16 +670,16 @@ public class MainController {
 
         servicesService.updateService(serviceToUpdate);
 
+        redirectAttributes.addFlashAttribute("message", "Success");
+        redirectAttributes.addFlashAttribute("alertClass", "alert-success");
+
 
         return "redirect:/adminpage";
     }
 
     @RequestMapping(value="/updateInternalService", method = RequestMethod.POST)
     public String updateInternalService(@RequestParam("active") Boolean active,  @RequestParam("id") Long id, RedirectAttributes redirectAttributes  ){
-        /*
-        System.out.println(active);
-        System.out.println(id);
-        */
+
         InternalServices internalServiceToUpdate = internalServicesService.getInternalServiceById(id);
 
         if(active == true){
@@ -747,15 +690,15 @@ public class MainController {
 
         internalServicesService.updateInternalService(internalServiceToUpdate);
 
+        redirectAttributes.addFlashAttribute("message", "Success");
+        redirectAttributes.addFlashAttribute("alertClass", "alert-success");
+
         return "redirect:/adminpage";
     }
 
     @RequestMapping(value="/updateEvents", method = RequestMethod.POST)
     public String updateEvents(@RequestParam("active") Boolean active,  @RequestParam("id") Long id, RedirectAttributes redirectAttributes  ){
-        /*
-        System.out.println(active);
-        System.out.println(id);
-           */
+
         Events eventToUpdate = eventsService.geEventById(id);
 
         if(active == true){
@@ -773,7 +716,7 @@ public class MainController {
     }
 
     @RequestMapping(value="/addNewEvent", method = RequestMethod.POST)
-    public String addNewProperty(@ModelAttribute inputNewEvent newEvent, @RequestParam("file") MultipartFile file, RedirectAttributes redirectAttributes  ){
+    public String addNewEvent(@ModelAttribute inputNewEvent newEvent, @RequestParam("file") MultipartFile file, RedirectAttributes redirectAttributes  ){
 
         Events newEventToSave = new Events();
         newEventToSave.setEventType(newEvent.getEventType());
@@ -805,20 +748,82 @@ public class MainController {
         newEventImage.setEventsId(lastInsertedEventId);
 
         eventsImageService.addNewImage(newEventImage);
-        /*
-        System.out.println(newEvent.getEventName());
-        System.out.println(newEvent.getEventType());
-        System.out.println(newEvent.getEventDescription());
-        System.out.println(newEvent.getStartDate());
-        System.out.println(newEvent.getEndDate());
-        System.out.println(newEvent.getBranchId());
-        System.out.println(file.getOriginalFilename());
-         */
+
+
+        redirectAttributes.addFlashAttribute("message", "Success");
+        redirectAttributes.addFlashAttribute("alertClass", "alert-success");
+
         return "redirect:/adminpage";
     }
 
     @RequestMapping(value="/addNewEmployee", method = RequestMethod.POST)
     public String addNewEmployee(@ModelAttribute inputColleague inputColleague, @RequestParam("file") MultipartFile file, RedirectAttributes redirectAttributes  ){
+
+        java.sql.Date today = new java.sql.Date(System.currentTimeMillis());
+        Long newUserId = 0L;
+        Long newUserProfileId = 0L;
+        Long newEmployeeId = 0L;
+
+        Users newUser = new Users();
+        UserProfile newUserProfile = new UserProfile();
+        Employee newEmployee = new Employee();
+
+        newUser.setUserName(inputColleague.getUserName());
+        newUser.setPassword(inputColleague.getPassword());
+        newUser.setCreated_at(today);
+
+        usersService.addNewUser(newUser);
+        newUserId=usersService.findLastInsertedUserId().getId();
+
+        newUserProfile.setUserId(newUserId);
+        newUserProfile.setFirstName(inputColleague.getFirstName());
+        newUserProfile.setLastName(inputColleague.getLastName());
+        newUserProfile.setEmail(inputColleague.getEmail());
+        newUserProfile.setContactNumber(inputColleague.getContactNumber());
+        newUserProfile.setPermissions(inputColleague.getPermissions());
+        newUserProfile.setCreatedAt(today);
+
+        userProfileService.addNewUserProfile(newUserProfile);
+        newUserProfileId=userProfileService.findLastInserteduserprofileId().getUserProfileId();
+
+        newEmployee.setUserProfileId(newUserProfileId);
+        newEmployee.setStartDate(Date.valueOf(inputColleague.getStartDate().toString()));
+        newEmployee.setSalary(inputColleague.getSalary());
+        newEmployee.setAddress(inputColleague.getAddress());
+        newEmployee.setCreatedAt(today);
+        newEmployee.setBranchId(inputColleague.getBranchId());
+        newEmployee.setJobDescription(inputColleague.getJobDescription());
+
+        employeeService.addNewEmployee(newEmployee);
+        newEmployeeId=employeeService.getLastInserted().getEmployeeId();
+
+        FileUploadService fileUploadService = new FileUploadService();
+        fileUploadService.processSingleUpload(file,99);
+        inputImage newProfileImage = fileUploadService.getSingleInputImage();
+
+        UserProfileImages newUserProfileImage = new UserProfileImages();
+        newUserProfileImage.setFileName(newProfileImage.getFileName());
+        newUserProfileImage.setFileDescription(newProfileImage.getFileDescription());
+        newUserProfileImage.setFileUrl(newProfileImage.getFileUrl());
+        newUserProfileImage.setCreatedAt(today);
+        newUserProfileImage.setUserProfileId(newUserProfileId);
+
+        userProfileImageService.addNewImage(newUserProfileImage);
+
+
+            VisibleTeam newVisibleEmployee = new VisibleTeam();
+            newVisibleEmployee.setEmployeeId(newEmployeeId);
+            newVisibleEmployee.setAboutMe(inputColleague.getAboutMe());
+            newVisibleEmployee.setContact(inputColleague.getContact());
+        if(inputColleague.getVisible()==true){
+            newVisibleEmployee.setVisible(Boolean.TRUE);
+        }else{
+            newVisibleEmployee.setVisible(Boolean.FALSE);
+        }
+            newVisibleEmployee.setCreatedAt(today);
+
+        visibleTeamService.addNewTeamMember(newVisibleEmployee);
+
 
         System.out.println(inputColleague.getUserName());
         System.out.println(inputColleague.getPassword());
@@ -837,7 +842,30 @@ public class MainController {
         System.out.println(inputColleague.getVisible());
         System.out.println(file.getOriginalFilename());
 
+        redirectAttributes.addFlashAttribute("message", "Success");
+        redirectAttributes.addFlashAttribute("alertClass", "alert-success");
+
         return "redirect:/adminpage";
     }
 
+    @RequestMapping(value="/deleteEvent", method = RequestMethod.POST)
+    public String addEvent(@RequestParam("id") Long id, RedirectAttributes redirectAttributes  ){
+
+        Long eventsImageId = eventsService.geEventById(id).getEventImage().getFileId();
+
+        System.out.println(eventsImageId);
+        eventsImageService.deleteEventsImage(eventsImageId);
+        eventsService.deleteEvent(id);
+
+        redirectAttributes.addFlashAttribute("message", "Success");
+        redirectAttributes.addFlashAttribute("alertClass", "alert-success");
+
+        return "redirect:/adminpage";
+    }
+
+
+    @RequestMapping(value="/contactUs")
+    public String contactUs(){
+        return "contactUs";
+    }
 }

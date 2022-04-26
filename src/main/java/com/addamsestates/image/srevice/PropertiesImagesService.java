@@ -12,4 +12,6 @@ public interface PropertiesImagesService {
 
     void addPropertyImage(PropertiesImages pImage);
 
+
+
 }

@@ -6,4 +6,8 @@ public interface UsersService {
 
     public Users getUserByUserName(String name);
 
+    void addNewUser(Users user);
+
+    Users findLastInsertedUserId();
+
 }

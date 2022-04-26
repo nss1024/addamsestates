@@ -16,4 +16,14 @@ public class UsersServiceImpl implements UsersService {
     public Users getUserByUserName(String name) {
         return userRepository.getByUserName(name);
     }
+
+    @Override
+    public void addNewUser(Users user) {
+        userRepository.save(user);
+    }
+
+    @Override
+    public Users findLastInsertedUserId() {
+        return userRepository.findFirstByOrderByIdDesc();
+    }
 }
