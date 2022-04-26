@@ -1,3 +1,4 @@
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <!doctype html>
 <html lang="en">
   <head>
@@ -47,9 +48,7 @@
             <strong style="padding-left: 10px;">Addams Estates - Propreties for sale</strong>
           </a>  
           
-          <h6 style="color:white; align-self:right">
-            Welcome Gomez Addams
-            <img src="Images/StaffImages/gomezAdams2.jpg" style="border-radius: 50%; width: 30px; height: 35px; align-self: center;padding-top: 10px;">
+
           </h6>        
           <button type="button" class="btn btn-primary btn-sm">Sign out</button>
           
@@ -69,34 +68,33 @@
       <!--****************************************************Navbar section***********************************************-->
     
       <nav class="navbar navbar-expand-lg navbar-dark bg-dark navbar-fixed-top text-center" >
-        <div class="container text-center" >      
-            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-              <li class="nav-item">
-                <a class="nav-link active" aria-current="page" href="#">Home</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link active" href="#MeetTheTeam">Our Team</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link active" href="#Services">Services</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link active" href="#Services">Events</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link active" href="#Services">About Us</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link active" href="#Services">Contact us</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link active" href="#Services">Properties for Sale</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link active" href="#Services">Properties to Rent</a>
-              </li>
-
-            </ul>       
+        <div class="container text-center" >
+          <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+            <li class="nav-item">
+              <a class="nav-link active" aria-current="page" th:href="@{/}" th:target="_blank">Home</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link active" th:href="@{/}" th:target="_blank">Our Team</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link active" th:href="@{/}" th:target="_blank">Services</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link active" th:href="@{/}" th:target="_blank">Events</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link active" th:href="@{/}" th:target="_blank">About Us</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link active" th:href="@{contactUs}" th:target="_blank">Contact us</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link active" th:href="@{propertiesforsale}">Properties for Sale</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link active" th:href="@{propertiestolet}" th:target="_blank">Properties to Rent</a>
+            </li>
+          </ul>
             
         </div>
       </nav>
@@ -104,158 +102,38 @@
   <!--************************************************End of Navbar section********************************************-->
  
 <!--*****************************************start of the cards section************************************************-->
-    <a id="MeetTheTeam"></a>
+
     <div class="album py-5 bg-light"> 
     <div class="container">
         <h1>Properties for sale</h1>
         <br/>
       <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
+        <th:block th:each="property:${propertiesForSale}">
         <div class="col">
           <div class="card shadow-sm">
             
-            <img src="Properties/Fyvie castle/FyvieCastle.jpg" style= "width: 200px; height: 150px; align-self: center; padding-top: 10px;">
+            <img th:src="${property.PropertyImages[0].FileUrl}" width="200" height="150">
             <div class="card-body">
-                <h3>Fyver Castle</h3>
+                <h3 th:text="${property.PropertyTypeJoin.PropertyType}"></h3>
                 
-              <p class="card-text">
-                Dating back to the 13th century, Fyvie castle now belongs to the National Trust for Scotland but, 
-                like so many British castles, it has a dark past. Its ghostly Green Lady is thought to be Dane Lilias Drummond,
-                who died of a broken heart when her husband Sir Alexander Seton began having an affair. Her name is carved into 
-                the castle walls and its claimed this act was carried out by her angry ghost after he death.
+              <p class="card-text" th:text="${property.Description}">
+
               </p>
-              <p>Price: ONO</p>
+              <p th:text="'Price: £' + ${property.Price}"></p>
+              <p th:text="'County: '+${property.county}"></p>
+              <p th:text="'Post Code: '+ ${property.postCode}"> </p>
+              <p th:text="'Bedroom number: '+${property.bedroomNo}"> </p>
               <div class="d-flex justify-content-between align-items-center">
-                <div class="btn-group">                    
-                  <button type="button" class="btn btn-success">View</button>
+                <div class="btn-group">
+                  <form method="POST" th:action="@{/viewProperty(id=${property.propertyId})}" th:target="_blank">
+                    <button type="submit" name="submit" value="value" class="btn btn-primary btn-sm btn-success">View</button>
+                  </form>
                 </div>                
               </div>
             </div>
           </div>
         </div>
-        <div class="col">
-          <div class="card shadow-sm">
-            
-            <img src="Properties/Chilingham castle/GettyImages-464409983_master-cebd57f (1).jpg" style= "width: 200px; height: 150px; align-self: center; padding-top: 10px;">
-            <div class="card-body">
-                <h3>Chillingham Castle</h3>
-                
-              <p class="card-text">
-                Said to be the most haunted castle in Britain, Chillingham is claimed to be home to various spectres.
-                The White Pantry Ghost was first spotted by a footman, who’d been locked into the pantry overnight to
-                guard the family silver. He reported her as begging for water and it’s now thought she was a victim of
-                 poisoning. <br> In the chapel, the voices of two men are often overheard talking but can never be 
-                 traced. Visitors say the ghosts are often friendly. The castle holds special ghost tours throughout 
-                 the year and groups of ten or more can enjoy a candlelit meal by a roaring fire in the 
-                 Minstrels’ Hall beforehand.
-                </p>
-                <p>Price: ONO</p>
-              <div class="d-flex justify-content-between align-items-center">
-                <div class="btn-group">
-                  <button type="button" class="btn btn-success">View</button>
-                </div>                
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div class="col">
-          <div class="card shadow-sm">
-            <img src="Properties/Berry Pomeroy castle/Berry_Pomeroy_Castle_-_geograph.org.uk_-_411651.jpg" style= "width: 200px; height: 150px; align-self: center; padding-top: 10px;">
-
-            <div class="card-body">
-                <h3>Berry Pomeroy Castle</h3>
-                
-              <p class="card-text">
-                Once the seat of the powerful Seymour family, the castle has two reported apparitions – the White Lady and the 
-                Blue Lady. The White Lady is said to be Margaret Pomeroy, who’s believed to roam the dungeons of St Margaret’s 
-                Tower, where she died after being starved to death by her jealous sister Eleanor. It’s claimed the Blue Lady is 
-                the daughter of one of the Norman castle lords and that she lures people into various parts of the castle to get 
-                them lost. Berry Pomeroy is owned by English Heritage and is open daily from June to October, and on weekends 
-                from November to March. 
-                </p>
-                <p>Price: ONO</p>
-              <div class="d-flex justify-content-between align-items-center">
-                <div class="btn-group">
-                  <button type="button" class="btn btn-success">View</button>
-                </div>                
-              </div>
-            </div>
-          </div>
-        </div>        
-      </div>
-      <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
-        <div class="col">
-          <div class="card shadow-sm">
-            
-            <img src="Properties/Fyvie castle/FyvieCastle.jpg" style= "width: 200px; height: 150px; align-self: center; padding-top: 10px;">
-            <div class="card-body">
-                <h3>Fyvie Castle</h3>
-                
-              <p class="card-text">
-                Dating back to the 13th century, Fyvie castle now belongs to the National Trust for Scotland but, 
-                like so many British castles, it has a dark past. Its ghostly Green Lady is thought to be Dane Lilias Drummond,
-                who died of a broken heart when her husband Sir Alexander Seton began having an affair. Her name is carved into 
-                the castle walls and its claimed this act was carried out by her angry ghost after he death.
-              </p>
-              <p>Price: ONO</p>
-              <div class="d-flex justify-content-between align-items-center">
-                <div class="btn-group">                    
-                  <button type="button" class="btn btn-success">View</button>
-                </div>                
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="col">
-          <div class="card shadow-sm">
-            
-            <img src="Properties/Chilingham castle/GettyImages-464409983_master-cebd57f (1).jpg" style= "width: 200px; height: 150px; align-self: center; padding-top: 10px;">
-            <div class="card-body">
-                <h3>Chillingham Castle</h3>
-                
-              <p class="card-text">
-                Said to be the most haunted castle in Britain, Chillingham is claimed to be home to various spectres.
-                The White Pantry Ghost was first spotted by a footman, who’d been locked into the pantry overnight to
-                guard the family silver. He reported her as begging for water and it’s now thought she was a victim of
-                 poisoning. <br> In the chapel, the voices of two men are often overheard talking but can never be 
-                 traced. Visitors say the ghosts are often friendly. The castle holds special ghost tours throughout 
-                 the year and groups of ten or more can enjoy a candlelit meal by a roaring fire in the 
-                 Minstrels’ Hall beforehand.
-                </p>
-                <p>Price: ONO</p>
-              <div class="d-flex justify-content-between align-items-center">
-                <div class="btn-group">
-                  <button type="button" class="btn btn-success">View</button>
-                </div>                
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div class="col">
-          <div class="card shadow-sm">
-            <img src="Properties/Berry Pomeroy castle/Berry_Pomeroy_Castle_-_geograph.org.uk_-_411651.jpg" style= "width: 200px; height: 150px; align-self: center; padding-top: 10px;">
-
-            <div class="card-body">
-                <h3>Berry Pomeroy Castle</h3>
-                
-              <p class="card-text">
-                Once the seat of the powerful Seymour family, the castle has two reported apparitions – the White Lady and the 
-                Blue Lady. The White Lady is said to be Margaret Pomeroy, who’s believed to roam the dungeons of St Margaret’s 
-                Tower, where she died after being starved to death by her jealous sister Eleanor. It’s claimed the Blue Lady is 
-                the daughter of one of the Norman castle lords and that she lures people into various parts of the castle to get 
-                them lost. Berry Pomeroy is owned by English Heritage and is open daily from June to October, and on weekends 
-                from November to March. 
-                </p>
-                <p>Price: ONO</p>
-              <div class="d-flex justify-content-between align-items-center">
-                <div class="btn-group">
-                  <button type="button" class="btn btn-success">View</button>
-                </div>                
-              </div>
-            </div>
-          </div>
-        </div>        
+        </th:block>
       </div>
     </div>
   </div>

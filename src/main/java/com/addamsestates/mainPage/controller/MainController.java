@@ -863,9 +863,44 @@ public class MainController {
         return "redirect:/adminpage";
     }
 
-
     @RequestMapping(value="/contactUs")
     public String contactUs(){
         return "contactUs";
     }
+
+    @RequestMapping("/propertiesforsale2")
+    public String getPropertiesForSale2(Model model) {
+
+        BranchImages headerImage = branchImagesService.getImageBySectionUsed("header");
+        BranchImages logoImage = branchImagesService.getImageBySectionUsed("logo");
+        BranchImages faviconImage = branchImagesService.getImageBySectionUsed("favicon");
+        List<Properties> propertiesForSale = propertiesService.findAllActivePropertiesForSale();
+        List<Properties> propertiesForAuction = propertiesService.findAllActivePropertiesForAuction();
+
+        propertiesForSale.addAll(propertiesForAuction);
+
+        //iterate through the retrieved records, if one has no images, add a default image to it.
+        for(Properties property : propertiesForSale){
+            if(property.getPropertyImages().size()==0){
+                PropertiesImages defaultImg = new PropertiesImages();
+                defaultImg.setPropertyId(property.getPropertyId());
+                defaultImg.setFileUrl("Images/defaultPropertyImage.png");
+
+                List<PropertiesImages> defaultImage = new ArrayList<>();
+                defaultImage.add(defaultImg);
+                property.setPropertyImages(defaultImage);
+            }
+
+        }
+
+        model.addAttribute("propertiesForSale", propertiesForSale);
+        model.addAttribute("headerImage", headerImage);
+        model.addAttribute("logoImage", logoImage);
+        model.addAttribute("faviconImage", faviconImage);
+
+
+        return "propertiesSale2";
+    }
+
+
 }
