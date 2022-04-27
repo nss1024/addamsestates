@@ -158,7 +158,7 @@ public class MainController {
         return "index";
     }
 
-    @RequestMapping("/signin")
+    @RequestMapping("/login")
     public String signIn() {
 
         return "signin";
@@ -460,12 +460,6 @@ public class MainController {
         redirectAttributes.addFlashAttribute("alertClass", "alert-success");
 
         return "redirect:/staffmain";
-    }
-
-    @RequestMapping(value="/testpage")
-    public String getTestPage(){
-
-        return "test";
     }
 
     @RequestMapping(value="/uploadPropertyPhotos", method = RequestMethod.POST)
